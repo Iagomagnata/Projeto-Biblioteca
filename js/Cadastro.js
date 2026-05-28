@@ -27,7 +27,8 @@ function cadastrarUsuario() {
     let telefone = document.getElementById('telefone').value;
     let telefoneResponsavel = document.getElementById('telefoneresponsavel').value;
     let cep = document.getElementById('cep').value;
-    if (!nome || !email || !dataNascimento || !genero || !endereco || !numero || !bairro || !cidade || !cep || !telefone) {
+
+    if (!nome || !email || !dataNascimento || !genero || !endereco || !numero || !bairro || !cidade || !cep || !telefone || !telefoneResponsavel) {
         alert('Preencha todos os campos obrigatórios!');
         return;
     }
@@ -71,6 +72,8 @@ function cadastrarUsuario() {
         console.error('Erro:', error);
         alert('Erro de rede: ' + error);
     }
+
+    window.location.href = 'home.html';
 } 
 
 function limparCampos() {
