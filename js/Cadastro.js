@@ -6,7 +6,7 @@ async function carregarUsuarios() {
     try {
         const resposta = await fetch(api_url);
         if (resposta.ok) {
-            alunos = await resposta.json();
+            usuarios = await resposta.json();
         }
      } catch (error) {
         console.error('Erro:', error);
@@ -73,8 +73,6 @@ function cadastrarUsuario() {
     }
 } 
 
-
-
 function limparCampos() {
     document.getElementById('matricula').value = '';
     document.getElementById('nome').value = '';
@@ -90,3 +88,5 @@ function limparCampos() {
     document.getElementById('telefone').value = '';
     document.getElementById('telefoneresponsavel').value = '';
 }
+
+window.addEventListener('load', carregarUsuarios);
