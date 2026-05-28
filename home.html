@@ -3,31 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/Style.css">
     <title>Biblioteca</title>
 </head>
 <body>
-    <header>
-        <span>
+    <header id="cabeçalhoDaPagina">
+        <span class="cabeçalho-1">
             <!--aqui seria o logo da biblioteca e clicando nele você volta para a página inicial
                 você substitui o src="#" por um caminho real para a imagem do logo -->
             <button id="logo" class="botao" onclick="location.href='home.html'">
                 <img src="#" alt="Logo">
             </button>
-            <h1>Biblioteca</h1>
-            <img src="#" alt="Acessar perfil">
+            <h1 style="display: flex; justify-content: center; align-items: center;">Biblioteca</h1>
+            <button id="perfil" class="botao" onclick="location.href='perfil.html'">
+                <img src="#" alt="Acessar perfil">
+            </button>
         </span>
-
-        <nav>
+    </header>
+<section class="navegacao-2">
+        <nav >
             <span>
                 <a href="emprestimo.html">Empréstimo</a>
-                <input type="text" placeholder="Pesquisar livros...">
-                <button type="submit">🔍</button>
+                <input type="text" placeholder="Pesquisar livros..." id="barraDePesquisa">
+                <button type="submit" onclick="pesquisarLivros()">🔍</button>
             </span>
         </nav>
-    </header>
     
     <main>
-        <span></span>
+        <span><!--vocês coloca os livros aqui <li class="livro"> -->
+            <ul>
+                <li class="livro" >
+                 
+                    <img src="https://tse2.mm.bing.net/th/id/OIP.WJAR9YOtZXs_LpIYW1c_QAHaLQ?w=790&h=1200&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Capa do Livro 1" width="150px" height="200px" style="border-radius: 10px;">
+                    <h2>Título do Livro 1</h2>
+                    <p>Autor: Autor do Livro 1</p>
+                    <!-- Botão para abrir -->
+                    <button class="abrirModal" >Abrir Janela</button>
+
+                    <!-- Modal -->
+                    <dialog class="minhaJanela">
+                        <span class="fecharModal">&times;</span>
+                        <h2>Título da Janela</h2>
+                        <p>Conteúdo da janela aqui...</p>
+                    </dialog>
+                </li>
+                <li class="livro">
+                    <img src="#" alt="Capa do Livro 2">
+                    <h2>Título do Livro 2</h2>
+                    <p>Autor: Autor do Livro 2</p>
+                    <button class="abrirModal">Abrir Janela</button>
+
+                    <!-- Modal -->
+                    <dialog class="minhaJanela">
+                        <span class="fecharModal">&times;</span>
+                        <h2>Título da Janela</h2>
+                        <p>Conteúdo da janela aqui...</p>
+                    </dialog>
+                </li>
+                <li class="livro">
+                    <img src="#" alt="Capa do Livro 3">
+                    <h2>Título do Livro 3</h2>
+                    <p>Autor: Autor do Livro 3</p>
+                
+                </li>
+            </ul>
+        </span>
     </main>
+
+    <script src="js/home.js"></script>
 </body>
 </html>
