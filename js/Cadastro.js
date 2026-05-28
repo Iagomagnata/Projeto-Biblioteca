@@ -1,46 +1,81 @@
-let usuarios = [];  
-    function atualizarTotal() {
-        document.getElementById('totalUsuarios').textContent = usuarios.length;
-    }
-    function cadastrarUsuario() {
-        let nome = document.getElementById('nome').value;
-        let nomeSocial = document.getElementById('nomeSocial').value;
-        let email = document.getElementById('email').value;
-        let dataNascimento = document.getElementById('dataNascimento').value;
-        let genero = document.getElementById('genero').value;
-        let endereco = document.getElementById('endereco').value;
-        let numero = document.getElementById('numero').value;
-        let bairro = document.getElementById('bairro').value;
-        let cidade = document.getElementById('cidade').value;
-        let cep = document.getElementById('cep').value;
-        let telefone = document.getElementById('telefone').value;
-        let telefoneResponsavel = document.getElementById('telefoneresponsavel').value;
-        let cep = document.getElementById('cep').value;
-         if (!nome || !email || !dataNascimento || !genero || !endereco || !numero || !bairro || !cidade || !cep || !telefone) {
-            alert('Preencha todos os campos obrigatórios!');
-            return;
+const api_url = '';
+
+let usuarios = [];
+
+async function carregarUsuarios() {
+    try {
+        const resposta = await fetch(api_url);
+        if (resposta.ok) {
+            alunos = await resposta.json();
         }
-        // ADICIONA no array (posição automática)
-        usuarios.push({
-            nome: nome,
-            nomeSocial: nomeSocial,
-            email: email,
-            dataNascimento: dataNascimento,
-            genero: genero,
-            endereco: endereco,
-            numero: numero,
-            bairro: bairro,
-            cidade: cidade,
-            cep: cep,
-            telefone: telefone,
-            telefoneResponsavel: telefoneResponsavel
-        });
-        alert('Usuário cadastrado com sucesso!');
-        atualizarTotal();
-        limparCampos();
+     } catch (error) {
+        console.error('Erro:', error);
+     }
+}
+
+function cadastrarUsuario() {
+    let nome = document.getElementById('nome').value;
+    let nomeSocial = document.getElementById('nomeSocial').value;
+    let email = document.getElementById('email').value;
+    let dataNascimento = document.getElementById('dataNascimento').value;
+    let genero = document.getElementById('genero').value;
+    let endereco = document.getElementById('endereco').value;
+    let numero = document.getElementById('numero').value;
+    let bairro = document.getElementById('bairro').value;
+    let cidade = document.getElementById('cidade').value;
+    let cep = document.getElementById('cep').value;
+    let telefone = document.getElementById('telefone').value;
+    let telefoneResponsavel = document.getElementById('telefoneresponsavel').value;
+    let cep = document.getElementById('cep').value;
+    if (!nome || !email || !dataNascimento || !genero || !endereco || !numero || !bairro || !cidade || !cep || !telefone) {
+        alert('Preencha todos os campos obrigatórios!');
+        return;
     }
+
+    const novoUsuario = {
+        nome: nome,
+        nomeSocial: nomeSocial,
+        email: email,
+        dataNascimento: dataNascimento,
+        genero: genero,
+        endereco: endereco,
+        numero: numero,
+        bairro: bairro,
+        cidade: cidade,
+        cep: cep,
+        telefone: telefone,
+        telefoneResponsavel: telefoneResponsavel
+    };
     
-    function limparCampos() {
+    console.log('url: ', api_url);
+
+    try {
+        const resposta = await fetch(api_url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(novoUsuario)
+        });
+
+        console.log('Status', resposta.status);
+        const texto = await resposta.text();
+        console.log('Resposta:', texto);
+
+        if (resposta.ok) {
+            alert('Usuário cadastrado com sucesso!');
+            carregarUsuarios();
+            limparCampos();
+        } else {
+            alert('Erro ao cadastrar usuário: ' + resposta.status + ' ' + resposta.statusText);
+        }
+    } catch (error) {
+        console.error('Erro:', error);
+        alert('Erro de rede: ' + error);
+    }
+} 
+
+
+
+function limparCampos() {
     document.getElementById('matricula').value = '';
     document.getElementById('nome').value = '';
     document.getElementById('nomeSocial').value = '';
@@ -54,4 +89,4 @@ let usuarios = [];
     document.getElementById('cep').value = '';
     document.getElementById('telefone').value = '';
     document.getElementById('telefoneresponsavel').value = '';
-    }
+}
