@@ -38,7 +38,7 @@
     <section class="navegacao-2">
         <nav>
             <div class="barraPesquisa">
-                <a href="emprestimo.html">Empréstimo</a>
+
                 <input
                     type="text"
                     id="barraDePesquisa"
@@ -49,6 +49,33 @@
                     aria-label="Pesquisar livros">
                 </button>
             </div>
+        </nav>
+        <nav>
+                    <div class="pesquisaContainer">
+
+            <select id="tipoPesquisa">
+
+                <option value="titulo">
+                    Título
+                </option>
+
+                <option value="autor">
+                    Autor
+                </option>
+
+                <option value="editora">
+                    Editora
+                </option>
+
+            </select>
+
+            <input
+                type="text"
+                id="barraDePesquisa"
+                placeholder="Pesquisar..."
+                oninput="pesquisarLivros()">
+
+        </div>
         </nav>
     </section>
     <main>
@@ -61,7 +88,7 @@
                     src="https://tse2.mm.bing.net/th/id/OIP.WJAR9YOtZXs_LpIYW1c_QAHaLQ?w=790&h=1200&rs=1&pid=ImgDetMain&o=7&rm=3"
                     alt="Capa do Livro 1"
                     class="capaLivro">
-                <h2>Título do Livro 1</h2>
+                <h2>The Call of Cthulhu</h2>
                 <p>Autor: Autor do Livro 1</p>
                 <button
                     class="abrirModal"
@@ -121,6 +148,32 @@
                     class="capaLivro">
                 <h2>Título do Livro 3</h2>
                 <p>Autor: Autor do Livro 3</p>
+            </li>
+            <li class="livro">
+                <img
+                    src="https://anacristinamelo.com.br/wp-content/uploads/2024/04/capa_Delta-um-comando-para-o-tempo-683x1024.jpg"
+                    alt="Capa do Livro 1"
+                    class="capaLivro">
+                <h2></h2>
+                <p>Autor: Autor do Livro 1</p>
+                <button
+                    class="abrirModal"
+                    type="button">
+                    Abrir Janela
+                </button>
+
+                <!-- Modal -->
+
+                <dialog class="minhaJanela">
+                    <button
+                        class="fecharModal"
+                        type="button"
+                        aria-label="Fechar janela">
+                        &times;
+                    </button>
+                    <h2>Título da Janela</h2>
+                    <p>Conteúdo da janela aqui...</p>
+                </dialog>
             </li>
         </ul>
     </main>
