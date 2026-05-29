@@ -1,6 +1,9 @@
 /* Estilo da página inicial */
 *:focus {
-    outline: none;
+    *:focus {
+        outline: 2px solid #ffffff;
+        outline-offset: 3px;
+    }
 }
 
 body {
@@ -51,7 +54,14 @@ p {
     color: #e8f7e7;
     line-height: 1.7;
 }
+.capaLivro {
+    width: 180px;
+    height: 260px;
 
+    object-fit: cover;
+
+    border-radius: 12px;
+}
 .hero-buttons {
     display: flex;
     flex-wrap: wrap;
@@ -72,7 +82,11 @@ p {
     box-shadow: 0 14px 30px rgba(0, 0, 0, 0.18);
 }
 
-.btn:hover,
+.botao:hover {
+    transform: translateY(-2px);
+    opacity: 0.95;
+}
+
 .btn:focus {
     transform: translateY(-2px);
     opacity: 0.95;
@@ -109,17 +123,17 @@ p {
 }
 
 .livro {
-    
+
     display: flex;
     align-items: flex-start;
-    
+
     gap: 24px;
     padding: 50px;
     border-radius: 16px;
-   background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.12);
 
-} 
+}
 
 .abrirModal {
     margin-top: 16px;
@@ -134,12 +148,22 @@ p {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.18);
 }
 
-.abrirModal:hover{
+.abrirModal:hover {
     transform: translateY(-2px);
     opacity: 0.95;
 }
 
-.botao{
-   clip-path: circle(20%);
-   
+.botao {
+    clip-path: circle(20%);
+
+}
+
+.cabecalhoDaPagina {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 16px 32px;
+    background: rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
