@@ -57,10 +57,11 @@ function cadastrarUsuario() {
 function limparCampos() {
     document.getElementById('email').value = '';
     document.getElementById('Matricula').value = '';
+}
 
 window.addEventListener('load', carregarUsuarios);
 
-//novinho
+//home 
 
 document.addEventListener('DOMContentLoaded', () => {
     const livroPesquisado = document.getElementById('barraDePesquisa');
@@ -111,4 +112,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
-}
+
