@@ -62,7 +62,6 @@ window.addEventListener('load', carregarUsuarios);
 
 //novinho
 
-
 document.addEventListener('DOMContentLoaded', () => {
     const livroPesquisado = document.getElementById('barraDePesquisa');
     const livros = document.getElementsByClassName('livro');
