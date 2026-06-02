@@ -81,6 +81,23 @@ app.post('/api/usuarios', (req, res) => {
   });
 });
 
+app.post('/api/login', (req, res) => {
+  const { nome, senha } = req.body;
+
+  if (!nome || !senha) {
+    return res.status(400).json({ error: 'nome e senha são obrigatórios' });
+  }
+
+  const adminNome = 'admin';
+  const adminSenha = 'admin123';
+
+  if (nome === adminNome && senha === adminSenha) {
+    return res.json({ ok: true });
+  }
+
+  return res.status(401).json({ error: 'Credenciais inválidas' });
+});
+
 app.get('/api/livros', (req, res) => {
   db.all('SELECT * FROM livros ORDER BY criado_em DESC', (err, rows) => {
     if (err) {
