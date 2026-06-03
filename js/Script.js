@@ -78,7 +78,15 @@ async function loginAdm(event) {
             body: JSON.stringify({ nome, senha })
         });
 
-        const dados = await resposta.json();
+        let dados = {};
+        const text = await resposta.text();
+        if (text) {
+            try {
+                dados = JSON.parse(text);
+            } catch (parseError) {
+                console.warn('Resposta não é JSON válido:', text);
+            }
+        }
 
         if (resposta.ok) {
             window.location.href = 'Alexandria.html';
