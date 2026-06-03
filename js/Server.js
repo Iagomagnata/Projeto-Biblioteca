@@ -54,6 +54,16 @@ function criarTabelas() {
 
 criarTabelas();
 
+function alterarTabela() {
+  db.serialize(() => {
+    db.run(`
+      ALTER TABLE usuarios DROP COLUMN criado_em
+    `);
+  });
+}
+
+alterarTabela();
+
 app.get('/api/usuarios', (req, res) => {
   db.all('SELECT * FROM usuarios ORDER BY criado_em DESC', (err, rows) => {
     if (err) {
