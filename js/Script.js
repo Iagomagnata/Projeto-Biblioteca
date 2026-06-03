@@ -48,7 +48,7 @@ async function cadastrarUsuario(event) {
             alert('Usuário cadastrado com sucesso!');
             carregarUsuarios();
             limparCampos();
-            window.location.href = 'home.html';
+            window.location.href = 'Alexandria.html';
         } else {
             alert('Erro ao cadastrar usuário: ' + resposta.status + ' ' + resposta.statusText);
         }
@@ -81,7 +81,7 @@ async function loginAdm(event) {
         const dados = await resposta.json();
 
         if (resposta.ok) {
-            window.location.href = 'home.html';
+            window.location.href = 'Alexandria.html';
         } else {
             alert(dados.error || 'Login inválido.');
         }
