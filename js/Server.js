@@ -283,3 +283,120 @@ app.get('/api/relatorio', (req, res) => {
     });
 });
 
+            return res.status(500).json({ success: false, message: 'Erro no servidor ao verificar estoque.' });
+        }
+
+        if (!row || row.available_count <= 0) {
+            return res.status(400).json({ success: false, message: 'Não há exemplares livres para empréstimo.' });
+        }
+
+        db.run(`UPDATE livros SET available_count = available_count - 1 WHERE titulo = ?`, [title], function(err) {
+            if (err) {
+                console.error('Erro ao atualizar estoque:', err.message);
+                return res.status(500).json({ success: false, message: 'Erro no servidor ao atualizar estoque.' });
+            }
+            salvarOperacao(title, 'Empréstimo', role || 'admin', studentName, turma, res);
+        });
+    });
+});
+
+app.post('/api/reserva', (req, res) => {
+    const { title, role, studentName, turma } = req.body;
+    if (!studentName || !turma) {
+        return res.status(400).json({ success: false, message: 'Nome do aluno e turma são obrigatórios para reserva.' });
+    }
+
+    db.get(`SELECT available_count FROM livros WHERE titulo = ?`, [title], (err, row) => {
+        if (err) {
+            console.error('Erro ao consultar livro:', err.message);
+            return res.status(500).json({ success: false, message: 'Erro no servidor ao verificar estoque.' });
+        }
+
+        if (row && row.available_count > 0) {
+            db.run(`UPDATE livros SET available_count = available_count - 1 WHERE titulo = ?`, [title], function(err) {
+                if (err) {
+                    console.error('Erro ao atualizar estoque:', err.message);
+                    return res.status(500).json({ success: false, message: 'Erro no servidor ao atualizar estoque.' });
+                }
+                salvarOperacao(title, 'Reservar', role || 'admin', studentName, turma, res);
+            });
+        } else {
+            salvarOperacao(title, 'Reservar', role || 'admin', studentName, turma, res);
+        }
+    });
+});
+
+app.post('/api/devolucao', (req, res) => {
+    const { title, role, studentName, turma } = req.body;
+    if (!title) {
+        return res.status(400).json({ success: false, message: 'Título do livro é obrigatório para devolução.' });
+    }
+
+    db.run(`INSERT OR IGNORE INTO livros (titulo, available_count) VALUES (?, 0)`, [title], function(err) {
+        if (err) {
+            console.error('Erro ao garantir livro no estoque:', err.message);
+            return res.status(500).json({ success: false, message: 'Erro no servidor ao atualizar estoque.' });
+        }
+        db.run(`UPDATE livros SET available_count = available_count + 1 WHERE titulo = ?`, [title], function(err) {
+            if (err) {
+                console.error('Erro ao atualizar estoque:', err.message);
+                return res.status(500).json({ success: false, message: 'Erro no servidor ao atualizar estoque.' });
+            }
+            salvarOperacao(title, 'Devolução', role || 'admin', studentName || null, turma || null, res);
+        });
+    });
+});
+
+app.get('/api/livros', (req, res) => {
+    db.all(`SELECT titulo, available_count FROM livros`, [], (err, rows) => {
+        if (err) {
+            console.error('Erro ao buscar livros:', err.message);
+            return res.status(500).json({ success: false, message: 'Erro no servidor ao buscar livros.' });
+        }
+        res.json({ success: true, livros: rows });
+    });
+});
+
+app.get('/api/relatorio', (req, res) => {
+    db.all(`SELECT id, livro, acao, papel, student_name, turma, created_at
+            FROM operacoes AS o
+            WHERE acao IN ('Empréstimo', 'Reservar')
+            AND NOT EXISTS (
+                SELECT 1 FROM operacoes AS d
+                WHERE d.acao = 'Devolução'
+                  AND d.livro = o.livro
+                  AND ifnull(d.student_name, '') = ifnull(o.student_name, '')
+                  AND ifnull(d.turma, '') = ifnull(o.turma, '')
+                  AND datetime(d.created_at) > datetime(o.created_at)
+            )
+            ORDER BY datetime(created_at) DESC`, [], (err, rows) => {
+        if (err) {
+            console.error('Erro ao buscar relatório:', err.message);
+            return res.status(500).json({ success: false, message: 'Erro no servidor ao gerar relatório.' });
+        }
+
+        const now = new Date();
+        const report = rows.map((row) => {
+            const createdAt = new Date(row.created_at);
+            const deltaDays = Math.floor((now - createdAt) / (1000 * 60 * 60 * 24));
+            let status = row.acao === 'Empréstimo' ? 'Emprestado' : 'Reservado';
+            if (row.acao === 'Reservar' && deltaDays > 7) {
+                status = 'Atraso de reserva';
+            }
+
+            return {
+                id: row.id,
+                livro: row.livro,
+                acao: row.acao,
+                papel: row.papel,
+                aluno: row.student_name || 'N/A',
+                turma: row.turma || 'N/A',
+                created_at: row.created_at,
+                status
+            };
+        });
+
+        res.json({ success: true, report });
+    });
+});
+
