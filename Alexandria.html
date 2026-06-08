@@ -496,6 +496,10 @@
             </label>
             <input type="text" placeholder="Pesquisar livro..." id="searchInput">
             <div class="input-group">
+                 <label class="filter-box" for="favoritesOnly" style="font-size: 0.95rem; gap: 6px;">
+                <input type="checkbox" id="favoritesOnly">
+                Somente favoritos
+            </label>
                 <label for="sortOrder">Ordenar por</label>
                 <select id="sortOrder" class="select-filter">
                     <option value="default">Relevância</option>
@@ -1455,8 +1459,11 @@
         const searchInput = document.getElementById('searchInput');
         const categoryFilter = document.getElementById('categoryFilter');
         const sortOrder = document.getElementById('sortOrder');
+        const favoritesOnly = document.getElementById('favoritesOnly');
         const productList = document.getElementById('productList');
         const cards = Array.from(document.querySelectorAll('.card'));
+        const FAVORITES_KEY = 'bibliotecaFavorites';
+
         /* elementos do diálogo */
         const productDialog = document.getElementById('productDialog');
         const dialogTitle = document.getElementById('dialogTitle');
@@ -1474,17 +1481,55 @@
                 // Evita que o clique abra o modal ou faça outra ação indesejada no card
                 evento.stopPropagation();
 
-                // Alterna a classe 'favoritado'. Se não tem, adiciona; se tem, remove.
-                botao.classList.toggle('favoritado');
+                const card = botao.closest('.card');
+                const id = getCardId(card);
+                const favorites = new Set(getFavorites());
 
-                // (Opcional) Guardar na consola ou enviar para uma lista de memória
-                if (botao.classList.contains('favoritado')) {
-                    console.log("Livro adicionado aos favoritos!");
-                } else {
+                if (favorites.has(id)) {
+                    favorites.delete(id);
+                    botao.classList.remove('favoritado');
                     console.log("Livro removido dos favoritos.");
+                } else {
+                    favorites.add(id);
+                    botao.classList.add('favoritado');
+                    console.log("Livro adicionado aos favoritos!");
                 }
+
+                saveFavorites(Array.from(favorites));
+                filterProducts();
             });
         });
+        /*função para obter os favoritos do localStorage*/
+        function getFavorites() {
+            try {
+                return JSON.parse(localStorage.getItem(FAVORITES_KEY) || '[]');
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function saveFavorites(favorites) {
+            localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+        }
+
+        function getCardId(card) {
+            if (card.dataset.id) return card.dataset.id;
+            const title = card.querySelector('h3')?.textContent?.trim().toLowerCase() || '';
+            const normalized = title.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            return normalized.replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        }
+
+        function applyFavoritesState() {
+            const favorites = new Set(getFavorites());
+            cards.forEach(card => {
+                const id = getCardId(card);
+                card.dataset.id = id;
+                const btn = card.querySelector('.btn-favorito');
+                if (btn) {
+                    btn.classList.toggle('favoritado', favorites.has(id));
+                }
+            });
+        }
 
         /* Função de filtragem de produtos e ordem  */
         function filterProducts() {
@@ -1493,14 +1538,18 @@
             const selectedSort = sortOrder.value;
 
             // 1. Primeiro Passo: Filtrar as visibilidades dos cartões
+            const favorites = new Set(getFavorites());
+
             cards.forEach(card => {
                 const category = card.dataset.category;
                 const name = card.dataset.name.toLowerCase();
+                const id = getCardId(card);
 
                 const matchesCategory = selectedCategory === 'all' || category === selectedCategory;
                 const matchesSearch = name.includes(query);
+                const matchesFavorites = !favoritesOnly.checked || favorites.has(id);
 
-                card.classList.toggle('hide', !(matchesCategory && matchesSearch));
+                card.classList.toggle('hide', !(matchesCategory && matchesSearch && matchesFavorites));
             });
 
             //vai fazer com que os livros coletados sejam clonados para a sessao de ordenagem e filtro
@@ -1530,6 +1579,11 @@
         categoryFilter.addEventListener('change', filterProducts);
         searchInput.addEventListener('input', filterProducts);
         sortOrder.addEventListener('change', filterProducts);
+        favoritesOnly.addEventListener('change', filterProducts);
+
+        applyFavoritesState();
+        filterProducts();
+
         /* Função para abrir o diálogo com os dados dinâmicos do botão */
         document.querySelectorAll('.open-dialog-btn').forEach(button => {
             button.addEventListener('click', () => {
