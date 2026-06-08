@@ -563,7 +563,6 @@
    <h2>Todos os livros</h2>
         <!-- Catálogo principal de livros -->
         <div class="products" id="productList">
-           
             <!-- Livro 1 -->
             <article class="card" data-category="romance" data-name="o retrato do artista quando jovem">
                 <!--botao de fav-->
@@ -1000,7 +999,7 @@
                         data-title="Prefácio um homem bom é difícil de encontrar"
                         data-image="https://img2.doceru.com/image/l/sc1n1sc.png"
                         data-description="O livro, publicado originalmente em 1955, é uma coletânea de contos que refletem o ambiente rural do Sul dos Estados Unidos, com foco nas complexidades da natureza humana. O prefácio geralmente enfatiza a capacidade da autora de explorar o conflito moral e a presença do divino e do sinistro em situações cotidianas, preparando o leitor para o choque intenso que alguns contos provocam. Ele também comenta o uso de personagens profundamente falhos e realistas, cujas falhas éticas e decisões precipitadas desencadeiam eventos trágicos ou violentos, típica marca da prosa de O’Connor.
-No caso do conto que dá nome à coletânea, Um Homem Bom é Difícil de Encontrar, o prefácio chama atenção para a contraste entre aparência e essência moral, o questionamento da bondade, e a maneira como a história combina ironias sombrias com temas de redenção e culpa.">
+                        No caso do conto que dá nome à coletânea, Um Homem Bom é Difícil de Encontrar, o prefácio chama atenção para a contraste entre aparência e essência moral, o questionamento da bondade, e a maneira como a história combina ironias sombrias com temas de redenção e culpa.">
                         Detalhes
                     </button>
                 </div>
@@ -1033,7 +1032,7 @@ No caso do conto que dá nome à coletânea, Um Homem Bom é Difícil de Encontr
                         data-title="Prefácio um homem bom é difícil de encontrar"
                         data-image="https://img2.doceru.com/image/l/sc1n1sc.png"
                         data-description="O livro, publicado originalmente em 1955, é uma coletânea de contos que refletem o ambiente rural do Sul dos Estados Unidos, com foco nas complexidades da natureza humana. O prefácio geralmente enfatiza a capacidade da autora de explorar o conflito moral e a presença do divino e do sinistro em situações cotidianas, preparando o leitor para o choque intenso que alguns contos provocam. Ele também comenta o uso de personagens profundamente falhos e realistas, cujas falhas éticas e decisões precipitadas desencadeiam eventos trágicos ou violentos, típica marca da prosa de O’Connor.
-No caso do conto que dá nome à coletânea, Um Homem Bom é Difícil de Encontrar, o prefácio chama atenção para a contraste entre aparência e essência moral, o questionamento da bondade, e a maneira como a história combina ironias sombrias com temas de redenção e culpa.">
+                        No caso do conto que dá nome à coletânea, Um Homem Bom é Difícil de Encontrar, o prefácio chama atenção para a contraste entre aparência e essência moral, o questionamento da bondade, e a maneira como a história combina ironias sombrias com temas de redenção e culpa.">
                         Detalhes
                     </button>
                 </div>
@@ -1442,7 +1441,7 @@ No caso do conto que dá nome à coletânea, Um Homem Bom é Difícil de Encontr
                 filterProducts();
             });
         });
-        
+        /*função para obter os favoritos do localStorage*/
         function getFavorites() {
             try {
                 return JSON.parse(localStorage.getItem(FAVORITES_KEY) || '[]');
