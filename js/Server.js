@@ -64,7 +64,23 @@ function inserirLivrosLocais() {
     { titulo: 'Dom Quixote', autor: 'Miguel de Cervantes', editora: 'Diversa', ano: 1605 },
     { titulo: 'O Outro Apaixonado por Marília de Dirceu', autor: 'Jair Vitória', editora: 'Diversa', ano: 2020 },
     { titulo: 'Oliver Twist', autor: 'Charles Dickens', editora: 'Diversa', ano: 1837 },
-    
+    { titulo: 'O amanhã cheio de histórias', autor: 'Joselía Aguiar', editora: 'Diversa', ano: null },
+    { titulo: 'O imaginario cotidiano', autor: 'Moacyr Scliar', editora: 'Diversa', ano: null },
+    { titulo: 'Dez dias no manicômio', autor: 'Nellie Bly', editora: 'Diversa', ano: null },
+    { titulo: 'As filhas sem nome', autor: 'Xinran', editora: 'Diversa', ano: null },
+    { titulo: 'Dinamene', autor: 'Maicon Tenfen', editora: 'Diversa', ano: null },
+    { titulo: 'Prefácio um homem bom é difícil de encontrar', autor: "Flannery O'Connor", editora: 'Diversa', ano: 1955 },
+    { titulo: 'Fogo contra fogo', autor: 'Je', editora: 'Diversa', ano: null },
+    { titulo: 'Ramsés: O Filho da Luz (Vol. 1)', autor: 'Lene Kaaberbøl & Agnete Friis', editora: 'Diversa', ano: null },
+    { titulo: 'Ramsés: A batalha de kadesh (Vol. 2)', autor: 'Lene Kaaberbøl & Agnete Friis', editora: 'Diversa', ano: null },
+    { titulo: 'Ramsés: A batalha de kadesh (Vol. 3)', autor: 'Lene Kaaberbøl & Agnete Friis', editora: 'Diversa', ano: null },
+    { titulo: 'O menino da mala', autor: 'Lene Kaaberbøl & Agnete Friis', editora: 'Diversa', ano: null },
+    { titulo: 'Os filhos do imperador', autor: 'Claire Messud', editora: 'Diversa', ano: null },
+    { titulo: 'Histórias Primordiais', autor: 'Edgar Allan Poe', editora: 'Diversa', ano: null },
+    { titulo: 'A melhor coisa que nunca aconteceu na minha vida', autor: 'Laura Tait & Jimmy Rice', editora: 'Diversa', ano: null },
+    { titulo: 'A juventude vai no cinema', autor: 'Inês Assunção de Castro Teixeira; José de Sousa Miguel Lopes; Juarez Dayrell', editora: 'Diversa', ano: null },
+    { titulo: 'Poliana cresceu', autor: 'Eleanor H. Porter', editora: 'Diversa', ano: 1913 },
+    { titulo: 'dez anos e nove meses', autor: 'Eleanor H. Porter', editora: 'Diversa', ano: null }
   ];
 
   const sql = 'INSERT OR IGNORE INTO livros (titulo, autor, editora, ano) VALUES (?, ?, ?, ?)';
