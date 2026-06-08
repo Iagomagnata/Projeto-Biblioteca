@@ -80,6 +80,23 @@ app.post('/api/usuarios', (req, res) => {
   });
 });
 
+app.post('/cadastrar-aluno', (req, res) => {
+  const { matricula, email } = req.body;
+
+  if (!matricula || !email) {
+    return res.status(400).send('Matrícula e email são obrigatórios.');
+  }
+
+  const sql = 'INSERT INTO usuarios (matricula, email) VALUES (?, ?)';
+  db.run(sql, [matricula, email], function (err) {
+    if (err) {
+      console.error('Erro ao cadastrar aluno:', err.message);
+      return res.status(500).send('Não foi possível cadastrar o aluno.');
+    }
+    res.redirect('/Alexandria.html');
+  });
+});
+
 app.post('/api/login', (req, res) => {
   const { usuario, senha } = req.body;
 
