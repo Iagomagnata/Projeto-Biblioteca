@@ -45,16 +45,17 @@ async function cadastrarUsuario(event) {
             alert('Usuário cadastrado com sucesso!');
             carregarUsuarios();
             limparCampos();
+            window.location.href = 'Alexandria.html';
         } else {
             alert('Erro ao cadastrar usuário: ' + resposta.status + ' ' + resposta.statusText);
+            return;
         }
     } catch (error) {
         console.error('Erro:', error);
         alert('Erro de rede: ' + error);
+        return;
     }
-
-    window.location.href = 'Alexandria.html';
-} 
+}
 
 function limparCampos() {
     document.getElementById('email').value = '';

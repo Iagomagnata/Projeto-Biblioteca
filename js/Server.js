@@ -34,7 +34,7 @@ function criarTabelas() {
       CREATE TABLE IF NOT EXISTS usuarios (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         matricula TEXT NOT NULL UNIQUE,
-        email TEXT NOT NULL UNIQUE,
+        email TEXT NOT NULL UNIQUE
       )
     `);
 
