@@ -284,7 +284,7 @@ app.get('/api/relatorio', (req, res) => {
 });
 
             return res.status(500).json({ success: false, message: 'Erro no servidor ao verificar estoque.' });
-        }
+        
 
         if (!row || row.available_count <= 0) {
             return res.status(400).json({ success: false, message: 'Não há exemplares livres para empréstimo.' });
@@ -297,8 +297,8 @@ app.get('/api/relatorio', (req, res) => {
             }
             salvarOperacao(title, 'Empréstimo', role || 'admin', studentName, turma, res);
         });
-    });
-});
+    ;
+;
 
 app.post('/api/reserva', (req, res) => {
     const { title, role, studentName, turma } = req.body;
