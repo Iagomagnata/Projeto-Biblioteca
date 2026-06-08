@@ -81,16 +81,16 @@ app.post('/api/usuarios', (req, res) => {
 });
 
 app.post('/api/login', (req, res) => {
-  const { nome, senha } = req.body;
+  const { usuario, senha } = req.body;
 
-  if (!nome || !senha) {
-    return res.status(400).json({ error: 'nome e senha são obrigatórios' });
+  if (!usuario || !senha) {
+    return res.status(400).json({ error: 'usuario e senha são obrigatórios' });
   }
 
-  const adminNome = 'admin';
+  const adminUsuario = 'admin';
   const adminSenha = 'admin123';
 
-  if (nome === adminNome && senha === adminSenha) {
+  if (usuario === adminUsuario && senha === adminSenha) {
     return res.json({ ok: true });
   }
 

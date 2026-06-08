@@ -1,4 +1,4 @@
-const api_url = '';
+const api_url = '/api/usuarios';
 
 let usuarios = [];
 
@@ -13,9 +13,11 @@ async function carregarUsuarios() {
      }
 }
 
-function cadastrarUsuario() {
-   let matricula = document.getElementById('Matricula').value;
-   let email = document.getElementById('email').value;
+async function cadastrarUsuario(event) {
+    event.preventDefault();
+
+    let matricula = document.getElementById('Matricula').value;
+    let email = document.getElementById('email').value;
 
     if (!matricula || !email) {
         alert('Preencha todos os campos obrigatórios!');
@@ -25,7 +27,7 @@ function cadastrarUsuario() {
     const novoUsuario = {
         email: email,
         matricula: matricula
-        };
+    };
     console.log('url: ', api_url);
 
     try {
@@ -51,7 +53,7 @@ function cadastrarUsuario() {
         alert('Erro de rede: ' + error);
     }
 
-    window.location.href = 'home.html';
+    window.location.href = 'Alexandria.html';
 } 
 
 function limparCampos() {
