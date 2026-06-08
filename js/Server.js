@@ -135,8 +135,8 @@ app.post('/api/login', (req, res) => {
     return res.status(400).json({ error: 'usuario e senha são obrigatórios' });
   }
 
-  const adminUsuario = 'admin';
-  const adminSenha = 'admin123';
+  const adminUsuario = 'DonaAda234';
+  const adminSenha = 'admin@123';
 
   if (usuario === adminUsuario && senha === adminSenha) {
     return res.json({ ok: true });
@@ -155,13 +155,9 @@ app.get('/api/livros', (req, res) => {
   });
 });
 
-app.post('/api/livros', (req, res) => {
+ app.post('/api/livros', (req, res) => {
   const { titulo, autor, editora, ano } = req.body;
-
-  if (!titulo) {
-    return res.status(400).json({ error: 'titulo é obrigatório' });
-  }
-
+  
   //cadastro de livros
   const sql = 'INSERT INTO livros (titulo, autor, editora, ano) VALUES (?, ?, ?, ?)';
   db.run(sql, [titulo, autor || '', editora || '', ano || null], function (err) {
