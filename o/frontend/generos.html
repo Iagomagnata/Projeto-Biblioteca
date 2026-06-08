@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Escolar - Gêneros</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1c3154, #2d4d7b);
+            color: #f4f6fb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            width: min(1120px, calc(100% - 32px));
+            padding: 32px;
+        }
+        .hero {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+        .hero h1 {
+            margin: 0;
+            font-size: 2.4rem;
+        }
+        .hero p {
+            margin: 12px auto 0;
+            max-width: 640px;
+            color: #c8d6e3;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        .genre-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .genre-card {
+            padding: 24px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.08);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.18);
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            transition: transform 0.22s ease, background 0.22s ease;
+        }
+        .genre-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255,255,255,0.12);
+        }
+        .genre-card h2 {
+            margin: 0 0 10px;
+            font-size: 1.35rem;
+        }
+        .genre-card p {
+            margin: 0;
+            color: #d9e2ec;
+            line-height: 1.6;
+        }
+        .back-link {
+            display: block;
+            margin-top: 24px;
+            text-align: center;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <section class="hero">
+            <h1>Escolha um gênero</h1>
+            <p>Selecione um dos gêneros abaixo para ver os livros disponíveis na biblioteca.</p>
+        </section>
+        <div class="genre-grid">
+            <article class="genre-card" data-genre="Educação">
+                <h2>Educação</h2>
+                <p>Livros para estudar, aprender e crescer com conteúdos escolares e pedagógicos.</p>
+            </article>
+            <article class="genre-card" data-genre="Ficção">
+                <h2>Ficção</h2>
+                <p>Romances, histórias fantásticas e aventuras imaginativas para todas as idades.</p>
+            </article>
+            <article class="genre-card" data-genre="Não Ficção">
+                <h2>Não Ficção</h2>
+                <p>Obras reais e informativas que ajudam a compreender o mundo e a sociedade.</p>
+            </article>
+            <article class="genre-card" data-genre="Mistério">
+                <h2>Mistério</h2>
+                <p>Histórias cheias de suspense, investigação e enigmas surpreendentes.</p>
+            </article>
+            <article class="genre-card" data-genre="História">
+                <h2>História</h2>
+                <p>Livros sobre o passado, eventos e personagens que mudaram o mundo.</p>
+            </article>
+            <article class="genre-card" data-genre="Ciências">
+                <h2>Ciências</h2>
+                <p>Obras sobre natureza, tecnologia, experimentos e descobertas científicas.</p>
+            </article>
+        </div>
+        <a href="index.html" class="back-link">Voltar ao login</a>
+        <a id="reportLink" href="relatorio.html" class="back-link" style="display:none;">Ver relatório de empréstimos</a>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

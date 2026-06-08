@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Empréstimos</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2d3d;
+        }
+        .page {
+            width: min(1140px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 32px 0;
+        }
+        .header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 14px;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+        .header p {
+            margin: 6px 0 0;
+            color: #506073;
+        }
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+        }
+        .report-table th,
+        .report-table td {
+            padding: 16px 18px;
+            text-align: left;
+        }
+        .report-table th {
+            background: #eef3f8;
+            color: #41536d;
+            font-weight: 700;
+            border-bottom: 1px solid #d7dee7;
+        }
+        .report-table tr {
+            border-bottom: 1px solid #eef1f5;
+        }
+        .report-table tr:nth-child(even) {
+            background: #fbfcfd;
+        }
+        .status {
+            padding: 8px 10px;
+            border-radius: 12px;
+            display: inline-block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: white;
+        }
+        .status-emprestado {
+            background: #4a90e2;
+        }
+        .status-reservado {
+            background: #2d9a4a;
+        }
+        .status-atraso {
+            background: #d64545;
+        }
+        .no-data {
+            text-align: center;
+            padding: 30px 0;
+            color: #5b6a7b;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 18px;
+            color: #3f6d9f;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 900px) {
+            .report-table th,
+            .report-table td {
+                padding: 12px 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="header">
+            <div>
+                <h1>Relatório de Empréstimos</h1>
+                <p>Lista de alunos com livros emprestados e reservas. Alertas são exibidos quando a reserva passa de uma semana.</p>
+            </div>
+            <a href="generos.html?role=admin" class="back-link">Voltar aos gêneros</a>
+        </div>
+        <table class="report-table">
+            <thead>
+                <tr>
+                    <th>Aluno</th>
+                    <th>Turma</th>
+                    <th>Livro</th>
+                    <th>Ação</th>
+                    <th>Data</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="reportBody"></tbody>
+        </table>
+        <p id="noReport" class="no-data" style="display:none;">Nenhum registro de empréstimo ou reserva encontrado.</p>
+    </div>
+    <script>
+        async function returnBook(livro) {
+            try {
+                const response = await fetch('http://127.0.0.1:3000/api/devolucao', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ title: livro, role: 'admin' })
+                });
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    alert(`Livro '${livro}' devolvido com sucesso.`);
+                    loadReport();
+                } else {
+                    alert(data.message || 'Falha ao registrar devolução.');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Erro ao conectar com o servidor.');
+            }
+        }
+
+        async function loadReport() {
+            try {
+                const response = await fetch('http://127.0.0.1:3000/api/relatorio');
+                const data = await response.json();
+                const reportBody = document.getElementById('reportBody');
+                const noReport = document.getElementById('noReport');
+
+                if (!response.ok || !data.success || !data.report.length) {
+                    reportBody.innerHTML = '';
+                    noReport.style.display = 'block';
+                    return;
+                }
+
+                noReport.style.display = 'none';
+                reportBody.innerHTML = data.report.map(item => {
+                    const statusClass = item.status === 'Emprestado'
+                        ? 'status-emprestado'
+                        : item.status === 'Reservado'
+                            ? 'status-reservado'
+                            : 'status-atraso';
+                    return `
+                        <tr>
+                            <td>${item.aluno}</td>
+                            <td>${item.turma}</td>
+                            <td>${item.livro}</td>
+                            <td>${item.acao}</td>
+                            <td>${new Date(item.created_at).toLocaleDateString('pt-BR')}</td>
+                            <td>
+                                <span class="status ${statusClass}">${item.status}</span>
+                                <button onclick="returnBook('${item.livro.replace(/'/g, "\\'") }')" style="margin-left: 10px; padding: 6px 10px; border: none; border-radius: 8px; background: #3f6d9f; color: white; cursor: pointer;">Devolver</button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error(error);
+                document.getElementById('reportBody').innerHTML = '';
+                document.getElementById('noReport').textContent = 'Erro ao carregar relatório.';
+                document.getElementById('noReport').style.display = 'block';
+            }
+        }
+
+        loadReport();
+    </script>
+</body>
+</html>

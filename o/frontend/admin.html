@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Escolar - Login Administrador</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            background: #121d33;
+            color: #eef2f7;
+        }
+        .card {
+            width: 100%;
+            max-width: 360px;
+            padding: 30px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.08);
+            box-shadow: 0 18px 35px rgba(0,0,0,0.2);
+        }
+        h1 {
+            margin-top: 0;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        p {
+            margin: 0 0 22px;
+            color: #c9d4e4;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: #d9e1ef;
+        }
+        input {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.16);
+            background: rgba(255,255,255,0.08);
+            color: #f5f9ff;
+            font-size: 1rem;
+        }
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: #4669a6;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .back-link {
+            display: block;
+            margin-top: 18px;
+            font-size: 0.85rem;
+            text-align: center;
+            color: #a9bad8;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Login de Administrador</h1>
+        <p>Insira suas credenciais de administrador para acessar o painel.</p>
+        <form id="adminLoginForm">
+            <label for="adminUser">Usuário</label>
+            <input type="text" id="adminUser" name="adminUser" placeholder="Usuário administrador" required>
+            <label for="adminPass">Senha</label>
+            <input type="password" id="adminPass" name="adminPass" placeholder="Senha" required>
+            <button type="submit" class="btn">Entrar</button>
+        </form>
+        <a href="index.html" class="back-link">Voltar ao login do aluno</a>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
