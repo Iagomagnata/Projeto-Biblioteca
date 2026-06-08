@@ -47,7 +47,35 @@ function criarTabelas() {
         ano INTEGER,
         criado_em DATETIME DEFAULT CURRENT_TIMESTAMP
       )
-    `);
+    `, () => {
+      inserirLivrosLocais();
+    });
+  });
+}
+
+function inserirLivrosLocais() {
+  const livrosLocais = [
+    { titulo: 'O Retrato do Artista quando Jovem', autor: 'James Joyce', editora: 'Diversa', ano: 1916 },
+    { titulo: 'Delta: Um Comando para o Tempo', autor: 'Ana Cristina Melo', editora: 'Diversa', ano: 2022 },
+    { titulo: 'Ilhados: Tratado sobre Guris', autor: 'Lourenço Cazarré', editora: 'Prêmio Açorianos', ano: 2018 },
+    { titulo: 'O Namoro e o Noivado que Deus Sempre Quis', autor: 'A. Mendes e D. Merkh', editora: 'Diversa', ano: 2015 },
+    { titulo: 'Crianças na Escuridão', autor: 'Júlio Emílio Braz', editora: 'Diversa', ano: 2010 },
+    { titulo: 'A Casa da Praia', autor: 'Beth Reekles', editora: 'Diversa', ano: 2019 },
+    { titulo: 'Dom Quixote', autor: 'Miguel de Cervantes', editora: 'Diversa', ano: 1605 },
+    { titulo: 'O Outro Apaixonado por Marília de Dirceu', autor: 'Jair Vitória', editora: 'Diversa', ano: 2020 },
+    { titulo: 'Oliver Twist', autor: 'Charles Dickens', editora: 'Diversa', ano: 1837 }
+  ];
+
+  const sql = 'INSERT OR IGNORE INTO livros (titulo, autor, editora, ano) VALUES (?, ?, ?, ?)';
+  
+  livrosLocais.forEach(livro => {
+    db.run(sql, [livro.titulo, livro.autor, livro.editora, livro.ano], (err) => {
+      if (err) {
+        console.error('Erro ao inserir livro local:', err.message);
+      } else {
+        console.log(`Livro "${livro.titulo}" inserido localmente.`);
+      }
+    });
   });
 }
 

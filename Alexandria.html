@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -7,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca Alexandria - Catálogo</title>
     <style>
-    /*paletas de cores global */
-         :root {
+        /*paletas de cores global */
+        :root {
             --primary: #0e64a1;
             --primary-dark: #0a4d7d;
             --secondary: #3cb371;
@@ -32,7 +31,8 @@
             color: #222;
             min-height: 100vh;
         }
-/*Css do cabeçalho/primeiro tituilo*/
+
+        /*Css do cabeçalho/primeiro tituilo*/
         header {
             background: rgba(9, 52, 84, 0.85);
             backdrop-filter: blur(12px);
@@ -51,7 +51,8 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-/*box da sessao de busca*/
+
+        /*box da sessao de busca*/
         .search-section {
             display: flex;
             flex-wrap: wrap;
@@ -63,7 +64,8 @@
             border-radius: 12px;
             box-shadow: var(--shadow-sm);
         }
-/*css da barra de pesquisa*/
+
+        /*css da barra de pesquisa*/
         #searchInput {
             padding: 10px 15px;
             flex: 1;
@@ -78,7 +80,8 @@
             border-color: var(--primary);
             box-shadow: 0 0 0 2px rgba(14, 100, 161, 0.2);
         }
-/*Css do filtro*/
+
+        /*Css do filtro*/
         .filter-box {
             display: flex;
             align-items: center;
@@ -101,7 +104,8 @@
         #categoryFilter:focus {
             border-color: var(--primary);
         }
-/*Css da sessao destaque*/
+
+        /*Css da sessao destaque*/
         .vitrine-destaques {
             font-family: Arial, sans-serif;
             padding: 20px;
@@ -120,7 +124,8 @@
             padding-bottom: 5px;
             font-size: 1.5rem;
         }
-/*css da posição horizontal dos livros em destaque*/
+
+        /*css da posição horizontal dos livros em destaque*/
         .fileira-Livros {
             display: flex;
             overflow-x: auto;
@@ -138,9 +143,12 @@
             background-color: var(--secondary);
             border-radius: 3px;
         }
-/*css dos livros do catalogo*/
 
-.card{position: relative;}
+        /*css dos livros do catalogo*/
+
+        .card {
+            position: relative;
+        }
 
         .card-produto {
             flex: 0 0 220px;
@@ -186,6 +194,7 @@
             overflow: hidden;
             height: 40px;
         }
+
         .preco {
             color: var(--secondary);
             font-weight: bold;
@@ -297,7 +306,8 @@
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
         }
-/*css dos itens dentro do dialogo */
+
+        /*css dos itens dentro do dialogo */
         .modal-header {
             background: var(--bg-gradient);
             padding: 24px;
@@ -380,7 +390,8 @@
         #closeDialog:hover {
             background-color: #374151;
         }
-/*css das tags como genero , autor*/
+
+        /*css das tags como genero , autor*/
         .card-content {
             display: flex;
             flex-direction: column;
@@ -413,7 +424,7 @@
             padding: 3px 10px;
             border-radius: 20px;
         }
-        
+
         .select-filter {
             padding: 10px 18px;
             border-radius: 10px;
@@ -429,34 +440,37 @@
         .select-filter:focus {
             border-color: var(--primary);
         }
-        
+
         .btn-favorito {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: rgba(243, 244, 246, 0.85);
-    border: none;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    color: #9ca3af; /* Cor cinzenta por defeito */
-    z-index: 5;
-}
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(243, 244, 246, 0.85);
+            border: none;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            color: #9ca3af;
+            /* Cor cinzenta por defeito */
+            z-index: 5;
+        }
 
-.btn-favorito.favoritado {
-    color: #ef4444;       /* Contorno vermelho */
-    background: #fee2e2;  /* Fundo vermelho claro */
-}
+        .btn-favorito.favoritado {
+            color: #ef4444;
+            /* Contorno vermelho */
+            background: #fee2e2;
+            /* Fundo vermelho claro */
+        }
 
-.btn-favorito.favoritado svg {
-    fill: #ef4444;        /* Preenche o interior do coração de vermelho */
-}
-        
+        .btn-favorito.favoritado svg {
+            fill: #ef4444;
+            /* Preenche o interior do coração de vermelho */
+        }
     </style>
 </head>
 
@@ -471,7 +485,7 @@
         <section class="search-section">
             <label class="filter-box" for="categoryFilter"> Categoria:
                 <select id="categoryFilter">
-       <option value="all">Todos os livros</option>
+                    <option value="all">Todos os livros</option>
                     <option value="Livros-aventura">Aventura</option>
                     <option value="conto">conto</option>
                     <option value="romance">Romance</option>
@@ -479,7 +493,7 @@
                 </select>
             </label>
             <input type="text" placeholder="Pesquisar livro..." id="searchInput">
-           <div class="input-group">
+            <div class="input-group">
                 <label for="sortOrder">Ordenar por</label>
                 <select id="sortOrder" class="select-filter">
                     <option value="default">Relevância</option>
@@ -488,101 +502,89 @@
                 </select>
             </div>
         </section>
-       
+
 
         <!-- Vitrine de destaques -->
         <section class="vitrine-destaques">
             <h2>Livros em Destaque</h2>
             <div class="fileira-Livros">
-                <!--livro Destaque 1 -->
+                <!-- Destaque 2 -->
                 <div class="card-produto">
                     <div class="img-container">
-                        <img src="https://thf.bing.com/th/id/OIP.HLRl-fbL9j_Gti4CFdF84AHaK9?o=7&cb=thfc1falconrm=3&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Livro Five Nights at Freddy's">
+                        <img src="https://m.media-amazon.com/images/I/51IobVZ0-kL._SY445_SX342_ML2_.jpg"
+                            alt="O retrato do artista quando jovem">
                     </div>
-                    <h3>Five Nights at Freddy's: Olhos Prateados</h3>
-                    <p class="preco">Aventura</p>
-                    <button class="botao open-dialog-btn" 
-                            data-title="Five Nights at Freddy's" 
-                            data-image="https://thf.bing.com/th/id/OIP.HLRl-fbL9j_Gti4CFdF84AHaK9?o=7&cb=thfc1falconrm=3&rs=1&pid=ImgDetMain&o=7&rm=3" 
-                            data-description="Este é o resumo do livro de Five Nights at Freddy's: muito suspense, mistério em uma pizzaria abandonada e um começo fascinante que prende o leitor do início ao fim.">
-        Ver Detalhes
-         </button>
-        </div>
-                <!-- Destaque 2 -->
-    <div class="card-produto">
-    <div class="img-container">
-    <img src="https://m.media-amazon.com/images/I/51IobVZ0-kL._SY445_SX342_ML2_.jpg" alt="O retrato do artista quando jovem">
-       </div>
-   <h3>O Retrato do Artista quando Jovem</h3>
-    <p class="preco">Romance</p>
-    <button class="botao open-dialog-btn" 
-     data-title="O retrato do artista quando jovem" 
-                            data-image="https://m.media-amazon.com/images/I/51IobVZ0-kL._SY445_SX342_ML2_.jpg" 
-                            data-description="A obra acompanha o alter ego do autor, Stephen Dedalus, em sua transição da infância à juventude. O protagonista busca sua identidade artística enquanto confronta as rígidas amarras católicas da Irlanda.">
+                    <h3>O Retrato do Artista quando Jovem</h3>
+                    <p class="preco">Romance</p>
+                    <button class="botao open-dialog-btn" data-title="O retrato do artista quando jovem"
+                        data-image="https://m.media-amazon.com/images/I/51IobVZ0-kL._SY445_SX342_ML2_.jpg"
+                        data-description="A obra acompanha o alter ego do autor, Stephen Dedalus, em sua transição da infância à juventude. O protagonista busca sua identidade artística enquanto confronta as rígidas amarras católicas da Irlanda.">
                         Ver Detalhes
                     </button>
                 </div>
                 <!-- Destaque 3 -->
                 <div class="card-produto">
                     <div class="img-container">
-                        <img src="https://anacristinamelo.com.br/wp-content/webp-express/webp-images/uploads/2024/04/capa_Delta-um-comando-para-o-tempo-1367x2048.jpg.webp" alt="Livro Delta: Um comando para o tempo">
+                        <img src="https://anacristinamelo.com.br/wp-content/webp-express/webp-images/uploads/2024/04/capa_Delta-um-comando-para-o-tempo-1367x2048.jpg.webp"
+                            alt="Livro Delta: Um comando para o tempo">
                     </div>
                     <h3>Delta: Um comando para o tempo</h3>
-                    
-                    <button class="botao open-dialog-btn" 
-                            data-title="Delta: Um comando para o tempo" 
-                            data-image="https://anacristinamelo.com.br/wp-content/webp-express/webp-images/uploads/2024/04/capa_Delta-um-comando-para-o-tempo-1367x2048.jpg.webp" 
-                            data-description="Alex está trabalhando há 72 horas quando é surpreendido por um convite para entrar num bate-papo virtual. Do outro lado, Sarah se diz presa no futuro e pede ajuda através de uma janela do tempo.">
+
+                    <button class="botao open-dialog-btn" data-title="Delta: Um comando para o tempo"
+                        data-image="https://anacristinamelo.com.br/wp-content/webp-express/webp-images/uploads/2024/04/capa_Delta-um-comando-para-o-tempo-1367x2048.jpg.webp"
+                        data-description="Alex está trabalhando há 72 horas quando é surpreendido por um convite para entrar num bate-papo virtual. Do outro lado, Sarah se diz presa no futuro e pede ajuda através de uma janela do tempo.">
                         Ver Detalhes
                     </button>
                 </div>
-          
+
                 <div class="card-produto">
                     <div class="img-container">
-                        <img src="https://m.media-amazon.com/images/I/81Ayo81dAOL._UF1000,1000_QL80_.jpg" alt="livro Oliver twist" >
+                        <img src="https://m.media-amazon.com/images/I/81Ayo81dAOL._UF1000,1000_QL80_.jpg"
+                            alt="livro Oliver twist">
                     </div>
                     <h3>Oliver Twist</h3>
                     <p class="preco">Ficção Científica</p>
-                    <button class="botao open-dialog-btn" 
-                            data-title="Oliver Twist" 
-                            data-image="https://m.media-amazon.com/images/I/81Ayo81dAOL._UF1000,1000_QL80_.jpg" 
-                            data-description="Oliver nasce em um asilo para pobres; sua mãe morre no parto e sua identidade é um mistério. Ele passa os primeiros anos em condições degradantes e, ao pedir mais comida no reformatório, é considerado um rebelde e vendido para trabalhar com um coveiro. Sofrendo graves maus-tratos, o garoto foge a pé rumo a Londres.">
+                    <button class="botao open-dialog-btn" data-title="Oliver Twist"
+                        data-image="https://m.media-amazon.com/images/I/81Ayo81dAOL._UF1000,1000_QL80_.jpg"
+                        data-description="Oliver nasce em um asilo para pobres; sua mãe morre no parto e sua identidade é um mistério. Ele passa os primeiros anos em condições degradantes e, ao pedir mais comida no reformatório, é considerado um rebelde e vendido para trabalhar com um coveiro. Sofrendo graves maus-tratos, o garoto foge a pé rumo a Londres.">
                         Ver Detalhes
                     </button>
                 </div>
-                
-                
+
+
             </div>
         </section>
 
         <!-- Catálogo principal de livros -->
         <div class="products" id="productList">
-          <h2>Todos os livros</h2>
+            <h2>Todos os livros</h2>
             <!-- Livro 1 -->
             <article class="card" data-category="romance" data-name="o retrato do artista quando jovem">
-      <!--botao de fav-->
-              <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
+                <!--botao de fav-->
+                <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
 
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-        </svg>
-    </button>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                </button>
                 <small>Livro</small>
                 <h3>O retrato do artista quando jovem</h3>
-                <img src="https://m.media-amazon.com/images/I/51IobVZ0-kL._SY445_SX342_ML2_.jpg" alt="Livro O Retrato do Artista">
-     <!--tags de autor e genero-->
-    <div class="card-content">
-        <div class="card-tags">
-            <span class="tag-categoria">romance</span>
-       <span class="tag-autor">James Joyce</span>
-        </div>
-           <!--Breve descrição do livro-->
-        <p>É um romance de formação clássico de James Joyce. A obra acompanha o alter ego do autor, Stephen Dedalus...</p>
-<!--botao do dialogo oque tem dentro como imagem , descrição e titulo-->
-   <button type="button" class="botao open-dialog-btn" 
-      data-title="O Retrato do Artista quando Jovem" 
-    data-image="https://m.media-amazon.com/images/I/51IobVZ0-kL._SY445_SX342_ML2_.jpg" 
-      data-description="É um romance de formação clássico de James Joyce. A obra acompanha o alter ego do autor, Stephen Dedalus, em sua transição da infância à juventude. O protagonista busca sua identidade artística enquanto confronta as rígidas amarras católicas, políticas e familiares da Irlanda.">
+                <img src="https://m.media-amazon.com/images/I/51IobVZ0-kL._SY445_SX342_ML2_.jpg"
+                    alt="Livro O Retrato do Artista">
+                <!--tags de autor e genero-->
+                <div class="card-content">
+                    <div class="card-tags">
+                        <span class="tag-categoria">romance</span>
+                        <span class="tag-autor">James Joyce</span>
+                    </div>
+                    <!--Breve descrição do livro-->
+                    <p>É um romance de formação clássico de James Joyce. A obra acompanha o alter ego do autor, Stephen
+                        Dedalus...</p>
+                    <!--botao do dialogo oque tem dentro como imagem , descrição e titulo-->
+                    <button type="button" class="botao open-dialog-btn" data-title="O Retrato do Artista quando Jovem"
+                        data-image="https://m.media-amazon.com/images/I/51IobVZ0-kL._SY445_SX342_ML2_.jpg"
+                        data-description="É um romance de formação clássico de James Joyce. A obra acompanha o alter ego do autor, Stephen Dedalus, em sua transição da infância à juventude. O protagonista busca sua identidade artística enquanto confronta as rígidas amarras católicas, políticas e familiares da Irlanda.">
                         Detalhes
                     </button>
                 </div>
@@ -590,27 +592,29 @@
 
             <!-- Livro 2 -->
             <article class="card" data-category="Ficção cientifica" data-name="delta: um comando para o tempo">
-              <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-        </svg>
-    </button>
+                <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                </button>
                 <small>Livro</small>
                 <h3>Delta: Um comando para o tempo</h3>
-                <img src="https://anacristinamelo.com.br/wp-content/webp-express/webp-images/uploads/2024/04/capa_Delta-um-comando-para-o-tempo-1367x2048.jpg.webp" alt="Livro Delta">
-      
-    <div class="card-content">
-   <div class="card-tags">
-        <span class="tag-categoria">Ficção Científica</span>
-    <span class="tag-autor">Ana Cristina Melo</span>
-   </div>
-  <p>Alex está trabalhando há 72 horas quando é surpreendido por um convite para entrar num bate-papo virtual. Do outro lado, Sarah se diz presa...</p>
-  
-    <!--botao do dialogo oque tem dentro como imagem , descrição e titulo-->
-   <button type="button" class="botao open-dialog-btn" 
-      data-title="Delta: Um Comando para o Tempo" 
-     data-image="https://anacristinamelo.com.br/wp-content/webp-express/webp-images/uploads/2024/04/capa_Delta-um-comando-para-o-tempo-1367x2048.jpg.webp" 
-   data-description="Enredo: Alex está trabalhando há 72 horas quando é surpreendido por um convite para entrar num bate-papo virtual. Do outro lado, Sarah se diz presa e pede ajuda. O que poderia, num primeiro momento, soar perigoso, torna-se inacreditável quando concluem que ela fala diretamente do futuro.">
+                <img src="https://anacristinamelo.com.br/wp-content/webp-express/webp-images/uploads/2024/04/capa_Delta-um-comando-para-o-tempo-1367x2048.jpg.webp"
+                    alt="Livro Delta">
+
+                <div class="card-content">
+                    <div class="card-tags">
+                        <span class="tag-categoria">Ficção Científica</span>
+                        <span class="tag-autor">Ana Cristina Melo</span>
+                    </div>
+                    <p>Alex está trabalhando há 72 horas quando é surpreendido por um convite para entrar num bate-papo
+                        virtual. Do outro lado, Sarah se diz presa...</p>
+
+                    <!--botao do dialogo oque tem dentro como imagem , descrição e titulo-->
+                    <button type="button" class="botao open-dialog-btn" data-title="Delta: Um Comando para o Tempo"
+                        data-image="https://anacristinamelo.com.br/wp-content/webp-express/webp-images/uploads/2024/04/capa_Delta-um-comando-para-o-tempo-1367x2048.jpg.webp"
+                        data-description="Enredo: Alex está trabalhando há 72 horas quando é surpreendido por um convite para entrar num bate-papo virtual. Do outro lado, Sarah se diz presa e pede ajuda. O que poderia, num primeiro momento, soar perigoso, torna-se inacreditável quando concluem que ela fala diretamente do futuro.">
                         Detalhes
                     </button>
                 </div>
@@ -618,11 +622,12 @@
 
             <!-- Livro 3 -->
             <article class="card" data-category="Ficção cientifica" data-name="ilhados: tratado sobre guris">
-              <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-        </svg>
-    </button>
+                <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                </button>
                 <small>Livro</small>
                 <h3>Ilhados: tratado sobre guris</h3>
                 <img src="https://m.media-amazon.com/images/I/71WYRXwuKAL.jpg" alt="Livro Ilhados">
@@ -631,12 +636,12 @@
                         <span class="tag-categoria">Ficção Científica</span>
                         <span class="tag-autor">Lourenço Cazarré</span>
                     </div>
-                    <p>É um livro de contos escrito por Lourenço Cazarré e ilustrado por Roberto Weigand. A obra, vencedora do Prêmio Açorianos...</p>
-       <!--botao do dialogo oque tem dentro como imagem , descrição e titulo-->
- <button type="button" class="botao open-dialog-btn" 
-         data-title="Ilhados: Tratado sobre Guris" 
-        data-image="https://m.media-amazon.com/images/I/71WYRXwuKAL.jpg" 
-              data-description="Vencedora do Prêmio Açorianos de Literatura, a obra explora com sensibilidade e humor a complexidade da infância e da adolescência masculina, abordando medos, descobertas e as angústias diárias dessa fase de transição.">
+                    <p>É um livro de contos escrito por Lourenço Cazarré e ilustrado por Roberto Weigand. A obra,
+                        vencedora do Prêmio Açorianos...</p>
+                    <!--botao do dialogo oque tem dentro como imagem , descrição e titulo-->
+                    <button type="button" class="botao open-dialog-btn" data-title="Ilhados: Tratado sobre Guris"
+                        data-image="https://m.media-amazon.com/images/I/71WYRXwuKAL.jpg"
+                        data-description="Vencedora do Prêmio Açorianos de Literatura, a obra explora com sensibilidade e humor a complexidade da infância e da adolescência masculina, abordando medos, descobertas e as angústias diárias dessa fase de transição.">
                         Detalhes
                     </button>
                 </div>
@@ -644,325 +649,351 @@
 
             <!-- Livro 4 -->
             <article class="card" data-category="romance" data-name="o namoro e o noivado que deus sempre quis">
-              <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-        </svg>
-    </button>
+                <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                </button>
                 <small>Livro</small>
                 <h3>O namoro e o noivado que Deus sempre quis</h3>
                 <img src="https://m.media-amazon.com/images/I/91rMSJPmUOL.jpg" alt="Livro O Namoro e o Noivado">
                 <div class="card-content">
                     <div class="card-tags">
-                                            <span class="tag-categoria">romance</span>
+                        <span class="tag-categoria">romance</span>
                         <span class="tag-autor">A. Mendes e D. Merkh</span>
                     </div>
-      <p>Escrito pelos pastores Alexandre Mendes e David Merkh, defende que o relacionamento afetivo entre um homem e uma mulher...</p>
-      
-   <!--botao do dialogo oque tem dentro como imagem , descrição e titulo-->
-  <button type="button" class="botao open-dialog-btn" 
-   data-title="O Namoro e o Noivado que Deus Sempre Quis" 
-   data-image="https://m.media-amazon.com/images/I/91rMSJPmUOL.jpg" 
-    data-description="Utilizando sólidos princípios bíblicos, os autores orientam jovens, pais e líderes sobre como construir relacionamentos afetivos que honrem e glorifiquem a Deus, fugindo de fórmulas superficiais de autoajuda."> Detalhes
- </button>
-  </div>
-     <!--livro 5-->
-   </article>
-     <article class="card" data-category="romance" data-name="Crianças na escuridão">
-       <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-        </svg>
-    </button>
+                    <p>Escrito pelos pastores Alexandre Mendes e David Merkh, defende que o relacionamento afetivo entre
+                        um homem e uma mulher...</p>
+
+                    <!--botao do dialogo oque tem dentro como imagem , descrição e titulo-->
+                    <button type="button" class="botao open-dialog-btn"
+                        data-title="O Namoro e o Noivado que Deus Sempre Quis"
+                        data-image="https://m.media-amazon.com/images/I/91rMSJPmUOL.jpg"
+                        data-description="Utilizando sólidos princípios bíblicos, os autores orientam jovens, pais e líderes sobre como construir relacionamentos afetivos que honrem e glorifiquem a Deus, fugindo de fórmulas superficiais de autoajuda.">
+                        Detalhes
+                    </button>
+                </div>
+                <!--livro 5-->
+            </article>
+            <article class="card" data-category="romance" data-name="Crianças na escuridão">
+                <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                </button>
                 <small>Livro</small>
-    <h3>Crianças na escuridão</h3>
-      <img src="https://cdn.awsli.com.br/600x450/1904/1904872/produto/120305425103b637ddc.jpg" alt="Livro: Crianças na escuridão ">
+                <h3>Crianças na escuridão</h3>
+                <img src="https://cdn.awsli.com.br/600x450/1904/1904872/produto/120305425103b637ddc.jpg"
+                    alt="Livro: Crianças na escuridão ">
                 <div class="card-content">
-      <div class="card-tags">
-    <span class="tag-categoria">romance</span>
-   <span class="tag-autor">Autor:Júlio Emílio Braz</span>
-         </div>
- <p>Escrito por Júlio Emílio Braz, é uma obra infantojuvenil de caráter realista e de denúncia social. Ele expõe a dura realidade e a invisibilidade de crianças...</p>
- 
-  <!--botao do dialogo oque tem dentro como imagem , descrição e titulo-->
-  <button type="button" class="botao open-dialog-btn" 
-   data-title="crianças na escuridão" 
-   data-image="https://cdn.awsli.com.br/600x450/1904/1904872/produto/120305425103b637ddc.jpg" 
-    data-description="Escrito por Júlio Emílio Braz, é uma obra infantojuvenil de caráter realista e de denúncia social. Ele expõe a dura realidade e a invisibilidade de crianças e adolescentes em situação de extrema vulnerabilidade nas ruas das grandes cidades brasileiras."> Detalhes
- </button>
-  </div>
-   </article>
-      <!--livro 6-->
-     <article class="card" data-category="romance" data-name="A casa da praia">
-       
-       <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-        </svg>
-    </button>
-    
+                    <div class="card-tags">
+                        <span class="tag-categoria">romance</span>
+                        <span class="tag-autor">Autor:Júlio Emílio Braz</span>
+                    </div>
+                    <p>Escrito por Júlio Emílio Braz, é uma obra infantojuvenil de caráter realista e de denúncia
+                        social. Ele expõe a dura realidade e a invisibilidade de crianças...</p>
+
+                    <!--botao do dialogo oque tem dentro como imagem , descrição e titulo-->
+                    <button type="button" class="botao open-dialog-btn" data-title="crianças na escuridão"
+                        data-image="https://cdn.awsli.com.br/600x450/1904/1904872/produto/120305425103b637ddc.jpg"
+                        data-description="Escrito por Júlio Emílio Braz, é uma obra infantojuvenil de caráter realista e de denúncia social. Ele expõe a dura realidade e a invisibilidade de crianças e adolescentes em situação de extrema vulnerabilidade nas ruas das grandes cidades brasileiras.">
+                        Detalhes
+                    </button>
+                </div>
+            </article>
+            <!--livro 6-->
+            <article class="card" data-category="romance" data-name="A casa da praia">
+
+                <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                </button>
+
                 <small>Livro</small>
                 <h3>A casa da praia</h3>
-                <img src="https://m.media-amazon.com/images/I/71yETKxfp7L._AC_UF1000,1000_QL80_.jpg" alt="Livro A casa da praia">
-                
-    <div class="card-content">
-<div class="card-tags">
-             <span class="tag-categoria">romance e Ficção</span>
-           <span class="tag-autor">Beth Reekles</span></span>
-              </div>
- <p>é um conto derivado e spin-off da série A Barraca do Beijo...</p>
- 
- <!--botao do dialogo oque tem dentro como imagem , descrição e titulo-->
-  <button type="button" class="botao open-dialog-btn" 
-   data-title="A casa da praia" 
-   data-image="https://m.media-amazon.com/images/I/71yETKxfp7L._AC_UF1000,1000_QL80_.jpg" 
-    data-description="A história explora o relacionamento de Elle e Noah em um momento de transição, enquanto eles aproveitam as férias de verão na praia antes de Noah ir para a faculdade."> Detalhes
- </button>
-  </div>
-   </article>
-   <!--livro 7-->
- <article class="card" data-category="romance" data-name="Dom Quixote">
-   <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-        </svg>
-    </button>
-         <small>Livro</small>
-    <h3>Dom Quixote</h3>
+                <img src="https://m.media-amazon.com/images/I/71yETKxfp7L._AC_UF1000,1000_QL80_.jpg"
+                    alt="Livro A casa da praia">
+
+                <div class="card-content">
+                    <div class="card-tags">
+                        <span class="tag-categoria">romance e Ficção</span>
+                        <span class="tag-autor">Beth Reekles</span></span>
+                    </div>
+                    <p>é um conto derivado e spin-off da série A Barraca do Beijo...</p>
+
+                    <!--botao do dialogo oque tem dentro como imagem , descrição e titulo-->
+                    <button type="button" class="botao open-dialog-btn" data-title="A casa da praia"
+                        data-image="https://m.media-amazon.com/images/I/71yETKxfp7L._AC_UF1000,1000_QL80_.jpg"
+                        data-description="A história explora o relacionamento de Elle e Noah em um momento de transição, enquanto eles aproveitam as férias de verão na praia antes de Noah ir para a faculdade.">
+                        Detalhes
+                    </button>
+                </div>
+            </article>
+            <!--livro 7-->
+            <article class="card" data-category="romance" data-name="Dom Quixote">
+                <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                </button>
+                <small>Livro</small>
+                <h3>Dom Quixote</h3>
                 <img src="https://aproveitopraler.wordpress.com/wp-content/uploads/2015/10/capa2.jpg" alt="Dom Quixote">
-    
-    <div class="card-content">
-<div class="card-tags">
-             <span class="tag-categoria">romance</span>
- <span class="tag-autor">Miguel de Cervantes</span></span>
+
+                <div class="card-content">
+                    <div class="card-tags">
+                        <span class="tag-categoria">romance</span>
+                        <span class="tag-autor">Miguel de Cervantes</span></span>
                     </div>
-      <p>Escrito por Miguel de Cervantes, é uma obra clássica dividida em duas partes (1605 e 1615) que narra a história do fidalgo espanhol Alonso Quijano. Após ler inúmeros romances de cavalaria, ele enlouquece e passa a acreditar que é um cavaleiro andante...</p>
-      
-  <!--botao do dialogo oque tem dentro como imagem , descrição e titulo-->
-  <button type="button" class="botao open-dialog-btn" 
-   data-title="Dom quixote" 
-   data-image="https://aproveitopraler.wordpress.com/wp-content/uploads/2015/10/capa2.jpg" 
-    data-description="O protagonista adota o nome de Dom Quixote da Mancha e parte pelo interior da Espanha em busca de aventuras, justiça e para honrar sua amada imaginária, Dulcinéia de Toboso. Ele arrasta consigo o vizinho camponês Sancho Pança, que atua como seu fiel escudeiro na esperança de ser recompensado com terras." 
-    > Detalhes
- </button>
-  </div>
-   </article>
-      <!--livro 8-->
-   <article class="card" data-category="romance" data-name="o outro apaixonado por Marilia de Dirceu">
-         <small>Livro</small>
-         <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-        </svg>
-    </button>
- <h3>O outro apaixonado por Marilia de Dirceu</h3>
-                <img src="https://www.coletivoleitor.com.br/uploads/covers/576168_Capa_ALTA.jpg" alt="O outro apaixonado por Marilia de Dirceu">
-                
-    <div class="card-content">
-<div class="card-tags">
-             <span class="tag-categoria">romance e Ficção</span>
- <span class="tag-autor">Jair Vitoria </span></span>
+                    <p>Escrito por Miguel de Cervantes, é uma obra clássica dividida em duas partes (1605 e 1615) que
+                        narra a história do fidalgo espanhol Alonso Quijano. Após ler inúmeros romances de cavalaria,
+                        ele enlouquece e passa a acreditar que é um cavaleiro andante...</p>
+
+                    <!--botao do dialogo oque tem dentro como imagem , descrição e titulo-->
+                    <button type="button" class="botao open-dialog-btn" data-title="Dom quixote"
+                        data-image="https://aproveitopraler.wordpress.com/wp-content/uploads/2015/10/capa2.jpg"
+                        data-description="O protagonista adota o nome de Dom Quixote da Mancha e parte pelo interior da Espanha em busca de aventuras, justiça e para honrar sua amada imaginária, Dulcinéia de Toboso. Ele arrasta consigo o vizinho camponês Sancho Pança, que atua como seu fiel escudeiro na esperança de ser recompensado com terras.">
+                        Detalhes
+                    </button>
+                </div>
+            </article>
+            <!--livro 8-->
+            <article class="card" data-category="romance" data-name="o outro apaixonado por Marilia de Dirceu">
+                <small>Livro</small>
+                <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                </button>
+                <h3>O outro apaixonado por Marilia de Dirceu</h3>
+                <img src="https://www.coletivoleitor.com.br/uploads/covers/576168_Capa_ALTA.jpg"
+                    alt="O outro apaixonado por Marilia de Dirceu">
+
+                <div class="card-content">
+                    <div class="card-tags">
+                        <span class="tag-categoria">romance e Ficção</span>
+                        <span class="tag-autor">Jair Vitoria </span></span>
                     </div>
-      <p>É uma obra de ficção que ambienta uma história paralela ao clássico árcade de Tomás Antônio Gonzaga. O enredo se passa em Vila Rica (atual Ouro Preto, MG) durante a Inconfidência Mineira...</p>
-    <!--botao do dialogo oque tem dentro como imagem , descrição e titulo-->
-  <button type="button" class="botao open-dialog-btn" 
-   data-title="O outro apaixonado por Marilia de Dirceu" 
-   data-image="https://www.coletivoleitor.com.br/uploads/covers/576168_Capa_ALTA.jpg" 
-    data-description="O romance aborda o impacto da chegada de Tomás Antônio Gonzaga em Vila Rica, desestabilizando os planos de Pedroco de se casar com Maria Doroteia. A trama acompanha a obsessão doentia de Pedroco ao perder sua amada para os versos de Gonzaga, cruzando sua vingança pessoal com os fatos históricos da Inconfidência Mineira." 
-    > Detalhes
- </button>
-  </div>
-   </article>
-    <!--livro 9-->
-    <article class="card" data-category="Ficção cientifica" data-name="Oliver Twist">
-      <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-        </svg>
-    </button>
+                    <p>É uma obra de ficção que ambienta uma história paralela ao clássico árcade de Tomás Antônio
+                        Gonzaga. O enredo se passa em Vila Rica (atual Ouro Preto, MG) durante a Inconfidência
+                        Mineira...</p>
+                    <!--botao do dialogo oque tem dentro como imagem , descrição e titulo-->
+                    <button type="button" class="botao open-dialog-btn"
+                        data-title="O outro apaixonado por Marilia de Dirceu"
+                        data-image="https://www.coletivoleitor.com.br/uploads/covers/576168_Capa_ALTA.jpg"
+                        data-description="O romance aborda o impacto da chegada de Tomás Antônio Gonzaga em Vila Rica, desestabilizando os planos de Pedroco de se casar com Maria Doroteia. A trama acompanha a obsessão doentia de Pedroco ao perder sua amada para os versos de Gonzaga, cruzando sua vingança pessoal com os fatos históricos da Inconfidência Mineira.">
+                        Detalhes
+                    </button>
+                </div>
+            </article>
+            <!--livro 9-->
+            <article class="card" data-category="Ficção cientifica" data-name="Oliver Twist">
+                <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                </button>
                 <small>Livro</small>
                 <h3>Oliver Twist</h3>
-                 <!--foto do livro-->
-                <img src="https://m.media-amazon.com/images/I/81Ayo81dAOL._UF1000,1000_QL80_.jpg" alt="livro Oliver twist">
+                <!--foto do livro-->
+                <img src="https://m.media-amazon.com/images/I/81Ayo81dAOL._UF1000,1000_QL80_.jpg"
+                    alt="livro Oliver twist">
                 <div class="card-content">
-                   <!--tags autor e genero-->
+                    <!--tags autor e genero-->
                     <div class="card-tags">
                         <span class="tag-categoria">Ficção Científica</span>
                         <span class="tag-autor">Charles Dickens</span>
                     </div>
-                    <p>Oliver Twist, clássico de Charles Dickens publicado entre 1837 e 1839, é uma dura crítica à sociedade vitoriana e à exploração infantil... </p>
+                    <p>Oliver Twist, clássico de Charles Dickens publicado entre 1837 e 1839, é uma dura crítica à
+                        sociedade vitoriana e à exploração infantil... </p>
                     <!--botao do dialogo oque tem dentro como imagem , descrição e titulo-->
-                    <button type="button" class="botao open-dialog-btn" 
-                                      
-                            data-title="Oliver Twist" 
-                            data-image="https://m.media-amazon.com/images/I/81Ayo81dAOL._UF1000,1000_QL80_.jpg" 
-                            data-description="Oliver nasce em um asilo para pobres; sua mãe morre no parto e sua identidade é um mistério. Ele passa os primeiros anos em condições degradantes e, ao pedir mais comida no reformatório, é considerado um rebelde e vendido para trabalhar com um coveiro. Sofrendo graves maus-tratos, o garoto foge a pé rumo a Londres.">
+                    <button type="button" class="botao open-dialog-btn" data-title="Oliver Twist"
+                        data-image="https://m.media-amazon.com/images/I/81Ayo81dAOL._UF1000,1000_QL80_.jpg"
+                        data-description="Oliver nasce em um asilo para pobres; sua mãe morre no parto e sua identidade é um mistério. Ele passa os primeiros anos em condições degradantes e, ao pedir mais comida no reformatório, é considerado um rebelde e vendido para trabalhar com um coveiro. Sofrendo graves maus-tratos, o garoto foge a pé rumo a Londres.">
                         Detalhes
                     </button>
                 </div>
             </article>
-            
-                <article class="card" data-category="conto" data-name="O amanhã cheio de histórias">
-      <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-        </svg>
-    </button>
+
+            <article class="card" data-category="conto" data-name="O amanhã cheio de histórias">
+                <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                </button>
                 <small>Livro</small>
                 <h3>O amanhã cheio de histórias</h3>
-                 <!--foto do livro-->
+                <!--foto do livro-->
                 <img src="https://m.media-amazon.com/images/I/71Ok-qwXK8L.jpg" alt="livro O amanhã cheio de histórias">
                 <div class="card-content">
-                   <!--tags autor e genero-->
+                    <!--tags autor e genero-->
                     <div class="card-tags">
-  <span class="tag-categoria">Ficção e contos </span>
+                        <span class="tag-categoria">Ficção e contos </span>
                         <span class="tag-autor">Autor: Joselía Aguiar</span>
                     </div>
-      <p>A obra é uma antologia (uma coletânea de histórias). Ela reúne oito contos escritos por autores contemporâneos de língua portuguesa.Os textos exploram os sonhos, medos e desafios da adolescência e juventude...  </p>
+                    <p>A obra é uma antologia (uma coletânea de histórias). Ela reúne oito contos escritos por autores
+                        contemporâneos de língua portuguesa.Os textos exploram os sonhos, medos e desafios da
+                        adolescência e juventude... </p>
                     <!--botao do dialogo oque tem dentro como imagem , descrição e titulo-->
-                    <button type="button" class="botao open-dialog-btn" 
-                                      
-                            data-title="O amanhã cheio de histórias" 
-                            data-image="https://m.media-amazon.com/images/I/71Ok-qwXK8L.jpg" 
-                            data-description="A obra é uma antologia (uma coletânea de histórias) organizada por Josélia Aguiar. Ela reúne oito contos escritos por autores contemporâneos de língua portuguesa.Os textos exploram os sonhos, medos e desafios da adolescência e juventude, trazendo protagonistas que enfrentam questões sociais ">
+                    <button type="button" class="botao open-dialog-btn" data-title="O amanhã cheio de histórias"
+                        data-image="https://m.media-amazon.com/images/I/71Ok-qwXK8L.jpg"
+                        data-description="A obra é uma antologia (uma coletânea de histórias) organizada por Josélia Aguiar. Ela reúne oito contos escritos por autores contemporâneos de língua portuguesa.Os textos exploram os sonhos, medos e desafios da adolescência e juventude, trazendo protagonistas que enfrentam questões sociais ">
                         Detalhes
                     </button>
                 </div>
             </article>
-            
+
             <article class="card" data-category="Ficção cientifica" data-name="O imaginario cotidiano">
-      <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-        </svg>
-    </button>
+                <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                </button>
                 <small>Livro</small>
                 <h3>O imaginario cotidiano</h3>
-                 <!--foto do livro-->
+                <!--foto do livro-->
                 <img src="https://m.media-amazon.com/images/I/71srR+d8-UL.jpg" alt="Livro: O imaginario cotidiano">
                 <div class="card-content">
-                   <!--tags autor e genero-->
+                    <!--tags autor e genero-->
                     <div class="card-tags">
-   <span class="tag-categoria">Ficção brasileira </span>
-     <span class="tag-autor">Autor: Moacyr Scliar</span>
+                        <span class="tag-categoria">Ficção brasileira </span>
+                        <span class="tag-autor">Autor: Moacyr Scliar</span>
                     </div>
-      <p>A premissa do livro é o exercício da imaginação: o autor recortava pequenas notícias publicadas nos jornais (sobre crimes bizarros, situações cotidianas inusitadas ou dramas pessoais) e as...  </p>
+                    <p>A premissa do livro é o exercício da imaginação: o autor recortava pequenas notícias publicadas
+                        nos jornais (sobre crimes bizarros, situações cotidianas inusitadas ou dramas pessoais) e as...
+                    </p>
                     <!--botao do dialogo oque tem dentro como imagem , descrição e titulo-->
-                    <button type="button" class="botao open-dialog-btn" 
-                                      
-                            data-title="O imaginario cotidiano" 
-                            data-image="https://m.media-amazon.com/images/I/71srR+d8-UL.jpg" 
-                            data-description="A premissa do livro é o exercício da imaginação: o autor recortava pequenas notícias publicadas nos jornais (sobre crimes bizarros, situações cotidianas inusitadas ou dramas pessoais) e as transformava em narrativas Com um olhar cirúrgico e irônico, Scliar explorava os comportamentos humanos disfuncionais, os dramas mundanos e as comédias da vida real. Histórias sobre homens que forjam o próprio sequestro para medir sua importância e cenas corriqueiras do dia a dia são retratadas com sarcasmo, sensibilidade e muito bom humor.">
+                    <button type="button" class="botao open-dialog-btn" data-title="O imaginario cotidiano"
+                        data-image="https://m.media-amazon.com/images/I/71srR+d8-UL.jpg"
+                        data-description="A premissa do livro é o exercício da imaginação: o autor recortava pequenas notícias publicadas nos jornais (sobre crimes bizarros, situações cotidianas inusitadas ou dramas pessoais) e as transformava em narrativas Com um olhar cirúrgico e irônico, Scliar explorava os comportamentos humanos disfuncionais, os dramas mundanos e as comédias da vida real. Histórias sobre homens que forjam o próprio sequestro para medir sua importância e cenas corriqueiras do dia a dia são retratadas com sarcasmo, sensibilidade e muito bom humor.">
                         Detalhes
                     </button>
                 </div>
             </article>
-            
+
             <article class="card" data-category=" jornalistico" data-name="Dez dias no manicômio">
-      <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-        </svg>
-    </button>
+                <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                </button>
                 <small>Livro</small>
                 <h3>Dez dias no manicômio</h3>
-                 <!--foto do livro-->
-                <img src="https://livrariaunesp.vtexassets.com/arquivos/ids/273006/9786586419054.jpg?v=638925689384570000" alt="Livro Dez dias no manicômio">
+                <!--foto do livro-->
+                <img src="https://livrariaunesp.vtexassets.com/arquivos/ids/273006/9786586419054.jpg?v=638925689384570000"
+                    alt="Livro Dez dias no manicômio">
                 <div class="card-content">
-                   <!--tags autor e genero-->
+                    <!--tags autor e genero-->
                     <div class="card-tags">
-      <span class="tag-categoria">jornalistico </span>
+                        <span class="tag-categoria">jornalistico </span>
                         <span class="tag-autor">Autor: Nellie Bly</span>
                     </div>
-      <p>é um clássico do jornalismo investigativo escrito pela americana Nellie Bly. Em 1887, a repórter fingiu um...  </p>
+                    <p>é um clássico do jornalismo investigativo escrito pela americana Nellie Bly. Em 1887, a repórter
+                        fingiu um... </p>
                     <!--botao do dialogo oque tem dentro como imagem , descrição e titulo-->
-                    <button type="button" class="botao open-dialog-btn" 
-                                      
-                            data-title="Dez dias no manicômio" 
-                            data-image="https://livrariaunesp.vtexassets.com/arquivos/ids/273006/9786586419054.jpg?v=638925689384570000" 
-                            data-description="é o relato histórico da jornalista investigativa Nellie Bly, que em 1887 fingiu insanidade para se infiltrar no Hospício de Blackwell's Island, em Nova York. A missão resultou em uma denúncia bombástica sobre as terríveis condições, abusos e maus-tratos sofridos pelas pacientes, revolucionando o jornalismo e a psiquiatria. ">
+                    <button type="button" class="botao open-dialog-btn" data-title="Dez dias no manicômio"
+                        data-image="https://livrariaunesp.vtexassets.com/arquivos/ids/273006/9786586419054.jpg?v=638925689384570000"
+                        data-description="é o relato histórico da jornalista investigativa Nellie Bly, que em 1887 fingiu insanidade para se infiltrar no Hospício de Blackwell's Island, em Nova York. A missão resultou em uma denúncia bombástica sobre as terríveis condições, abusos e maus-tratos sofridos pelas pacientes, revolucionando o jornalismo e a psiquiatria. ">
                         Detalhes
                     </button>
                 </div>
             </article>
-            
+
             <article class="card" data-category="romance" data-name="As filhas sem nome">
-      <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-        </svg>
-    </button>
+                <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                </button>
                 <small>Livro</small>
                 <h3>As filhas sem nome</h3>
-                 <!--foto do livro-->
+                <!--foto do livro-->
                 <img src="https://m.media-amazon.com/images/I/91-rgjeR4ZL.jpg" alt="As filhas sem nome">
                 <div class="card-content">
-                   <!--tags autor e genero-->
+                    <!--tags autor e genero-->
                     <div class="card-tags">
-      <span class="tag-categoria">romance </span>
+                        <span class="tag-categoria">romance </span>
                         <span class="tag-autor">Autor: Xiran</span>
                     </div>
-      <p>É um romance da escritora chinesa Xinran que narra a trajetória de três irmãs (chamadas de Três, Cinco e Seis) que deixam uma pequena aldeia rural para tentar a vida na cidade de Nanjing... </p>
+                    <p>É um romance da escritora chinesa Xinran que narra a trajetória de três irmãs (chamadas de Três,
+                        Cinco e Seis) que deixam uma pequena aldeia rural para tentar a vida na cidade de Nanjing...
+                    </p>
                     <!--botao do dialogo oque tem dentro como imagem , descrição e titulo-->
-                    <button type="button" class="botao open-dialog-btn" 
-                                      
-                            data-title="As filhas sem nome" 
-                            data-image="https://m.media-amazon.com/images/I/91-rgjeR4ZL.jpg" 
-                            data-description="O pai, Li Zhongguo, desgostoso por ter apenas filhas mulheres e seguindo costumes rígidos, jamais deu nomes verdadeiros às meninas. Após vencerem a resistência paterna, elas migram em busca de oportunidades e independência, descobrindo seus lugares no mundo urbano sem perder a ligação com suas origens. ">
+                    <button type="button" class="botao open-dialog-btn" data-title="As filhas sem nome"
+                        data-image="https://m.media-amazon.com/images/I/91-rgjeR4ZL.jpg"
+                        data-description="O pai, Li Zhongguo, desgostoso por ter apenas filhas mulheres e seguindo costumes rígidos, jamais deu nomes verdadeiros às meninas. Após vencerem a resistência paterna, elas migram em busca de oportunidades e independência, descobrindo seus lugares no mundo urbano sem perder a ligação com suas origens. ">
                         Detalhes
                     </button>
                 </div>
             </article>
-            
-  <article class="card" data-category="romance"  data-name="Dinamene">
-      <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-        </svg>
-    </button>
+
+            <article class="card" data-category="romance" data-name="Dinamene">
+                <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                </button>
                 <small>Livro</small>
                 <h3>Dinamene</h3>
-                 <!--foto do livro-->
-                <img src="https://aventurasnahistoria.com.br/wp-content/uploads/amazon/livro_i9GbWcS.jpg" alt="As filhas sem nome">
+                <!--foto do livro-->
+                <img src="https://aventurasnahistoria.com.br/wp-content/uploads/amazon/livro_i9GbWcS.jpg"
+                    alt="As filhas sem nome">
                 <div class="card-content">
-                   <!--tags autor e genero-->
+                    <!--tags autor e genero-->
                     <div class="card-tags">
-      <span class="tag-categoria">romance historico e aventura </span>            <span class="tag-autor">Autor: Maicon Tenfen</span>
+                        <span class="tag-categoria">romance historico e aventura </span> <span class="tag-autor">Autor:
+                            Maicon Tenfen</span>
                     </div>
-      <p>Livro lançado em 2020 pelo escritor brasileiro Maicon Tenfen. É uma ficção histórica ambientada no século XVI que narra a lenda sobre o famoso naufrágio de Luís de Vaz de Camões na foz do rio Mekong.... </p>
+                    <p>Livro lançado em 2020 pelo escritor brasileiro Maicon Tenfen. É uma ficção histórica ambientada
+                        no século XVI que narra a lenda sobre o famoso naufrágio de Luís de Vaz de Camões na foz do rio
+                        Mekong.... </p>
                     <!--botao do dialogo oque tem dentro como imagem , descrição e titulo-->
-                    <button type="button" class="botao open-dialog-btn" 
-                                      
-                            data-title="Dinamene" 
-                            data-image="https://m.media-amazon.com/images/I/91-rgjeR4ZL.jpg" 
-                            data-description="O pai, Li Zhongguo, desgostoso por ter apenas filhas mulheres e seguindo costumes rígidos, jamais deu nomes verdadeiros às meninas. Após vencerem a resistência paterna, elas migram em busca de oportunidades e independência, descobrindo seus lugares no mundo urbano sem perder a ligação com suas origens. ">
+                    <button type="button" class="botao open-dialog-btn" data-title="Dinamene"
+                        data-image="https://m.media-amazon.com/images/I/91-rgjeR4ZL.jpg"
+                        data-description="O pai, Li Zhongguo, desgostoso por ter apenas filhas mulheres e seguindo costumes rígidos, jamais deu nomes verdadeiros às meninas. Após vencerem a resistência paterna, elas migram em busca de oportunidades e independência, descobrindo seus lugares no mundo urbano sem perder a ligação com suas origens. ">
                         Detalhes
                     </button>
                 </div>
             </article>
 
-            <article class="card" data-category="romance"  data-name="prefácio um homem bom é difícil de encontrar">
-      <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-        </svg>
-    </button>
+            <article class="card" data-category="romance" data-name="prefácio um homem bom é difícil de encontrar">
+                <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                </button>
                 <small>Livro</small>
                 <h3>Prefácio um homem bom é difícil de encontrar</h3>
-                 <!--foto do livro-->
-                <img src="https://img2.doceru.com/image/l/sc1n1sc.png" alt="Prefácio um homem bom é difícil de encontrar">
+                <!--foto do livro-->
+                <img src="https://img2.doceru.com/image/l/sc1n1sc.png"
+                    alt="Prefácio um homem bom é difícil de encontrar">
                 <div class="card-content">
-                   <!--tags autor e genero-->
+                    <!--tags autor e genero-->
                     <div class="card-tags">
-      <span class="tag-categoria">romance historico e aventura </span>            <span class="tag-autor">Autor: Flannery O'Connor</span>
+                        <span class="tag-categoria">romance historico e aventura </span> <span class="tag-autor">Autor:
+                            Flannery O'Connor</span>
                     </div>
-      <p>O livro, publicado originalmente em 1955, é uma coletânea de contos que refletem o ambiente rural do Sul dos Estados Unidos, com foco nas complexidades da natureza humana. O prefácio geralmente enfatiza a capacidade da autora de explorar o conflito moral... </p>
+                    <p>O livro, publicado originalmente em 1955, é uma coletânea de contos que refletem o ambiente rural
+                        do Sul dos Estados Unidos, com foco nas complexidades da natureza humana. O prefácio geralmente
+                        enfatiza a capacidade da autora de explorar o conflito moral... </p>
                     <!--botao do dialogo oque tem dentro como imagem , descrição e titulo-->
-                    <button type="button" class="botao open-dialog-btn" 
-                                      
-                            data-title="Prefácio um homem bom é difícil de encontrar" 
-                            data-image="https://img2.doceru.com/image/l/sc1n1sc.png" 
-                            data-description="O livro, publicado originalmente em 1955, é uma coletânea de contos que refletem o ambiente rural do Sul dos Estados Unidos, com foco nas complexidades da natureza humana. O prefácio geralmente enfatiza a capacidade da autora de explorar o conflito moral e a presença do divino e do sinistro em situações cotidianas, preparando o leitor para o choque intenso que alguns contos provocam. Ele também comenta o uso de personagens profundamente falhos e realistas, cujas falhas éticas e decisões precipitadas desencadeiam eventos trágicos ou violentos, típica marca da prosa de O’Connor.
+                    <button type="button" class="botao open-dialog-btn"
+                        data-title="Prefácio um homem bom é difícil de encontrar"
+                        data-image="https://img2.doceru.com/image/l/sc1n1sc.png"
+                        data-description="O livro, publicado originalmente em 1955, é uma coletânea de contos que refletem o ambiente rural do Sul dos Estados Unidos, com foco nas complexidades da natureza humana. O prefácio geralmente enfatiza a capacidade da autora de explorar o conflito moral e a presença do divino e do sinistro em situações cotidianas, preparando o leitor para o choque intenso que alguns contos provocam. Ele também comenta o uso de personagens profundamente falhos e realistas, cujas falhas éticas e decisões precipitadas desencadeiam eventos trágicos ou violentos, típica marca da prosa de O’Connor.
 No caso do conto que dá nome à coletânea, Um Homem Bom é Difícil de Encontrar, o prefácio chama atenção para a contraste entre aparência e essência moral, o questionamento da bondade, e a maneira como a história combina ironias sombrias com temas de redenção e culpa.">
                         Detalhes
                     </button>
@@ -970,36 +1001,40 @@ No caso do conto que dá nome à coletânea, Um Homem Bom é Difícil de Encontr
             </article>
 
 
-            <article class="card" data-category="romance"  data-name="prefácio um homem bom é difícil de encontrar">
-      <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-        </svg>
-    </button>
+            <article class="card" data-category="romance" data-name="prefácio um homem bom é difícil de encontrar">
+                <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                </button>
                 <small>Livro</small>
                 <h3>fogo contra fogo</h3>
-                 <!--foto do livro-->
-                <img src="https://m.media-amazon.com/images/I/71iC+IcgQcL._AC_UF350,350_QL50_.jpg" alt="Fogo contra fogo">
+                <!--foto do livro-->
+                <img src="https://m.media-amazon.com/images/I/71iC+IcgQcL._AC_UF350,350_QL50_.jpg"
+                    alt="Fogo contra fogo">
                 <div class="card-content">
-                   <!--tags autor e genero-->
+                    <!--tags autor e genero-->
                     <div class="card-tags">
-      <span class="tag-categoria">romance historico e aventura </span>            <span class="tag-autor">Autor: je</span>
+                        <span class="tag-categoria">romance historico e aventura </span> <span class="tag-autor">Autor:
+                            je</span>
                     </div>
-      <p>O livro, publicado originalmente em 1955, é uma coletânea de contos que refletem o ambiente rural do Sul dos Estados Unidos, com foco nas complexidades da natureza humana. O prefácio geralmente enfatiza a capacidade da autora de explorar o conflito moral... </p>
+                    <p>O livro, publicado originalmente em 1955, é uma coletânea de contos que refletem o ambiente rural
+                        do Sul dos Estados Unidos, com foco nas complexidades da natureza humana. O prefácio geralmente
+                        enfatiza a capacidade da autora de explorar o conflito moral... </p>
                     <!--botao do dialogo oque tem dentro como imagem , descrição e titulo-->
-                    <button type="button" class="botao open-dialog-btn" 
-                                      
-                            data-title="Prefácio um homem bom é difícil de encontrar" 
-                            data-image="https://img2.doceru.com/image/l/sc1n1sc.png" 
-                            data-description="O livro, publicado originalmente em 1955, é uma coletânea de contos que refletem o ambiente rural do Sul dos Estados Unidos, com foco nas complexidades da natureza humana. O prefácio geralmente enfatiza a capacidade da autora de explorar o conflito moral e a presença do divino e do sinistro em situações cotidianas, preparando o leitor para o choque intenso que alguns contos provocam. Ele também comenta o uso de personagens profundamente falhos e realistas, cujas falhas éticas e decisões precipitadas desencadeiam eventos trágicos ou violentos, típica marca da prosa de O’Connor.
+                    <button type="button" class="botao open-dialog-btn"
+                        data-title="Prefácio um homem bom é difícil de encontrar"
+                        data-image="https://img2.doceru.com/image/l/sc1n1sc.png"
+                        data-description="O livro, publicado originalmente em 1955, é uma coletânea de contos que refletem o ambiente rural do Sul dos Estados Unidos, com foco nas complexidades da natureza humana. O prefácio geralmente enfatiza a capacidade da autora de explorar o conflito moral e a presença do divino e do sinistro em situações cotidianas, preparando o leitor para o choque intenso que alguns contos provocam. Ele também comenta o uso de personagens profundamente falhos e realistas, cujas falhas éticas e decisões precipitadas desencadeiam eventos trágicos ou violentos, típica marca da prosa de O’Connor.
 No caso do conto que dá nome à coletânea, Um Homem Bom é Difícil de Encontrar, o prefácio chama atenção para a contraste entre aparência e essência moral, o questionamento da bondade, e a maneira como a história combina ironias sombrias com temas de redenção e culpa.">
                         Detalhes
                     </button>
                 </div>
             </article>
 
-            
-    <!--colocar a estrutura do  card do livro dentro da div-->
+
+            <!--colocar a estrutura do  card do livro dentro da div-->
         </div>
     </main>
 
@@ -1007,23 +1042,23 @@ No caso do conto que dá nome à coletânea, Um Homem Bom é Difícil de Encontr
     <dialog id="productDialog">
         <div class="modal-header">
             <h2 id="dialogTitle">Detalhes do Livro</h2>
-      <!--esse é o butao com o X de fevhar o dialogo-->
+            <!--esse é o butao com o X de fevhar o dialogo-->
             <button type="button" class="btn-fechar-modal" id="closeDialogCross" aria-label="Fechar" id="closeDialog">
-              <!--esse svg ele faz o formato do botao redodndo e do X-->
+                <!--esse svg ele faz o formato do botao redodndo e do X-->
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
                     <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
             </button>
         </div>
-                   <!--estruta fo dialogo tmb mas isso so muda no css-->
+        <!--estruta fo dialogo tmb mas isso so muda no css-->
         <div class="modal-body">
             <div class="modal-image-wrapper">
                 <img id="dialogImage" src="" alt="Capa do Livro">
             </div>
             <p id="dialogDescription" class="modal-description"></p>
         </div>
-                <div class="modal-actions">
+        <div class="modal-actions">
             <button type="button" id="closeDialog" class="botao">Fechar</button>
         </div>
 
@@ -1031,39 +1066,39 @@ No caso do conto que dá nome à coletânea, Um Homem Bom é Difícil de Encontr
 
     <script>
         /* Seletores de busca e filtragem */
-       const searchInput = document.getElementById('searchInput');
+        const searchInput = document.getElementById('searchInput');
         const categoryFilter = document.getElementById('categoryFilter');
         const sortOrder = document.getElementById('sortOrder');
         const productList = document.getElementById('productList');
         const cards = Array.from(document.querySelectorAll('.card'));
-  /* elementos do diálogo */
+        /* elementos do diálogo */
         const productDialog = document.getElementById('productDialog');
         const dialogTitle = document.getElementById('dialogTitle');
         const dialogImage = document.getElementById('dialogImage');
         const dialogDescription = document.getElementById('dialogDescription');
-        
+
         /* Seletores dos botões de fechar declarados  */
         const closeDialog = document.getElementById('closeDialog');
         const closeDialogCross = document.getElementById('closeDialogCross');
-        
-        
-  /*essa parte legal é para o botao de fav para que nao se misture com o dialogo e consiga mudar de cor*/
+
+
+        /*essa parte legal é para o botao de fav para que nao se misture com o dialogo e consiga mudar de cor*/
         document.querySelectorAll('.btn-favorito').forEach(botao => {
-    botao.addEventListener('click', (evento) => {
-        // Evita que o clique abra o modal ou faça outra ação indesejada no card
-        evento.stopPropagation(); 
-        
-        // Alterna a classe 'favoritado'. Se não tem, adiciona; se tem, remove.
-        botao.classList.toggle('favoritado');
-        
-        // (Opcional) Guardar na consola ou enviar para uma lista de memória
-        if (botao.classList.contains('favoritado')) {
-            console.log("Livro adicionado aos favoritos!");
-        } else {
-            console.log("Livro removido dos favoritos.");
-        }
-    });
-});
+            botao.addEventListener('click', (evento) => {
+                // Evita que o clique abra o modal ou faça outra ação indesejada no card
+                evento.stopPropagation();
+
+                // Alterna a classe 'favoritado'. Se não tem, adiciona; se tem, remove.
+                botao.classList.toggle('favoritado');
+
+                // (Opcional) Guardar na consola ou enviar para uma lista de memória
+                if (botao.classList.contains('favoritado')) {
+                    console.log("Livro adicionado aos favoritos!");
+                } else {
+                    console.log("Livro removido dos favoritos.");
+                }
+            });
+        });
 
         /* Função de filtragem de produtos e ordem  */
         function filterProducts() {
@@ -1075,7 +1110,7 @@ No caso do conto que dá nome à coletânea, Um Homem Bom é Difícil de Encontr
             cards.forEach(card => {
                 const category = card.dataset.category;
                 const name = card.dataset.name.toLowerCase();
-                
+
                 const matchesCategory = selectedCategory === 'all' || category === selectedCategory;
                 const matchesSearch = name.includes(query);
 
@@ -1084,7 +1119,7 @@ No caso do conto que dá nome à coletânea, Um Homem Bom é Difícil de Encontr
 
             //vai fazer com que os livros coletados sejam clonados para a sessao de ordenagem e filtro
             let sortedCards = [...cards];
-            
+
             if (selectedSort === 'title-asc') {
                 sortedCards.sort((a, b) => {
                     const titleA = a.querySelector('h3').textContent;
@@ -1133,7 +1168,7 @@ No caso do conto que dá nome à coletânea, Um Homem Bom é Difícil de Encontr
         productDialog.addEventListener('click', (e) => {
             const rect = productDialog.getBoundingClientRect();
             const isInDialog = (rect.top <= e.clientY && e.clientY <= rect.top + rect.height
-              && rect.left <= e.clientX && e.clientX <= rect.left + rect.width);
+                && rect.left <= e.clientX && e.clientX <= rect.left + rect.width);
             if (!isInDialog) {
                 closeModal();
             }
@@ -1142,4 +1177,3 @@ No caso do conto que dá nome à coletânea, Um Homem Bom é Difícil de Encontr
 </body>
 
 </html>
-        
