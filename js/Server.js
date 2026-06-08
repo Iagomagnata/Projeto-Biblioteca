@@ -91,6 +91,9 @@ app.post('/cadastrar-aluno', (req, res) => {
   db.run(sql, [matricula, email], function (err) {
     if (err) {
       console.error('Erro ao cadastrar aluno:', err.message);
+      if (err.message.includes('SQLITE_CONSTRAINT')) {
+        return res.status(409).send('Email ou matrícula já cadastrado.');
+      }
       return res.status(500).send('Não foi possível cadastrar o aluno.');
     }
     res.redirect('/Alexandria.html');
@@ -146,3 +149,4 @@ app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
   console.log(`Banco SQLite: ${DB_PATH}`);
 });
+
