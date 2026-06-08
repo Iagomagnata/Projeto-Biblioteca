@@ -4,19 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/Login.css">
-    <title>Login Administrador</title>
+    <title>Login</title>
 </head>
-<body>
-    <h1>Login Administrador</h1>
-    <form onsubmit="loginAdm(event)">
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome" name="nome" required><br><br>
-
+<body> 
+    <h1>Login Adm</h1>
+    <form action="post">
+       <label for="usuario">Usuario</label>
+        <input type="text" id="usuario" name="usuario" required><br><br>
         <label for="senha">Senha:</label>
         <input type="password" id="senha" name="senha" required><br><br>
 
         <button type="submit" id="login">Entrar</button>
     </form>
-    <script src="js/script.js"></script>
+    <script src="js/Script.js"></script>
 </body>
 </html>
