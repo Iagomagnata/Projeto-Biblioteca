@@ -63,7 +63,8 @@ function inserirLivrosLocais() {
     { titulo: 'A Casa da Praia', autor: 'Beth Reekles', editora: 'Diversa', ano: 2019 },
     { titulo: 'Dom Quixote', autor: 'Miguel de Cervantes', editora: 'Diversa', ano: 1605 },
     { titulo: 'O Outro Apaixonado por Marília de Dirceu', autor: 'Jair Vitória', editora: 'Diversa', ano: 2020 },
-    { titulo: 'Oliver Twist', autor: 'Charles Dickens', editora: 'Diversa', ano: 1837 }
+    { titulo: 'Oliver Twist', autor: 'Charles Dickens', editora: 'Diversa', ano: 1837 },
+    
   ];
 
   const sql = 'INSERT OR IGNORE INTO livros (titulo, autor, editora, ano) VALUES (?, ?, ?, ?)';
@@ -155,7 +156,7 @@ app.get('/api/livros', (req, res) => {
   });
 });
 
- app.post('/api/livros', (req, res) => {
+app.post('/api/livros', (req, res) => {
   const { titulo, autor, editora, ano } = req.body;
   
   //cadastro de livros
