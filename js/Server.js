@@ -41,7 +41,7 @@ function criarTabelas() {
     db.run(`
       CREATE TABLE IF NOT EXISTS livros (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        titulo TEXT NOT NULL,
+        titulo TEXT NOT NULL UNIQUE,
         autor TEXT,
         editora TEXT,
         ano INTEGER,
@@ -99,7 +99,7 @@ function inserirLivrosLocais() {
 criarTabelas();
 
 app.get('/api/usuarios', (req, res) => {
-  db.all('SELECT * FROM usuarios ORDER BY criado_em DESC', (err, rows) => {
+  db.all('SELECT * FROM usuarios ORDER BY id DESC', (err, rows) => {
     if (err) {
       console.error('Erro ao buscar usuários:', err.message);
       return res.status(500).json({ error: 'Erro interno do servidor' });

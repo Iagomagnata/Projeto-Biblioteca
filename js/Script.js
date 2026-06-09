@@ -8,16 +8,16 @@ async function carregarUsuarios() {
         if (resposta.ok) {
             usuarios = await resposta.json();
         }
-     } catch (error) {
+    } catch (error) {
         console.error('Erro:', error);
-     }
+    }
 }
 
 async function cadastrarUsuario(event) {
     event.preventDefault();
 
-    let matricula = document.getElementById('Matricula').value;
-    let email = document.getElementById('email').value;
+    const matricula = document.getElementById('Matricula').value.trim();
+    const email = document.getElementById('email').value.trim();
 
     if (!matricula || !email) {
         alert('Preencha todos os campos obrigatórios!');
@@ -25,10 +25,9 @@ async function cadastrarUsuario(event) {
     }
 
     const novoUsuario = {
-        email: email,
-        matricula: matricula
+        email,
+        matricula
     };
-    console.log('url: ', api_url);
 
     try {
         const resposta = await fetch(api_url, {
@@ -37,23 +36,48 @@ async function cadastrarUsuario(event) {
             body: JSON.stringify(novoUsuario)
         });
 
-        console.log('Status', resposta.status);
-        const texto = await resposta.text();
-        console.log('Resposta:', texto);
-
         if (resposta.ok) {
             alert('Usuário cadastrado com sucesso!');
-            carregarUsuarios();
             limparCampos();
             window.location.href = 'Alexandria.html';
         } else {
-            alert('Erro ao cadastrar usuário: ' + resposta.status + ' ' + resposta.statusText);
-            return;
+            const data = await resposta.json().catch(() => ({}));
+            alert(data.error || 'Erro ao cadastrar usuário.');
         }
     } catch (error) {
         console.error('Erro:', error);
         alert('Erro de rede: ' + error);
+    }
+}
+
+async function loginAdministrador(event) {
+    event.preventDefault();
+
+    const usuario = document.getElementById('usuario')?.value.trim();
+    const senha = document.getElementById('senha')?.value.trim();
+
+    if (!usuario || !senha) {
+        alert('Preencha usuário e senha.');
         return;
+    }
+
+    try {
+        const resposta = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ usuario, senha })
+        });
+
+        if (resposta.ok) {
+            window.location.href = 'pagAdm.html';
+            return;
+        }
+
+        const data = await resposta.json().catch(() => ({}));
+        alert(data.error || 'Credenciais inválidas.');
+    } catch (error) {
+        console.error('Erro ao fazer login:', error);
+        alert('Erro de rede: ' + error);
     }
 }
 
@@ -62,7 +86,19 @@ function limparCampos() {
     document.getElementById('Matricula').value = '';
 }
 
-window.addEventListener('load', carregarUsuarios);
+window.addEventListener('load', () => {
+    carregarUsuarios();
+
+    const cadastroForm = document.getElementById('cadastroForm');
+    if (cadastroForm) {
+        cadastroForm.addEventListener('submit', cadastrarUsuario);
+    }
+
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', loginAdministrador);
+    }
+});
 
 //home 
 
@@ -115,7 +151,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
-
-
-//login cadastro
-
