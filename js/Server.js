@@ -99,7 +99,7 @@ function inserirLivrosLocais() {
 criarTabelas();
 
 app.get('/api/usuarios', (req, res) => {
-  db.all('SELECT * FROM usuarios ORDER BY criado_em DESC', (err, rows) => {
+  db.all('SELECT * FROM usuarios ORDER BY id DESC', (err, rows) => {
     if (err) {
       console.error('Erro ao buscar usuários:', err.message);
       return res.status(500).json({ error: 'Erro interno do servidor' });
