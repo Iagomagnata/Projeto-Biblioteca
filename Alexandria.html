@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
@@ -90,6 +90,34 @@
             color: var(--text-main);
         }
 
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 14px;
+        }
+/*css do filtro de favoritos*/
+        .favorites-filter {
+            background: transparent;
+            border: 1px solid rgba(14, 100, 161, 0.2);
+            border-radius: 999px;
+            padding: 10px 16px;
+            cursor: pointer;
+            transition: border-color 0.25s ease;
+        }
+
+        .favorites-filter:hover {
+            background: transparent;
+            border-color: var(--primary);
+        }
+
+        .favorites-filter input[type="checkbox"] {
+            accent-color: var(--primary);
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
         #categoryFilter {
             padding: 10px 24px 10px 14px;
             border-radius: 20px;
@@ -99,6 +127,25 @@
             cursor: pointer;
             outline: none;
             transition: var(--transition);
+        }
+
+        .book-count-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .book-count {
+            margin: 0;
+            font-size: 1rem;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        .book-count strong {
+            color: var(--primary);
         }
 
         #categoryFilter:focus {
@@ -496,10 +543,10 @@
             </label>
             <input type="text" placeholder="Pesquisar livro..." id="searchInput">
             <div class="input-group">
-                 <label class="filter-box" for="favoritesOnly" style="font-size: 0.95rem; gap: 6px;">
-                <input type="checkbox" id="favoritesOnly">
-                Somente favoritos
-            </label>
+                <label class="filter-box favorites-filter" for="favoritesOnly">
+                    <input type="checkbox" id="favoritesOnly">
+                    Somente favoritos
+                </label>
                 <label for="sortOrder">Ordenar por</label>
                 <select id="sortOrder" class="select-filter">
                     <option value="default">Relevância</option>
@@ -509,6 +556,9 @@
             </div>
         </section>
 
+        <section class="book-count-section">
+            <p class="book-count">Total de livros na biblioteca: <strong id="bookCount">0</strong></p>
+        </section>
 
         <!-- Vitrine de destaques -->
         <section class="vitrine-destaques">
@@ -1488,6 +1538,7 @@
         const productList = document.getElementById('productList');
         const cards = Array.from(document.querySelectorAll('.card'));
         const FAVORITES_KEY = 'bibliotecaFavorites';
+        const bookCount = document.getElementById('bookCount');
 
         /* elementos do diálogo */
         const productDialog = document.getElementById('productDialog');
@@ -1556,6 +1607,12 @@
             });
         }
 
+        function updateBookCount() {
+            if (bookCount) {
+                bookCount.textContent = cards.length;
+            }
+        }
+
         /* Função de filtragem de produtos e ordem  */
         function filterProducts() {
             const query = searchInput.value.toLowerCase().trim();
@@ -1607,6 +1664,7 @@
         favoritesOnly.addEventListener('change', filterProducts);
 
         applyFavoritesState();
+        updateBookCount();
         filterProducts();
 
         /* Função para abrir o diálogo com os dados dinâmicos do botão */
