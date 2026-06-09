@@ -41,7 +41,7 @@ function criarTabelas() {
     db.run(`
       CREATE TABLE IF NOT EXISTS livros (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        titulo TEXT NOT NULL,
+        titulo TEXT NOT NULL UNIQUE,
         autor TEXT,
         editora TEXT,
         ano INTEGER,
