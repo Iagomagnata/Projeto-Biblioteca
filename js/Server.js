@@ -1,4 +1,3 @@
-
 //Configurção de inicialização do servidor
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
@@ -86,9 +85,11 @@ function inserirLivrosLocais() {
   const sql = 'INSERT OR IGNORE INTO livros (titulo, autor, editora, ano) VALUES (?, ?, ?, ?)';
   
   livrosLocais.forEach(livro => {
-    db.run(sql, [livro.titulo, livro.autor, livro.editora, livro.ano], (err) => {
+    db.run(sql, [livro.titulo, livro.autor, livro.editora, livro.ano], function (err) {
       if (err) {
         console.error('Erro ao inserir livro local:', err.message);
+      } else if (this.changes === 0) {
+        console.log(`Livro "${livro.titulo}" já existe no banco, pulando.`);
       } else {
         console.log(`Livro "${livro.titulo}" inserido localmente.`);
       }
@@ -155,8 +156,10 @@ app.post('/api/login', (req, res) => {
   const adminUsuario = 'DonaAda234';
   const adminSenha = 'admin@123';
 
-  if (usuario === adminUsuario && senha === adminSenha) {
+  if (usuario == adminUsuario && senha == adminSenha) {
     return res.json({ ok: true });
+    res.redirect('/Alexandria.html');
+    
   }
 
   return res.status(401).json({ error: 'Credenciais inválidas' });
