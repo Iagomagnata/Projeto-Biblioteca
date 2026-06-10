@@ -43,7 +43,7 @@ function criarTabelas() {
         titulo TEXT NOT NULL UNIQUE,
         autor TEXT,
         editora TEXT,
-        ano INTEGER UNIQUE,
+        ano INTEGER,
         criado_em DATETIME DEFAULT CURRENT_TIMESTAMP
       )
     `, () => {
@@ -85,9 +85,11 @@ function inserirLivrosLocais() {
   const sql = 'INSERT OR IGNORE INTO livros (titulo, autor, editora, ano) VALUES (?, ?, ?, ?)';
   
   livrosLocais.forEach(livro => {
-    db.run(sql, [livro.titulo, livro.autor, livro.editora, livro.ano], (err) => {
+    db.run(sql, [livro.titulo, livro.autor, livro.editora, livro.ano], function (err) {
       if (err) {
         console.error('Erro ao inserir livro local:', err.message);
+      } else if (this.changes === 0) {
+        console.log(`Livro "${livro.titulo}" já existe no banco, pulando.`);
       } else {
         console.log(`Livro "${livro.titulo}" inserido localmente.`);
       }
@@ -192,9 +194,3 @@ app.listen(PORT, () => {
   console.log(`Banco SQLite: ${DB_PATH}`);
 });
 
-app.resetDatabase = function() {
-  db.serialize(() => {
-    db.run('DROP TABLE IF EXISTS usuarios');
-    db.run('DROP TABLE IF EXISTS livros', criarTabelas);
-  })
-}
