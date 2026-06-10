@@ -520,6 +520,198 @@
             fill: #ef4444;
             /* Preenche o interior do coração de vermelho */
         }
+ /*css do botão de abrir modal */
+        .btn-abrir-modal {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(14, 100, 161, 0.3);
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-abrir-modal:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(14, 100, 161, 0.4);
+        }
+ dialog {
+            border: none;
+            border-radius: 24px;
+            padding: 0;
+            width: min(500px, 92vw); /* Fluido e totalmente responsivo para celulares */
+            max-height: 90vh;
+            box-shadow: var(--shadow-lg);
+            background: #ffffff;
+            overflow-y: auto;
+            overflow-x: hidden;
+            
+            /* Efeito suave de entrada (Opacidade e Escala) */
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.3s ease, transform 0.3s ease, display 0.3s ease allow-discrete;
+        }
+
+        /* Estado quando o diálogo nativo HTML está aberto */
+        dialog[open] {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Estilização do fundo do modal (backdrop nativo) */
+        dialog::backdrop {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            opacity: 0;
+            transition: opacity 0.3s ease, display 0.3s ease allow-discrete;
+        }
+
+        dialog[open]::backdrop {
+            opacity: 1;
+        }
+
+        /* Cabeçalho do modal */
+        .modal-header {
+            background: var(--bg-gradient);
+            padding: 24px;
+            color: #ffffff;
+            position: relative;
+        }
+
+        .modal-header h2 {
+            font-size: 1.3rem;
+            margin: 0;
+            max-width: 85%;
+        }
+
+        /* Botão com o ícone 'X' de fechar */
+        .btn-fechar-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #ffffff;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-fechar-modal:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: rotate(90deg);
+        }
+
+        /* Corpo do Formulário */
+        .modal-body {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        #modalCadastro form {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        #modalCadastro label {
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--text-main);
+        }
+
+        #modalCadastro input,
+        #modalCadastro select,
+        #modalCadastro textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            outline: none;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            transition: var(--transition);
+        }
+
+        #modalCadastro textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        #modalCadastro input:focus,
+        #modalCadastro select:focus,
+        #modalCadastro textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(14, 100, 161, 0.15);
+        }
+
+        /* Ações do Modal */
+        .modal-actions {
+            border-top: 1px solid #e2e8f0;
+            padding: 20px 24px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            background: #f8fafc;
+        }
+
+        .btn-botao {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+
+        .btn-salvar {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-salvar:hover {
+            background-color: #2e8b57;
+        }
+
+        .btn-cancelar {
+            background-color: var(--text-muted);
+            color: white;
+        }
+
+        .btn-cancelar:hover {
+            background-color: #374151;
+        }
+
+        /* Caixa de feedback visual em substituição aos alertas padrão */
+        .caixa-feedback {
+            display: none;
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 8px;
+            background-color: #d1fae5;
+            color: #065f46;
+            font-size: 13px;
+            font-weight: bold;
+            border: 1px solid #a7f3d0;
+        }
     </style>
 </head>
 
@@ -558,6 +750,14 @@
 
         <section class="book-count-section">
             <p class="book-count">Total de livros na biblioteca: <strong id="bookCount">0</strong></p>
+<button type="button" class="btn-abrir-modal" id="btnAbrirModal">
+            <span>➕</span> Registar Novo Livro
+        </button>
+        </section>
+        <div class="caixa-feedback" id="caixaFeedback">
+            ✔️ Livro enviado com sucesso! Dados capturados no console.
+        </div>
+    </div>
         </section>
 
         <!-- Vitrine de destaques -->
@@ -1855,6 +2055,47 @@
 
     </dialog>
 
+    <dialog id="modalCadastro">
+        <form id="formCadastroLivro" method="dialog" class="modal-form">
+            <div class="modal-header">
+                <h2>Cadastrar novo livro</h2>
+                <button type="button" class="btn-fechar-modal" id="closeModalCross" aria-label="Fechar">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <label for="inputTitulo">Título</label>
+                <input id="inputTitulo" name="titulo" type="text" required>
+
+                <label for="inputAutor">Autor</label>
+                <input id="inputAutor" name="autor" type="text" required>
+
+                <label for="selectCategoria">Categoria</label>
+                <select id="selectCategoria" name="categoria">
+                    <option value="Romance">Romance</option>
+                    <option value="Aventura">Aventura</option>
+                    <option value="Ficção Científica">Ficção Científica</option>
+                    <option value="Conto">Conto</option>
+                </select>
+
+                <label for="inputImagem">URL da imagem (opcional)</label>
+                <input id="inputImagem" name="imagem" type="url" placeholder="https://...">
+
+                <label for="textareaDescricao">Descrição</label>
+                <textarea id="textareaDescricao" name="descricao" rows="4"></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" id="btnCancelar" class="botao btn-cancelar">Cancelar</button>
+                <button type="submit" class="botao btn-salvar">Salvar livro</button>
+            </div>
+        </form>
+    </dialog>
+
     <script>
         /* Seletores de busca e filtragem */
         const searchInput = document.getElementById('searchInput');
@@ -2022,6 +2263,95 @@
                 closeModal();
             }
         });
+
+        /*elementos do modal*/
+        const modal = document.getElementById('modalCadastro');
+        const btnAbrirModal = document.getElementById('btnAbrirModal');
+        const formCadastro = document.getElementById('formCadastroLivro');
+        const caixaFeedback = document.getElementById('caixaFeedback');
+
+        // Seletores dos botões de Fechamento
+        const closeModalCross = document.getElementById('closeModalCross');
+        const btnCancelar = document.getElementById('btnCancelar');
+
+        if (!modal || !btnAbrirModal || !formCadastro) {
+            console.error('Modal de cadastro ausente na página.');
+        } else {
+            // 1. Função responsável por abrir o modal de forma nativa e acessível
+            btnAbrirModal.addEventListener('click', () => {
+                caixaFeedback.style.display = 'none';
+                modal.showModal();
+            });
+
+            // 2. Função responsável por redefinir os campos e fechar o modal com segurança
+            const fecharModal = () => {
+                formCadastro.reset();
+                modal.close();
+            };
+
+            // Vincula as funções de fechar aos respectivos botões de cancelar e ao 'X'
+            closeModalCross?.addEventListener('click', fecharModal);
+            btnCancelar?.addEventListener('click', fecharModal);
+
+            // 3. Fechar o modal caso o usuário clique fora do conteúdo principal
+            modal.addEventListener('click', (e) => {
+                const limitesModal = modal.getBoundingClientRect();
+                const clicouDentro = (
+                    limitesModal.top <= e.clientY && e.clientY <= limitesModal.top + limitesModal.height &&
+                    limitesModal.left <= e.clientX && e.clientX <= limitesModal.left + limitesModal.width
+                );
+                if (!clicouDentro) {
+                    fecharModal();
+                }
+            });
+
+            // 4. Captura a submissão dos dados do formulário e envia para a API
+            formCadastro.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const dadosObjeto = {
+                    titulo: document.getElementById('inputTitulo').value.trim(),
+                    autor: document.getElementById('inputAutor').value.trim(),
+                    categoria: document.getElementById('selectCategoria').value,
+                    imagem: document.getElementById('inputImagem').value.trim() || 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=240',
+                    descricao: document.getElementById('textareaDescricao').value.trim()
+                };
+
+                if (!dadosObjeto.titulo || !dadosObjeto.autor) {
+                    caixaFeedback.textContent = 'Preencha título e autor antes de salvar.';
+                    caixaFeedback.style.display = 'block';
+                    return;
+                }
+
+                try {
+                    const resposta = await fetch('/api/livros', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            titulo: dadosObjeto.titulo,
+                            autor: dadosObjeto.autor,
+                            editora: dadosObjeto.categoria,
+                            ano: null
+                        })
+                    });
+
+                    const resultado = await resposta.json().catch(() => ({}));
+
+                    if (!resposta.ok) {
+                        throw new Error(resultado.error || 'Erro ao cadastrar livro');
+                    }
+
+                    console.log('Livro cadastrado com sucesso:', resultado);
+                    fecharModal();
+                    caixaFeedback.textContent = '✔️ Livro cadastrado com sucesso!';
+                    caixaFeedback.style.display = 'block';
+                } catch (erro) {
+                    console.error('Erro ao cadastrar livro:', erro);
+                    caixaFeedback.textContent = '❌ Não foi possível cadastrar o livro.';
+                    caixaFeedback.style.display = 'block';
+                }
+            });
+        }
     </script>
 </body>
 
