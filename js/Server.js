@@ -52,7 +52,7 @@ function criarTabelas() {
   });
 }
 
-/* function inserirLivrosLocais() {
+ function inserirLivrosLocais() {
   const livrosLocais = [
     { titulo: 'O Retrato do Artista quando Jovem', autor: 'James Joyce', editora: 'Diversa', ano: 1916 },
     { titulo: 'Delta: Um Comando para o Tempo', autor: 'Ana Cristina Melo', editora: 'Diversa', ano: 2022 },
@@ -95,7 +95,7 @@ function criarTabelas() {
       }
     });
   });
-} */
+} 
 
 criarTabelas();
 
@@ -187,26 +187,6 @@ app.post('/api/livros', (req, res) => {
     }
     res.status(201).json({ id: this.lastID, titulo, autor, editora, ano });
   });
-});
-
-// SQLite não suporta TRUNCATE TABLE. Para remover todos os livros, usamos DELETE.
-function limparTodosLivros(res) {
-  const sql = 'DELETE FROM livros';
-  db.run(sql, [], function (err) {
-    if (err) {
-      console.error('Erro ao limpar livros:', err.message);
-      return res.status(500).json({ error: 'Não foi possível apagar os livros' });
-    }
-    return res.json({ message: 'Todos os livros foram apagados', deletedRows: this.changes });
-  });
-}
-
-app.delete('/api/livros', (req, res) => {
-  limparTodosLivros(res);
-});
-
-app.post('/api/livros/limpar', (req, res) => {
-  limparTodosLivros(res);
 });
 
 app.listen(PORT, () => {
