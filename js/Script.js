@@ -69,7 +69,7 @@ async function loginAdministrador(event) {
         });
 
         if (resposta.ok) {
-            window.location.href = 'pagAdm.html';
+            window.location.href = 'Alexandria.html';
             return;
         }
 
