@@ -154,8 +154,10 @@ app.post('/api/login', (req, res) => {
   const adminUsuario = 'DonaAda234';
   const adminSenha = 'admin@123';
 
-  if (usuario === adminUsuario && senha === adminSenha) {
+  if (usuario == adminUsuario && senha == adminSenha) {
     return res.json({ ok: true });
+    res.redirect('/Alexandria.html');
+    
   }
 
   return res.status(401).json({ error: 'Credenciais inválidas' });
@@ -190,3 +192,9 @@ app.listen(PORT, () => {
   console.log(`Banco SQLite: ${DB_PATH}`);
 });
 
+app.resetDatabase = function() {
+  db.serialize(() => {
+    db.run('DROP TABLE IF EXISTS usuarios');
+    db.run('DROP TABLE IF EXISTS livros', criarTabelas);
+  })
+}
