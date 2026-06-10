@@ -1,4 +1,3 @@
-
 //Configurção de inicialização do servidor
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
@@ -44,7 +43,7 @@ function criarTabelas() {
         titulo TEXT NOT NULL UNIQUE,
         autor TEXT,
         editora TEXT,
-        ano INTEGER,
+        ano INTEGER UNIQUE,
         criado_em DATETIME DEFAULT CURRENT_TIMESTAMP
       )
     `, () => {
