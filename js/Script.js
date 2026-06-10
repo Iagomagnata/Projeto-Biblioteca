@@ -37,9 +37,10 @@ async function cadastrarUsuario(event) {
         });
 
         if (resposta.ok) {
+            const data = await resposta.json().catch(() => ({}));
             alert('Usuário cadastrado com sucesso!');
             limparCampos();
-            window.location.href = 'Alexandria.html';
+            window.location.href = data.redirect || 'Alexandria.html';
         } else {
             const data = await resposta.json().catch(() => ({}));
             alert(data.error || 'Erro ao cadastrar usuário.');
@@ -69,7 +70,8 @@ async function loginAdministrador(event) {
         });
 
         if (resposta.ok) {
-            window.location.href = 'Alexandria.html';
+            const data = await resposta.json().catch(() => ({}));
+            window.location.href = data.redirect || 'Alexandria.html';
             return;
         }
 

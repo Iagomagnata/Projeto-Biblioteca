@@ -142,7 +142,8 @@ app.post('/cadastrar-aluno', (req, res) => {
       }
       return res.status(500).send('Não foi possível cadastrar o aluno.');
     }
-    res.redirect('/Alexandria.html');
+    // Retorna JSON para chamadas AJAX; cliente pode redirecionar com base no campo `redirect`
+    res.status(201).json({ ok: true, redirect: '/Alexandria.html' });
   });
 });
 
@@ -157,8 +158,8 @@ app.post('/api/login', (req, res) => {
   const adminSenha = 'admin@123';
 
   if (usuario == adminUsuario && senha == adminSenha) {
-    return res.json({ ok: true });
-    res.redirect('/Alexandria.html');
+    // Retorna JSON consistente para que o cliente (fetch) trate o redirecionamento
+    return res.status(200).json({ ok: true, redirect: '/Alexandria.html' });
     
   }
 
