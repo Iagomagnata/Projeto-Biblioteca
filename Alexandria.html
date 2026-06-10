@@ -56,7 +56,8 @@
         .search-section {
             display: flex;
             flex-wrap: wrap;
-            align-items: center;
+            align-items: stretch;
+            justify-content: space-between;
             gap: 12px;
             margin-bottom: 20px;
             background: rgba(255, 255, 255, 0.9);
@@ -65,11 +66,27 @@
             box-shadow: var(--shadow-sm);
         }
 
+        .search-controls {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .search-input-wrap {
+            flex: 1 1 240px;
+            min-width: 220px;
+            max-width: 340px;
+            display: flex;
+            align-items: center;
+        }
+
         /*css da barra de pesquisa*/
         #searchInput {
+            width: 100%;
             padding: 10px 15px;
-            flex: 1;
-            min-width: 200px;
             border-radius: 20px;
             border: 1px solid #ccc;
             outline: none;
@@ -92,9 +109,23 @@
 
         .input-group {
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             align-items: center;
-            gap: 14px;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .filter-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            border-radius: 999px;
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            font-size: 13px;
+            color: var(--text-main);
+            white-space: nowrap;
         }
 /*css do filtro de favoritos*/
         .favorites-filter {
@@ -118,8 +149,9 @@
             cursor: pointer;
         }
 
-        #categoryFilter {
-            padding: 10px 24px 10px 14px;
+        #categoryFilter,
+        #sortOrder {
+            padding: 8px 24px 8px 12px;
             border-radius: 20px;
             border: 1px solid #ccc;
             background: white;
@@ -127,6 +159,19 @@
             cursor: pointer;
             outline: none;
             transition: var(--transition);
+            font-size: 13px;
+            min-height: 36px;
+        }
+
+        .sort-control {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .sort-control select {
+            min-width: 150px;
         }
 
         .book-count-section {
@@ -135,6 +180,17 @@
             background: rgba(255, 255, 255, 0.9);
             border-radius: 12px;
             box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .book-count-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
         .book-count {
@@ -155,7 +211,7 @@
         /*Css da sessao destaque*/
         .vitrine-destaques {
             font-family: Arial, sans-serif;
-            padding: 20px;
+            padding: 14px;
             background-color: rgba(0, 49, 0, 0.85);
             backdrop-filter: blur(5px);
             border-radius: 12px;
@@ -166,18 +222,18 @@
 
         .vitrine-destaques h2 {
             margin-top: 0;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             border-bottom: 2px solid var(--secondary);
-            padding-bottom: 5px;
-            font-size: 1.5rem;
+            padding-bottom: 4px;
+            font-size: 1.2rem;
         }
 
         /*css da posição horizontal dos livros em destaque*/
         .fileira-Livros {
             display: flex;
             overflow-x: auto;
-            gap: 20px;
-            padding: 10px 5px;
+            gap: 12px;
+            padding: 6px 2px;
             scrollbar-width: thin;
             scrollbar-color: var(--secondary) transparent;
         }
@@ -198,11 +254,11 @@
         }
 
         .card-produto {
-            flex: 0 0 220px;
+            flex: 0 0 180px;
             background-color: white;
             border: 1px solid #e2e8f0;
             border-radius: 12px;
-            padding: 15px;
+            padding: 10px;
             text-align: center;
             box-shadow: var(--shadow-sm);
             display: flex;
@@ -217,11 +273,11 @@
         }
 
         .card-produto .img-container {
-            height: 160px;
+            height: 120px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .card-produto img {
@@ -232,22 +288,22 @@
         }
 
         .card-produto h3 {
-            font-size: 14px;
-            margin: 10px 0;
+            font-size: 13px;
+            margin: 6px 0;
             color: #333;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            height: 40px;
+            height: 36px;
         }
 
         .preco {
             color: var(--secondary);
             font-weight: bold;
-            font-size: 14px;
+            font-size: 12px;
             text-transform: uppercase;
-            margin: 5px 0 15px 0;
+            margin: 4px 0 10px 0;
         }
 
 
@@ -724,40 +780,48 @@
     <main>
         <!-- Seção de pesquisa e filtragem -->
         <section class="search-section">
-            <label class="filter-box" for="categoryFilter"> Categoria:
-                <select id="categoryFilter">
-                    <option value="all">Todos os livros</option>
-                    <option value="Livros-aventura">Aventura</option>
-                    <option value="conto">conto</option>
-                    <option value="romance">Romance</option>
-                    <option value="Ficção cientifica">Ficção Científica</option>
-                </select>
-            </label>
-            <input type="text" placeholder="Pesquisar livro..." id="searchInput">
-            <div class="input-group">
-                <label class="filter-box favorites-filter" for="favoritesOnly">
-                    <input type="checkbox" id="favoritesOnly">
-                    Somente favoritos
+            <div class="search-controls">
+                <label class="filter-box" for="categoryFilter">Categoria:
+                    <select id="categoryFilter">
+                        <option value="all">Todos os livros</option>
+                        <option value="Livros-aventura">Aventura</option>
+                        <option value="conto">conto</option>
+                        <option value="romance">Romance</option>
+                        <option value="Ficção cientifica">Ficção Científica</option>
+                    </select>
                 </label>
-                <label for="sortOrder">Ordenar por</label>
-                <select id="sortOrder" class="select-filter">
-                    <option value="default">Relevância</option>
-                    <option value="title-asc">Título (A-Z)</option>
-                    <option value="title-desc">Título (Z-A)</option>
-                </select>
+
+                <div class="input-group">
+                    <label class="filter-chip favorites-filter" for="favoritesOnly">
+                        <input type="checkbox" id="favoritesOnly">
+                        Somente favoritos
+                    </label>
+                    <label class="filter-chip sort-control" for="sortOrder">
+                        <span>Ordenar por</span>
+                        <select id="sortOrder" class="select-filter">
+                            <option value="default">Relevância</option>
+                            <option value="title-asc">Título (A-Z)</option>
+                            <option value="title-desc">Título (Z-A)</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            <div class="search-input-wrap">
+                <input type="text" placeholder="Pesquisar livro..." id="searchInput">
             </div>
         </section>
 
         <section class="book-count-section">
-            <p class="book-count">Total de livros na biblioteca: <strong id="bookCount">0</strong></p>
-<button type="button" class="btn-abrir-modal" id="btnAbrirModal">
-            <span>➕</span> Registar Novo Livro
-        </button>
-        </section>
-        <div class="caixa-feedback" id="caixaFeedback">
-            ✔️ Livro enviado com sucesso! Dados capturados no console.
-        </div>
-    </div>
+            <div class="book-count-row">
+                <p class="book-count">Total de livros na biblioteca: <strong id="bookCount">0</strong></p>
+                <button type="button" class="btn-abrir-modal" id="btnAbrirModal">
+                    <span>➕</span> Registar Novo Livro
+                </button>
+            </div>
+            <div class="caixa-feedback" id="caixaFeedback">
+                ✔️ Livro enviado com sucesso! Dados capturados no console.
+            </div>
         </section>
 
         <!-- Vitrine de destaques -->
@@ -2082,7 +2146,7 @@
                     <option value="Conto">Conto</option>
                 </select>
 
-                <label for="inputImagem">URL da imagem (opcional)</label>
+                <label for="inputImagem">URL da imagem </label>
                 <input id="inputImagem" name="imagem" type="url" placeholder="https://...">
 
                 <label for="textareaDescricao">Descrição</label>
