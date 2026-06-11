@@ -52,7 +52,7 @@ function criarTabelas() {
   });
 }
 
-/*  function inserirLivrosLocais() {
+function inserirLivrosLocais() {
   const livrosLocais = [
     { titulo: 'O Retrato do Artista quando Jovem', autor: 'James Joyce', editora: 'Diversa', ano: 1916 },
     { titulo: 'Delta: Um Comando para o Tempo', autor: 'Ana Cristina Melo', editora: 'Diversa', ano: 2022 },
@@ -95,7 +95,7 @@ function criarTabelas() {
       }
     });
   });
-} */ 
+} 
 
 criarTabelas();
 
@@ -180,11 +180,15 @@ app.post('/api/livros', (req, res) => {
   const { titulo, autor, editora, ano } = req.body;
   
   //cadastro de livros
-  const sql = 'INSERT INTO livros (titulo, autor, editora, ano) VALUES (?, ?, ?, ?)';
+  const sql = 'INSERT OR IGNORE INTO livros (titulo, autor, editora, ano) VALUES (?, ?, ?, ?)';
   db.run(sql, [titulo, autor || '', editora || '', ano || null], function (err) {
     if (err) {
       console.error('Erro ao inserir livro:', err.message);
       return res.status(500).json({ error: 'Não foi possível cadastrar o livro' });
+    }
+    // Se nenhuma linha foi afetada, o livro já existia (INSERT OR IGNORE)
+    if (this.changes === 0) {
+      return res.status(409).json({ error: 'Livro já existe' });
     }
     res.status(201).json({ id: this.lastID, titulo, autor, editora, ano });
   });
