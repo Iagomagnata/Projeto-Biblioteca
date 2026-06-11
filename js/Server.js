@@ -48,7 +48,28 @@ function criarTabelas() {
       )
     `, () => {
       /* inserirLivrosLocais(); */
+      atualizarEsquemaLivros();
     });
+  });
+}
+
+function atualizarEsquemaLivros() {
+  db.all(`PRAGMA table_info(livros)`, (err, rows) => {
+    if (err) {
+      console.error('Erro ao verificar esquema de livros:', err.message);
+      return;
+    }
+
+    const existeEditora = rows.some(row => row.name === 'editora');
+    if (!existeEditora) {
+      db.run('ALTER TABLE livros ADD COLUMN editora TEXT', (alterErr) => {
+        if (alterErr) {
+          console.error('Erro ao adicionar coluna editora:', alterErr.message);
+        } else {
+          console.log('Coluna editora adicionada à tabela livros.');
+        }
+      });
+    }
   });
 }
 
@@ -95,7 +116,7 @@ function inserirLivrosLocais() {
       }
     });
   });
-} 
+}
 
 criarTabelas();
 
