@@ -830,7 +830,7 @@
         <section class="book-count-section">
             <div class="book-count-row">
                 <p class="book-count">Total de livros na biblioteca: <strong id="bookCount">0</strong></p>
-                <button type="button" class="btn-abrir-modal" id="btnAbrirModal">
+                <button type="button" class="btn-abrir-modal" id="btnAbrirModal" >
                     <span>➕</span> Registar Novo Livro
                 </button>
             </div>
@@ -2241,6 +2241,70 @@
             return normalized.replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
         }
 
+        function attachCardListeners(card) {
+            const favoriteButton = card.querySelector('.btn-favorito');
+            const detailsButton = card.querySelector('.open-dialog-btn');
+
+            favoriteButton?.addEventListener('click', (evento) => {
+                evento.stopPropagation();
+                const id = getCardId(card);
+                const favorites = new Set(getFavorites());
+
+                if (favorites.has(id)) {
+                    favorites.delete(id);
+                    favoriteButton.classList.remove('favoritado');
+                } else {
+                    favorites.add(id);
+                    favoriteButton.classList.add('favoritado');
+                }
+
+                saveFavorites(Array.from(favorites));
+                filterProducts();
+            });
+
+            detailsButton?.addEventListener('click', () => {
+                dialogTitle.textContent = detailsButton.dataset.title;
+                dialogImage.src = detailsButton.dataset.image;
+                dialogImage.alt = detailsButton.dataset.title;
+                dialogDescription.textContent = detailsButton.dataset.description;
+                productDialog.showModal();
+            });
+        }
+
+        function addLivroCardToDOM(livro) {
+            const card = document.createElement('article');
+            card.className = 'card';
+            card.dataset.category = livro.categoria || 'Sem categoria';
+            card.dataset.name = livro.titulo || 'Sem título';
+
+            card.innerHTML = `
+                <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                </button>
+                <small>Livro</small>
+                <h3>${livro.titulo}</h3>
+                <img src="${livro.imagem}" alt="Livro ${livro.titulo}">
+                <div class="card-content">
+                    <div class="card-tags">
+                        <span class="tag-categoria">${livro.categoria}</span>
+                        <span class="tag-autor">${livro.autor}</span>
+                    </div>
+                    <p>${livro.descricao || 'Descrição não informada.'}</p>
+                    <button type="button" class="botao open-dialog-btn" data-title="${livro.titulo}" data-image="${livro.imagem}" data-description="${livro.descricao || 'Sem descrição.'}">
+                        Detalhes
+                    </button>
+                </div>
+            `;
+
+            productList.appendChild(card);
+            attachCardListeners(card);
+            cards.push(card);
+            updateBookCount();
+            filterProducts();
+        }
+
         function applyFavoritesState() {
             const favorites = new Set(getFavorites());
             cards.forEach(card => {
@@ -2411,7 +2475,8 @@
                 }
 
                 try {
-                    const resposta = await fetch('/api/livros', {
+                    const base = (location.protocol === 'file:') ? 'http://localhost:3000' : '';
+                    const resposta = await fetch(base + '/api/livros', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -2429,6 +2494,7 @@
                     }
 
                     console.log('Livro cadastrado com sucesso:', resultado);
+                    addLivroCardToDOM(dadosObjeto);
                     fecharModal();
                     caixaFeedback.textContent = '✔️ Livro cadastrado com sucesso!';
                     caixaFeedback.style.display = 'block';
