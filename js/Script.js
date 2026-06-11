@@ -30,21 +30,38 @@ async function cadastrarUsuario(event) {
     };
 
     try {
-        const resposta = await fetch(api_url, {
+        const base = (location.protocol === 'file:') ? 'http://localhost:3000' : '';
+        const resposta = await fetch(base + api_url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(novoUsuario)
         });
 
+        // Tenta ler JSON, se falhar lê texto cru
+        let payload = null;
+        try {
+            payload = await resposta.json();
+        } catch (e) {
+            payload = await resposta.text().catch(() => null);
+        }
+
         if (resposta.ok) {
-            const data = await resposta.json().catch(() => ({}));
             alert('Usuário cadastrado com sucesso!');
             limparCampos();
-            window.location.href = data.redirect || 'Alexandria.html';
-        } else {
-            const data = await resposta.json().catch(() => ({}));
-            alert(data.error || 'Erro ao cadastrar usuário.');
+            const redirect = (payload && payload.redirect) ? payload.redirect : 'Alexandria.html';
+            window.location.href = redirect;
+            return;
         }
+
+        // status específico para duplicado
+        if (resposta.status === 409) {
+            const msg = (payload && (payload.error || typeof payload === 'string')) ? (payload.error || payload) : 'Email ou matrícula já cadastrado.';
+            alert(msg);
+            return;
+        }
+
+        const errMsg = (payload && payload.error) ? payload.error : (typeof payload === 'string' ? payload : 'Erro ao cadastrar usuário.');
+        alert(errMsg);
     } catch (error) {
         console.error('Erro:', error);
         alert('Erro de rede: ' + error);
@@ -63,7 +80,8 @@ async function loginAdministrador(event) {
     }
 
     try {
-        const resposta = await fetch('/api/login', {
+        const base = (location.protocol === 'file:') ? 'http://localhost:3000' : '';
+        const resposta = await fetch(base + '/api/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ usuario, senha })
