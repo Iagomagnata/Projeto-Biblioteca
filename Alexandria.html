@@ -1333,7 +1333,7 @@
                 <h3>fogo contra fogo</h3>
                 <!--foto do livro-->
                 <img src="https://m.media-amazon.com/images/I/71iC+IcgQcL._AC_UF350,350_QL50_.jpg"
-                    alt="Fogo contra fogo">
+                    alt="fogo contra fogo">
                 <div class="card-content">
                     <!--tags autor e genero-->
                     <div class="card-tags">
@@ -2418,6 +2418,28 @@
                 }
             });
         }
+
+        // Remove artigos duplicados já presentes no HTML (por título/data-name)
+        (function removerDuplicadosHTML() {
+            const productList = document.getElementById('productList');
+            if (!productList) return;
+            const seen = new Set();
+            const articles = Array.from(productList.querySelectorAll('article.card'));
+            articles.forEach(article => {
+                const nameAttr = (article.getAttribute('data-name') || '').trim().toLowerCase();
+                const h3 = article.querySelector('h3');
+                const titleText = (h3 ? h3.textContent : '').trim().toLowerCase();
+                const key = nameAttr || titleText;
+                if (!key) return;
+                if (seen.has(key)) {
+                    article.remove();
+                } else {
+                    seen.add(key);
+                }
+            });
+            const bookCountEl = document.getElementById('bookCount');
+            if (bookCountEl) bookCountEl.textContent = seen.size;
+        })();
     </script>
 </body>
 

@@ -52,7 +52,7 @@ function criarTabelas() {
   });
 }
 
-/* function inserirLivrosLocais() {
+function inserirLivrosLocais() {
   const livrosLocais = [
     { titulo: 'O Retrato do Artista quando Jovem', autor: 'James Joyce', editora: 'Diversa', ano: 1916 },
     { titulo: 'Delta: Um Comando para o Tempo', autor: 'Ana Cristina Melo', editora: 'Diversa', ano: 2022 },
@@ -95,7 +95,7 @@ function criarTabelas() {
       }
     });
   });
-} */
+} 
 
 criarTabelas();
 
@@ -142,7 +142,8 @@ app.post('/cadastrar-aluno', (req, res) => {
       }
       return res.status(500).send('Não foi possível cadastrar o aluno.');
     }
-    res.redirect('/Alexandria.html');
+    // Retorna JSON para chamadas AJAX; cliente pode redirecionar com base no campo `redirect`
+    res.status(201).json({ ok: true, redirect: '/Alexandria.html' });
   });
 });
 
@@ -157,8 +158,8 @@ app.post('/api/login', (req, res) => {
   const adminSenha = 'admin@123';
 
   if (usuario == adminUsuario && senha == adminSenha) {
-    return res.json({ ok: true });
-    res.redirect('/Alexandria.html');
+    // Retorna JSON consistente para que o cliente (fetch) trate o redirecionamento
+    return res.status(200).json({ ok: true, redirect: '/Alexandria.html' });
     
   }
 
@@ -179,38 +180,21 @@ app.post('/api/livros', (req, res) => {
   const { titulo, autor, editora, ano } = req.body;
   
   //cadastro de livros
-  const sql = 'INSERT INTO livros (titulo, autor, editora, ano) VALUES (?, ?, ?, ?)';
+  const sql = 'INSERT OR IGNORE INTO livros (titulo, autor, editora, ano) VALUES (?, ?, ?, ?)';
   db.run(sql, [titulo, autor || '', editora || '', ano || null], function (err) {
     if (err) {
       console.error('Erro ao inserir livro:', err.message);
       return res.status(500).json({ error: 'Não foi possível cadastrar o livro' });
     }
+    // Se nenhuma linha foi afetada, o livro já existia (INSERT OR IGNORE)
+    if (this.changes === 0) {
+      return res.status(409).json({ error: 'Livro já existe' });
+    }
     res.status(201).json({ id: this.lastID, titulo, autor, editora, ano });
   });
-});
-
-// SQLite não suporta TRUNCATE TABLE. Para remover todos os livros, usamos DELETE.
-function limparTodosLivros(res) {
-  const sql = 'DELETE FROM livros';
-  db.run(sql, [], function (err) {
-    if (err) {
-      console.error('Erro ao limpar livros:', err.message);
-      return res.status(500).json({ error: 'Não foi possível apagar os livros' });
-    }
-    return res.json({ message: 'Todos os livros foram apagados', deletedRows: this.changes });
-  });
-}
-
-app.delete('/api/livros', (req, res) => {
-  limparTodosLivros(res);
-});
-
-app.post('/api/livros/limpar', (req, res) => {
-  limparTodosLivros(res);
 });
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
   console.log(`Banco SQLite: ${DB_PATH}`);
 });
-
