@@ -6,6 +6,73 @@
     <title>Pagina Administrativa</title>
 </head>
 <body>
-    
+    <h1>Painel do Administrador</h1>
+
+    <h2>Livros cadastrados</h2>
+    <div id="adminLivros" style="display:flex;flex-direction:column;gap:10px;">
+        <!-- preenchido via JS -->
+    </div>
+
+    <script src="js/Script.js"></script>
+    <script>
+        async function carregarLivrosParaAdmin() {
+            try {
+                const base = (location.protocol === 'file:') ? 'http://localhost:3000' : '';
+                const resp = await fetch(base + '/api/livros');
+                const livros = await resp.json();
+                const container = document.getElementById('adminLivros');
+                container.innerHTML = '';
+
+                if (!Array.isArray(livros) || livros.length === 0) {
+                    container.textContent = 'Nenhum livro cadastrado.';
+                    return;
+                }
+
+                livros.forEach(livro => {
+                    const wrapper = document.createElement('div');
+                    wrapper.dataset.livroId = String(livro.id);
+                    wrapper.setAttribute('data-livro-id', String(livro.id));
+                    wrapper.style.border = '1px solid #ddd';
+                    wrapper.style.borderRadius = '8px';
+                    wrapper.style.padding = '10px';
+                    wrapper.style.display = 'flex';
+                    wrapper.style.justifyContent = 'space-between';
+                    wrapper.style.alignItems = 'center';
+                    wrapper.style.gap = '12px';
+
+                    const info = document.createElement('div');
+                    info.style.display = 'flex';
+                    info.style.flexDirection = 'column';
+                    info.style.gap = '4px';
+                    info.innerHTML = `
+                        <strong>${livro.titulo}</strong>
+                        <span style="color:#555;">Autor: ${livro.autor || ''}</span>
+                    `;
+
+                    const btnExcluir = document.createElement('button');
+                    btnExcluir.type = 'button';
+                    btnExcluir.textContent = 'Excluir';
+                    btnExcluir.dataset.acao = 'deletar-livro';
+                    btnExcluir.dataset.livroId = String(livro.id);
+                    btnExcluir.setAttribute('data-livro-id', String(livro.id));
+                    btnExcluir.style.background = '#dc3545';
+                    btnExcluir.style.color = '#fff';
+                    btnExcluir.style.border = 'none';
+                    btnExcluir.style.padding = '8px 12px';
+                    btnExcluir.style.borderRadius = '6px';
+                    btnExcluir.style.cursor = 'pointer';
+
+                    wrapper.appendChild(info);
+                    wrapper.appendChild(btnExcluir);
+                    container.appendChild(wrapper);
+                });
+            } catch (e) {
+                console.error(e);
+                alert('Erro ao carregar livros para o admin.');
+            }
+        }
+
+        window.addEventListener('load', carregarLivrosParaAdmin);
+    </script>
 </body>
 </html>

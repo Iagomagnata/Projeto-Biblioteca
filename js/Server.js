@@ -222,6 +222,29 @@ app.post('/api/livros', (req, res) => {
   });
 });
 
+// delete de livros (admin)
+app.delete('/api/livros/:id', (req, res) => {
+  const id = Number(req.params.id);
+
+  if (!Number.isFinite(id) || id <= 0) {
+    return res.status(400).json({ error: 'ID inválido' });
+  }
+
+  const sql = 'DELETE FROM livros WHERE id = ?';
+  db.run(sql, [id], function (err) {
+    if (err) {
+      console.error('Erro ao deletar livro:', err.message);
+      return res.status(500).json({ error: 'Não foi possível deletar o livro' });
+    }
+
+    if (this.changes === 0) {
+      return res.status(404).json({ error: 'Livro não encontrado' });
+    }
+
+    return res.status(200).json({ ok: true, deletedId: id });
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
   console.log(`Banco SQLite: ${DB_PATH}`);

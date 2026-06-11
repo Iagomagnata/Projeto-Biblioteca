@@ -106,6 +106,43 @@ function limparCampos() {
     document.getElementById('Matricula').value = '';
 }
 
+// disponibiliza para HTML inline (se existir)
+window.deletarLivro = deletarLivro;
+
+
+async function deletarLivro(id) {
+    if (!id) return;
+
+    const ok = confirm('Tem certeza que deseja deletar este livro?');
+    if (!ok) return;
+
+    try {
+        const base = (location.protocol === 'file:') ? 'http://localhost:3000' : '';
+        const resposta = await fetch(`${base}/api/livros/${id}`, { method: 'DELETE' });
+
+        let payload = null;
+        try {
+            payload = await resposta.json();
+        } catch (_) {
+            payload = null;
+        }
+
+        if (!resposta.ok) {
+            alert((payload && payload.error) ? payload.error : 'Não foi possível deletar o livro.');
+            return;
+        }
+
+        // remove do HTML (sem depender de re-render completo)
+        const item = document.querySelector(`[data-livro-id="${id}"]`);
+        if (item) item.remove();
+    } catch (error) {
+        console.error('Erro ao deletar livro:', error);
+        alert('Erro de rede ao deletar o livro.');
+    }
+}
+
+
+
 window.addEventListener('load', () => {
     carregarUsuarios();
 
@@ -118,9 +155,19 @@ window.addEventListener('load', () => {
     if (loginForm) {
         loginForm.addEventListener('submit', loginAdministrador);
     }
+
+    // Admin: habilita delete se a página tiver botões
+    // (a função deletarLivro já existe no escopo global do script)
+    document.querySelectorAll('[data-acao="deletar-livro"]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-livro-id');
+            deletarLivro(id);
+        });
+    });
 });
 
 //home 
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const livroPesquisado = document.getElementById('barraDePesquisa');
