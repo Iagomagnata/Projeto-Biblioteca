@@ -119,7 +119,11 @@ app.post('/api/usuarios', (req, res) => {
   const sql = 'INSERT INTO usuarios (matricula, email) VALUES (?, ?)';
   db.run(sql, [matricula, email], function (err) {
     if (err) {
-      console.error('Erro ao inserir usuário:', err.message);
+      console.error('Erro ao inserir usuário:', err.message || err);
+      const msg = (err.message || '').toLowerCase();
+      if (msg.includes('sqlite_constraint') || msg.includes('unique constraint failed') || msg.includes('constraint failed') || msg.includes('unique')) {
+        return res.status(409).json({ error: 'Email ou matrícula já cadastrado' });
+      }
       return res.status(500).json({ error: 'Não foi possível cadastrar o usuário' });
     }
     res.status(201).json({ id: this.lastID, matricula, email });
@@ -136,8 +140,9 @@ app.post('/cadastrar-aluno', (req, res) => {
   const sql = 'INSERT INTO usuarios (matricula, email) VALUES (?, ?)';
   db.run(sql, [matricula, email], function (err) {
     if (err) {
-      console.error('Erro ao cadastrar aluno:', err.message);
-      if (err.message.includes('SQLITE_CONSTRAINT')) {
+      console.error('Erro ao cadastrar aluno:', err.message || err);
+      const msg = (err.message || '').toLowerCase();
+      if (msg.includes('sqlite_constraint') || msg.includes('unique constraint failed') || msg.includes('constraint failed') || msg.includes('unique')) {
         return res.status(409).send('Email ou matrícula já cadastrado.');
       }
       return res.status(500).send('Não foi possível cadastrar o aluno.');
@@ -157,10 +162,12 @@ app.post('/api/login', (req, res) => {
   const adminUsuario = 'DonaAda234';
   const adminSenha = 'admin@123';
 
-  if (usuario == adminUsuario && senha == adminSenha) {
+  console.log(`Tentativa de login: usuario="${usuario}"`);
+
+  // permite comparação do usuário sem diferenciar maiúsculas/minúsculas
+  if (usuario.toLowerCase() === adminUsuario.toLowerCase() && senha === adminSenha) {
     // Retorna JSON consistente para que o cliente (fetch) trate o redirecionamento
     return res.status(200).json({ ok: true, redirect: '/Alexandria.html' });
-    
   }
 
   return res.status(401).json({ error: 'Credenciais inválidas' });
