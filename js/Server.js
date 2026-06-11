@@ -52,7 +52,7 @@ function criarTabelas() {
   });
 }
 
- function inserirLivrosLocais() {
+/*  function inserirLivrosLocais() {
   const livrosLocais = [
     { titulo: 'O Retrato do Artista quando Jovem', autor: 'James Joyce', editora: 'Diversa', ano: 1916 },
     { titulo: 'Delta: Um Comando para o Tempo', autor: 'Ana Cristina Melo', editora: 'Diversa', ano: 2022 },
@@ -95,7 +95,7 @@ function criarTabelas() {
       }
     });
   });
-} 
+} */ 
 
 criarTabelas();
 
@@ -195,3 +195,9 @@ app.listen(PORT, () => {
   console.log(`Banco SQLite: ${DB_PATH}`);
 });
 
+function resetBanco () {
+  const sql = 'DROP DATABASE livros IF EXITS'
+  db.run(sql)
+}
+
+resetBanco()
