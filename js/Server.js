@@ -194,10 +194,3 @@ app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
   console.log(`Banco SQLite: ${DB_PATH}`);
 });
-
-function resetBanco () {
-  const sql = 'DROP DATABASE livros IF EXITS'
-  db.run(sql)
-}
-
-resetBanco()
