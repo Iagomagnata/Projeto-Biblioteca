@@ -2,7 +2,7 @@ const api_url = '/api/usuarios';
 
 let usuarios = [];
 
-/* async function carregarUsuarios() {
+ async function carregarUsuarios() {
     try {
         const resposta = await fetch(api_url);
         if (resposta.ok) {
@@ -11,7 +11,7 @@ let usuarios = [];
     } catch (error) {
         console.error('Erro:', error);
     }
-} */
+} 
 
 /* async function cadastrarUsuario(event) {
     event.preventDefault();
@@ -89,7 +89,7 @@ async function loginAdministrador(event) {
 
         if (resposta.ok) {
             const data = await resposta.json().catch(() => ({}));
-            window.location.href = data.redirect || 'Alexandria.html';
+            window.location.href = data.redirect || '/Alexandria.html';
             return;
         }
 
