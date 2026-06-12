@@ -3,15 +3,15 @@
             --primary-dark: #0a4d7d;
             --secondary: #3cb371;
             --bg-gradient: linear-gradient(135deg, #0e64a1 0%, #1c5c3a 100%);
-            --text-main: #1f2937;
-            --text-muted: #4b5563;
-            --card-bg: #ffffff;
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.15);
-            --shadow-sm: 0 4px 10px rgba(0, 0, 0, 0.06);
-            --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.12);
-            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.2);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --card-bg: rgba(255, 255, 255, 0.92);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --shadow-sm: 0 10px 25px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 20px 50px rgba(0, 0, 0, 0.14);
+            --transition: all 0.25s ease;
+            --radius: 16px;
         }
 
 
@@ -42,4 +42,90 @@ body {
             justify-content: center;
             align-items: center;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        h2{
+            color: #fff;
+            margin: 22px auto 10px;
+            max-width: 720px;
+            padding: 0 14px;
+            font-size: 1.25rem;
+           
+            text-align: center;
+        }
+
+         .admin-wrap {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 14px 28px;
+        }
+
+        .admin-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            padding: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+        }
+
+        select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid #d1d5db;
+            background: #fff;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(14, 100, 161, 0.18);
+        }
+
+        button {
+            width: 100%;
+            margin-top: 12px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            transition: var(--transition);
+        }
+
+        #btnApagarSelecionado {
+            background: #dc3545;
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(220, 53, 69, 0.25);
+        }
+
+        #btnApagarSelecionado:hover {
+            filter: brightness(0.98);
+            transform: translateY(-1px);
+        }
+
+        #adminFeedback {
+            margin-top: 10px;
+            font-weight: 700;
+            color: var(--text-main);
+            min-height: 20px;
+        }
+
+        :focus-visible {
+            outline: 3px solid rgba(14, 100, 161, 0.35);
+            outline-offset: 2px;
+        }
+
+        @media (max-width: 520px) {
+            header { padding: 14px 12px; }
+            h2 { font-size: 1.1rem; }
+            .admin-card { padding: 14px; }
         }
