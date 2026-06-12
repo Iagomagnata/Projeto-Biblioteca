@@ -2142,7 +2142,7 @@
         <div class="modal-header">
             <h2 id="dialogTitle">Detalhes do Livro</h2>
             <!--esse é o butao com o X de fevhar o dialogo-->
-            <button type="button" class="btn-fechar-modal" id="closeDialogCross" aria-label="Fechar" id="closeDialog">
+            <button type="button" class="btn-fechar-modal" id="closeDialogCross" aria-label="Fechar">
                 <!--esse svg ele faz o formato do botao redodndo e do X-->
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -2150,7 +2150,7 @@
                 </svg>
             </button>
         </div>
-        <!--estruta fo dialogo tmb mas isso so muda no css-->
+        <!--estrutura do dialogo tmb mas isso so muda no css-->
         <div class="modal-body">
             <div class="modal-image-wrapper">
                 <img id="dialogImage" src="" alt="Capa do Livro">
@@ -2158,11 +2158,42 @@
             <p id="dialogDescription" class="modal-description"></p>
         </div>
         <div class="modal-actions">
-            <button type="button" id="loanButton" class="botao">Emprestar</button>
-            <button type="button" id="reserveButton" class="botao">Reservar</button>
-            <button type="button" id="closeDialog" class="botao">Fechar</button>
+            <span id="dialogAvailability" style="font-weight:700;color:#3f6d9f; align-self:flex-start;">Disponibilidade: 1</span>
+            <div style="display:flex; gap:10px;">
+                <button type="button" id="loanButton" class="botao">Emprestar</button>
+                <button type="button" id="reserveButton" class="botao">Reservar</button>
+                <button type="button" id="closeDialog" class="botao">Fechar</button>
+            </div>
         </div>
 
+    </dialog>
+
+    <dialog id="actionDialog">
+        <form id="actionForm" class="modal-form" method="dialog">
+            <div class="modal-header">
+                <h2 id="actionDialogTitle">Ação do Livro</h2>
+                <button type="button" class="btn-fechar-modal" id="closeActionDialog" aria-label="Fechar">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="actionDialogInfo" class="modal-description"></p>
+                <label for="actionStudentName">Nome do aluno</label>
+                <input type="text" id="actionStudentName" name="studentName" required>
+                <label for="actionStudentCourse">Curso</label>
+                <input type="text" id="actionStudentCourse" name="studentCourse" required>
+            </div>
+            <div class="modal-actions" style="justify-content: space-between; align-items: center;">
+                <span id="actionDialogAvailability" style="font-weight:700;color:#3f6d9f;">Disponível: 1</span>
+                <div style="display:flex; gap:10px;">
+                    <button type="button" id="cancelActionDialog" class="botao">Cancelar</button>
+                    <button type="submit" class="botao">Confirmar</button>
+                </div>
+            </div>
+        </form>
     </dialog>
 
     <dialog id="modalCadastro">
@@ -2206,6 +2237,7 @@
         </form>
     </dialog>
 
+    <script src="js/Script.js"></script>
     <script>
         /* Seletores de busca e filtragem */
         const searchInput = document.getElementById('searchInput');
