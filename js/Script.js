@@ -109,7 +109,6 @@ function limparCampos() {
 // disponibiliza para HTML inline (se existir)
 window.deletarLivro = deletarLivro;
 
-
 async function deletarLivro(id) {
     if (!id) return;
 
@@ -132,7 +131,7 @@ async function deletarLivro(id) {
             return;
         }
 
-        // remove do HTML (sem depender de re-render completo)
+        // Remove do HTML (somente do item que tiver o id correspondente)
         const item = document.querySelector(`[data-livro-id="${id}"]`);
         if (item) item.remove();
     } catch (error) {
@@ -141,10 +140,9 @@ async function deletarLivro(id) {
     }
 }
 
-
-
 window.addEventListener('load', () => {
     carregarUsuarios();
+
 
     const cadastroForm = document.getElementById('cadastroForm');
     if (cadastroForm) {
