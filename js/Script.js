@@ -216,3 +216,80 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+const baseApi = (location.protocol === 'file:') ? 'http://localhost:3000' : '';
+let currentDialogBookTitle = '';
+
+function askStudentInfo() {
+    const studentName = prompt('Nome do aluno:');
+    if (!studentName) {
+        return null;
+    }
+
+    const turma = prompt('Turma do aluno:');
+    if (!turma) {
+        return null;
+    }
+
+    return {
+        studentName: studentName.trim(),
+        turma: turma.trim()
+    };
+}
+
+async function handleLoanReserve(action) {
+    if (!currentDialogBookTitle) {
+        alert('Abra o diálogo de um livro antes de usar esta ação.');
+        return;
+    }
+
+    const studentInfo = askStudentInfo();
+    if (!studentInfo) {
+        alert('Operação cancelada. Nome ou turma não informado.');
+        return;
+    }
+
+    const endpoint = action === 'Emprestar' ? '/api/emprestimo' : '/api/reserva';
+
+    try {
+        const response = await fetch(baseApi + endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                title: currentDialogBookTitle,
+                studentName: studentInfo.studentName,
+                turma: studentInfo.turma
+            })
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (response.ok && data.success) {
+            alert(data.message || `${action} realizado com sucesso.`);
+        } else {
+            alert(data.message || `Falha ao ${action.toLowerCase()}.`);
+        }
+    } catch (error) {
+        console.error('Erro ao conectar ao servidor:', error);
+        alert('Erro ao conectar ao servidor. Tente novamente mais tarde.');
+    }
+}
+
+function initLoanReserveButtons() {
+    document.querySelectorAll('.open-dialog-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            currentDialogBookTitle = button.dataset.title || '';
+        });
+    });
+
+    const loanButton = document.getElementById('loanButton');
+    const reserveButton = document.getElementById('reserveButton');
+
+    loanButton?.addEventListener('click', () => handleLoanReserve('Emprestar'));
+    reserveButton?.addEventListener('click', () => handleLoanReserve('Reservar'));
+}
+
+window.addEventListener('DOMContentLoaded', initLoanReserveButtons);
+
