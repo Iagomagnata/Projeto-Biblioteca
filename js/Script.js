@@ -13,7 +13,7 @@ async function carregarUsuarios() {
     }
 }
 
-async function cadastrarUsuario(event) {
+/* async function cadastrarUsuario(event) {
     event.preventDefault();
 
     const matricula = document.getElementById('Matricula').value.trim();
@@ -66,7 +66,7 @@ async function cadastrarUsuario(event) {
         console.error('Erro:', error);
         alert('Erro de rede: ' + error);
     }
-}
+} */
 
 async function loginAdministrador(event) {
     event.preventDefault();
