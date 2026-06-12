@@ -11,16 +11,22 @@
     <h1>Painel do Administrador</h1>
     </header>
 
-    <h2>Livros cadastrados</h2>
+    <div class="admin-wrap">
+        <h2>Livros cadastrados</h2>
+ 
+    <div class="admin-wrap">
+        <div class="admin-card">
+            <label for="livroSelect"><strong>Selecione um livro:</strong></label>
+            <select id="livroSelect"></select>
 
-    <label for="livroSelect"><strong>Selecione um livro:</strong></label>
-    <select id="livroSelect" style="width: 100%; max-width: 520px; padding: 8px 10px; margin: 8px 0;"></select>
+            <button type="button" id="btnApagarSelecionado">Apagar (somente selecionado)</button>
 
-    <button type="button" id="btnApagarSelecionado" style="background:#dc3545;color:#fff;border:none;padding:10px 14px;border-radius:6px;cursor:pointer;">
-        Apagar (somente selecionado)
-    </button>
+            <div id="adminFeedback" aria-live="polite"></div>
+        </div>
+    </div>
 
-    <div id="adminFeedback" style="margin-top:10px;color:#1f2937;"></div>
+
+   
 
     <script src="js/Script.js"></script>
     <script>
