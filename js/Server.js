@@ -205,13 +205,31 @@ app.post('/api/login', (req, res) => {
   return res.status(401).json({ error: 'Credenciais inválidas' });
 });
 
+function salvarOperacao(livro, acao, papel, studentName, turma, res) {
+  if (!livro || !acao) {
+    return res.status(400).json({ success: false, message: 'Livro e ação são obrigatórios.' });
+  }
+
+  db.run(
+    'INSERT INTO operacoes (livro, acao, papel, student_name, turma) VALUES (?, ?, ?, ?, ?)',
+    [livro, acao, papel, studentName || null, turma || null],
+    function (err) {
+      if (err) {
+        console.error('Erro ao salvar operação:', err.message);
+        return res.status(500).json({ success: false, message: 'Erro no servidor ao registrar a operação.' });
+      }
+      return res.json({ success: true, message: `Operação '${acao}' registrada para '${livro}'.` });
+    }
+  );
+}
+
 app.get('/api/livros', (req, res) => {
   db.all('SELECT * FROM livros ORDER BY criado_em DESC', (err, rows) => {
     if (err) {
       console.error('Erro ao buscar livros:', err.message);
       return res.status(500).json({ error: 'Erro interno do servidor' });
     }
-    res.json(rows);
+    res.json({ success: true, livros: rows });
   });
 });
 
@@ -240,31 +258,38 @@ app.post('/api/emprestimo', (req, res) => {
     return res.status(400).json({ success: false, message: 'Título, nome do aluno e turma são obrigatórios.' });
   }
 
+  const completeLoan = () => {
+    db.run('UPDATE livros SET available_count = available_count - 1 WHERE titulo = ?', [title], function (updateErr) {
+      if (updateErr) {
+        console.error('Erro ao atualizar disponibilidade:', updateErr.message);
+        return res.status(500).json({ success: false, message: 'Erro no servidor ao atualizar estoque.' });
+      }
+      salvarOperacao(title, 'Empréstimo', 'admin', studentName, turma, res);
+    });
+  };
+
   db.get('SELECT available_count FROM livros WHERE titulo = ?', [title], (err, row) => {
     if (err) {
       console.error('Erro ao consultar livro:', err.message);
       return res.status(500).json({ success: false, message: 'Erro no servidor ao verificar disponibilidade.' });
     }
 
-    if (!row || row.available_count <= 0) {
+    if (!row) {
+      db.run('INSERT INTO livros (titulo, available_count) VALUES (?, ?)', [title, 3], function (insertErr) {
+        if (insertErr) {
+          console.error('Erro ao inserir livro no estoque:', insertErr.message);
+          return res.status(500).json({ success: false, message: 'Erro no servidor ao inicializar o livro.' });
+        }
+        completeLoan();
+      });
+      return;
+    }
+
+    if (row.available_count <= 0) {
       return res.status(400).json({ success: false, message: 'Não há livros disponíveis para empréstimo no momento.' });
     }
 
-    db.run('UPDATE livros SET available_count = available_count - 1 WHERE titulo = ?', [title], function (updateErr) {
-      if (updateErr) {
-        console.error('Erro ao atualizar disponibilidade:', updateErr.message);
-        return res.status(500).json({ success: false, message: 'Erro no servidor ao atualizar estoque.' });
-      }
-
-      db.run('INSERT INTO operacoes (livro, acao, papel, student_name, turma) VALUES (?, ?, ?, ?, ?)',
-        [title, 'Empréstimo', 'admin', studentName, turma], function (insertErr) {
-          if (insertErr) {
-            console.error('Erro ao salvar operação:', insertErr.message);
-            return res.status(500).json({ success: false, message: 'Erro ao registrar empréstimo.' });
-          }
-          res.json({ success: true, message: 'Empréstimo registrado com sucesso.' });
-        });
-    });
+    completeLoan();
   });
 });
 
@@ -275,24 +300,28 @@ app.post('/api/reserva', (req, res) => {
     return res.status(400).json({ success: false, message: 'Título, nome do aluno e turma são obrigatórios.' });
   }
 
+  const saveReservation = () => {
+    salvarOperacao(title, 'Reservar', 'admin', studentName, turma, res);
+  };
+
   db.get('SELECT available_count FROM livros WHERE titulo = ?', [title], (err, row) => {
     if (err) {
       console.error('Erro ao consultar livro:', err.message);
       return res.status(500).json({ success: false, message: 'Erro no servidor ao verificar disponibilidade.' });
     }
 
-    const saveReservation = () => {
-      db.run('INSERT INTO operacoes (livro, acao, papel, student_name, turma) VALUES (?, ?, ?, ?, ?)',
-        [title, 'Reservar', 'admin', studentName, turma], function (insertErr) {
-          if (insertErr) {
-            console.error('Erro ao salvar operação:', insertErr.message);
-            return res.status(500).json({ success: false, message: 'Erro ao registrar reserva.' });
-          }
-          res.json({ success: true, message: 'Reserva registrada com sucesso.' });
-        });
-    };
+    if (!row) {
+      db.run('INSERT INTO livros (titulo, available_count) VALUES (?, ?)', [title, 3], function (insertErr) {
+        if (insertErr) {
+          console.error('Erro ao inserir livro no estoque:', insertErr.message);
+          return res.status(500).json({ success: false, message: 'Erro no servidor ao inicializar o livro.' });
+        }
+        saveReservation();
+      });
+      return;
+    }
 
-    if (row && row.available_count > 0) {
+    if (row.available_count > 0) {
       db.run('UPDATE livros SET available_count = available_count - 1 WHERE titulo = ?', [title], function (updateErr) {
         if (updateErr) {
           console.error('Erro ao atualizar disponibilidade:', updateErr.message);

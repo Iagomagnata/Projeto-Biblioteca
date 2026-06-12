@@ -125,7 +125,7 @@
     <script>
         async function returnBook(livro) {
             try {
-                const response = await fetch('http://127.0.0.1:3000/api/devolucao', {
+                const response = await fetch('/api/devolucao', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -148,7 +148,7 @@
 
         async function loadReport() {
             try {
-                const response = await fetch('http://127.0.0.1:3000/api/relatorio');
+                const response = await fetch('/api/relatorio');
                 const data = await response.json();
                 const reportBody = document.getElementById('reportBody');
                 const noReport = document.getElementById('noReport');
