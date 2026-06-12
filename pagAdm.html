@@ -6,6 +6,94 @@
     <title>Pagina Administrativa</title>
 </head>
 <body>
-    
+    <h1>Painel do Administrador</h1>
+
+    <h2>Livros cadastrados</h2>
+
+    <label for="livroSelect"><strong>Selecione um livro:</strong></label>
+    <select id="livroSelect" style="width: 100%; max-width: 520px; padding: 8px 10px; margin: 8px 0;"></select>
+
+    <button type="button" id="btnApagarSelecionado" style="background:#dc3545;color:#fff;border:none;padding:10px 14px;border-radius:6px;cursor:pointer;">
+        Apagar (somente selecionado)
+    </button>
+
+    <div id="adminFeedback" style="margin-top:10px;color:#1f2937;"></div>
+
+    <script src="js/Script.js"></script>
+    <script>
+        async function carregarLivrosParaAdmin() {
+            try {
+                const base = (location.protocol === 'file:') ? 'http://localhost:3000' : '';
+                const resp = await fetch(base + '/api/livros');
+                const livros = await resp.json();
+
+                const select = document.getElementById('livroSelect');
+                const feedback = document.getElementById('adminFeedback');
+                feedback.textContent = '';
+
+                select.innerHTML = '';
+
+                if (!Array.isArray(livros) || livros.length === 0) {
+                    const opt = document.createElement('option');
+                    opt.value = '';
+                    opt.textContent = 'Nenhum livro cadastrado.';
+                    select.appendChild(opt);
+                    select.disabled = true;
+                    return;
+                }
+
+                select.disabled = false;
+
+                livros.forEach(livro => {
+                    const opt = document.createElement('option');
+                    opt.value = String(livro.id);
+                    opt.textContent = `${livro.titulo}`;
+                    select.appendChild(opt);
+                });
+            } catch (e) {
+                console.error(e);
+                alert('Erro ao carregar livros para o admin.');
+            }
+        }
+
+        async function apagarLivroSelecionado() {
+            const select = document.getElementById('livroSelect');
+            const feedback = document.getElementById('adminFeedback');
+
+            const id = select.value;
+            if (!id) {
+                feedback.textContent = 'Selecione um livro para apagar.';
+                return;
+            }
+
+            // deletarLivro está em js/Script.js (delete /api/livros/:id)
+            // Após deletar, recarregamos o select.
+            const ok = await (async () => {
+                const okConfirm = confirm('Tem certeza que deseja deletar este livro?');
+                if (!okConfirm) return false;
+
+                const base = (location.protocol === 'file:') ? 'http://localhost:3000' : '';
+                const resposta = await fetch(`${base}/api/livros/${id}`, { method: 'DELETE' });
+                if (!resposta.ok) {
+                    let payload = null;
+                    try { payload = await resposta.json(); } catch (_) {}
+                    alert((payload && payload.error) ? payload.error : 'Não foi possível deletar o livro.');
+                    return false;
+                }
+                return true;
+            })();
+
+            if (!ok) return;
+
+            feedback.textContent = '✔️ Livro apagado com sucesso.';
+            await carregarLivrosParaAdmin();
+        }
+
+        document.getElementById('btnApagarSelecionado')
+            .addEventListener('click', apagarLivroSelecionado);
+
+        window.addEventListener('load', carregarLivrosParaAdmin);
+    </script>
 </body>
 </html>
+

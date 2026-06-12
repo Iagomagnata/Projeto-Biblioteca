@@ -47,8 +47,29 @@ function criarTabelas() {
         criado_em DATETIME DEFAULT CURRENT_TIMESTAMP
       )
     `, () => {
-      inserirLivrosLocais();
+      /* inserirLivrosLocais(); */
+      atualizarEsquemaLivros();
     });
+  });
+}
+
+function atualizarEsquemaLivros() {
+  db.all(`PRAGMA table_info(livros)`, (err, rows) => {
+    if (err) {
+      console.error('Erro ao verificar esquema de livros:', err.message);
+      return;
+    }
+
+    const existeEditora = rows.some(row => row.name === 'editora');
+    if (!existeEditora) {
+      db.run('ALTER TABLE livros ADD COLUMN editora TEXT', (alterErr) => {
+        if (alterErr) {
+          console.error('Erro ao adicionar coluna editora:', alterErr.message);
+        } else {
+          console.log('Coluna editora adicionada à tabela livros.');
+        }
+      });
+    }
   });
 }
 
@@ -119,7 +140,11 @@ app.post('/api/usuarios', (req, res) => {
   const sql = 'INSERT INTO usuarios (matricula, email) VALUES (?, ?)';
   db.run(sql, [matricula, email], function (err) {
     if (err) {
-      console.error('Erro ao inserir usuário:', err.message);
+      console.error('Erro ao inserir usuário:', err.message || err);
+      const msg = (err.message || '').toLowerCase();
+      if (msg.includes('sqlite_constraint') || msg.includes('unique constraint failed') || msg.includes('constraint failed') || msg.includes('unique')) {
+        return res.status(409).json({ error: 'Email ou matrícula já cadastrado' });
+      }
       return res.status(500).json({ error: 'Não foi possível cadastrar o usuário' });
     }
     res.status(201).json({ id: this.lastID, matricula, email });
@@ -136,13 +161,15 @@ app.post('/cadastrar-aluno', (req, res) => {
   const sql = 'INSERT INTO usuarios (matricula, email) VALUES (?, ?)';
   db.run(sql, [matricula, email], function (err) {
     if (err) {
-      console.error('Erro ao cadastrar aluno:', err.message);
-      if (err.message.includes('SQLITE_CONSTRAINT')) {
+      console.error('Erro ao cadastrar aluno:', err.message || err);
+      const msg = (err.message || '').toLowerCase();
+      if (msg.includes('sqlite_constraint') || msg.includes('unique constraint failed') || msg.includes('constraint failed') || msg.includes('unique')) {
         return res.status(409).send('Email ou matrícula já cadastrado.');
       }
       return res.status(500).send('Não foi possível cadastrar o aluno.');
     }
-    res.redirect('/Alexandria.html');
+    // Retorna JSON para chamadas AJAX; cliente pode redirecionar com base no campo `redirect`
+    res.status(201).json({ ok: true, redirect: '/Alexandria.html' });
   });
 });
 
@@ -156,10 +183,12 @@ app.post('/api/login', (req, res) => {
   const adminUsuario = 'DonaAda234';
   const adminSenha = 'admin@123';
 
-  if (usuario == adminUsuario && senha == adminSenha) {
-    return res.json({ ok: true });
-    res.redirect('/Alexandria.html');
-    
+  console.log(`Tentativa de login: usuario="${usuario}"`);
+
+  // permite comparação do usuário sem diferenciar maiúsculas/minúsculas
+  if (usuario.toLowerCase() === adminUsuario.toLowerCase() && senha === adminSenha) {
+    // Retorna JSON consistente para que o cliente (fetch) trate o redirecionamento
+    return res.status(200).json({ ok: true, redirect: '/Alexandria.html' });
   }
 
   return res.status(401).json({ error: 'Credenciais inválidas' });
@@ -179,13 +208,40 @@ app.post('/api/livros', (req, res) => {
   const { titulo, autor, editora, ano } = req.body;
   
   //cadastro de livros
-  const sql = 'INSERT INTO livros (titulo, autor, editora, ano) VALUES (?, ?, ?, ?)';
+  const sql = 'INSERT OR IGNORE INTO livros (titulo, autor, editora, ano) VALUES (?, ?, ?, ?)';
   db.run(sql, [titulo, autor || '', editora || '', ano || null], function (err) {
     if (err) {
       console.error('Erro ao inserir livro:', err.message);
       return res.status(500).json({ error: 'Não foi possível cadastrar o livro' });
     }
+    // Se nenhuma linha foi afetada, o livro já existia (INSERT OR IGNORE)
+    if (this.changes === 0) {
+      return res.status(409).json({ error: 'Livro já existe' });
+    }
     res.status(201).json({ id: this.lastID, titulo, autor, editora, ano });
+  });
+});
+
+// delete de livros (admin)
+app.delete('/api/livros/:id', (req, res) => {
+  const id = Number(req.params.id);
+
+  if (!Number.isFinite(id) || id <= 0) {
+    return res.status(400).json({ error: 'ID inválido' });
+  }
+
+  const sql = 'DELETE FROM livros WHERE id = ?';
+  db.run(sql, [id], function (err) {
+    if (err) {
+      console.error('Erro ao deletar livro:', err.message);
+      return res.status(500).json({ error: 'Não foi possível deletar o livro' });
+    }
+
+    if (this.changes === 0) {
+      return res.status(404).json({ error: 'Livro não encontrado' });
+    }
+
+    return res.status(200).json({ ok: true, deletedId: id });
   });
 });
 
@@ -193,4 +249,3 @@ app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
   console.log(`Banco SQLite: ${DB_PATH}`);
 });
-

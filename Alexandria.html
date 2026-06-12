@@ -56,7 +56,8 @@
         .search-section {
             display: flex;
             flex-wrap: wrap;
-            align-items: center;
+            align-items: stretch;
+            justify-content: space-between;
             gap: 12px;
             margin-bottom: 20px;
             background: rgba(255, 255, 255, 0.9);
@@ -65,11 +66,27 @@
             box-shadow: var(--shadow-sm);
         }
 
+        .search-controls {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .search-input-wrap {
+            flex: 1 1 240px;
+            min-width: 220px;
+            max-width: 340px;
+            display: flex;
+            align-items: center;
+        }
+
         /*css da barra de pesquisa*/
         #searchInput {
+            width: 100%;
             padding: 10px 15px;
-            flex: 1;
-            min-width: 200px;
             border-radius: 20px;
             border: 1px solid #ccc;
             outline: none;
@@ -92,9 +109,23 @@
 
         .input-group {
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             align-items: center;
-            gap: 14px;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .filter-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            border-radius: 999px;
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            font-size: 13px;
+            color: var(--text-main);
+            white-space: nowrap;
         }
 /*css do filtro de favoritos*/
         .favorites-filter {
@@ -105,12 +136,12 @@
             cursor: pointer;
             transition: border-color 0.25s ease;
         }
-
+/*css da animacao do botao*/
         .favorites-filter:hover {
             background: transparent;
             border-color: var(--primary);
         }
-
+/*css do input da caixa de favoritod*/
         .favorites-filter input[type="checkbox"] {
             accent-color: var(--primary);
             width: 18px;
@@ -118,8 +149,9 @@
             cursor: pointer;
         }
 
-        #categoryFilter {
-            padding: 10px 24px 10px 14px;
+        #categoryFilter,
+        #sortOrder {
+            padding: 8px 24px 8px 12px;
             border-radius: 20px;
             border: 1px solid #ccc;
             background: white;
@@ -127,6 +159,19 @@
             cursor: pointer;
             outline: none;
             transition: var(--transition);
+            font-size: 13px;
+            min-height: 36px;
+        }
+
+        .sort-control {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .sort-control select {
+            min-width: 150px;
         }
 
         .book-count-section {
@@ -135,6 +180,17 @@
             background: rgba(255, 255, 255, 0.9);
             border-radius: 12px;
             box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .book-count-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
         .book-count {
@@ -155,7 +211,7 @@
         /*Css da sessao destaque*/
         .vitrine-destaques {
             font-family: Arial, sans-serif;
-            padding: 20px;
+            padding: 14px;
             background-color: rgba(0, 49, 0, 0.85);
             backdrop-filter: blur(5px);
             border-radius: 12px;
@@ -166,18 +222,18 @@
 
         .vitrine-destaques h2 {
             margin-top: 0;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             border-bottom: 2px solid var(--secondary);
-            padding-bottom: 5px;
-            font-size: 1.5rem;
+            padding-bottom: 4px;
+            font-size: 1.2rem;
         }
 
         /*css da posição horizontal dos livros em destaque*/
         .fileira-Livros {
             display: flex;
             overflow-x: auto;
-            gap: 20px;
-            padding: 10px 5px;
+            gap: 12px;
+            padding: 6px 2px;
             scrollbar-width: thin;
             scrollbar-color: var(--secondary) transparent;
         }
@@ -198,11 +254,11 @@
         }
 
         .card-produto {
-            flex: 0 0 220px;
+            flex: 0 0 180px;
             background-color: white;
             border: 1px solid #e2e8f0;
             border-radius: 12px;
-            padding: 15px;
+            padding: 10px;
             text-align: center;
             box-shadow: var(--shadow-sm);
             display: flex;
@@ -217,11 +273,11 @@
         }
 
         .card-produto .img-container {
-            height: 160px;
+            height: 120px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .card-produto img {
@@ -232,22 +288,22 @@
         }
 
         .card-produto h3 {
-            font-size: 14px;
-            margin: 10px 0;
+            font-size: 13px;
+            margin: 6px 0;
             color: #333;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            height: 40px;
+            height: 36px;
         }
 
         .preco {
             color: var(--secondary);
             font-weight: bold;
-            font-size: 14px;
+            font-size: 12px;
             text-transform: uppercase;
-            margin: 5px 0 15px 0;
+            margin: 4px 0 10px 0;
         }
 
 
@@ -520,6 +576,198 @@
             fill: #ef4444;
             /* Preenche o interior do coração de vermelho */
         }
+ /*css do botão de abrir modal */
+        .btn-abrir-modal {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(14, 100, 161, 0.3);
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-abrir-modal:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(14, 100, 161, 0.4);
+        }
+ dialog {
+            border: none;
+            border-radius: 24px;
+            padding: 0;
+            width: min(500px, 92vw); /* Fluido e totalmente responsivo para celulares */
+            max-height: 90vh;
+            box-shadow: var(--shadow-lg);
+            background: #ffffff;
+            overflow-y: auto;
+            overflow-x: hidden;
+            
+            /* Efeito suave de entrada (Opacidade e Escala) */
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.3s ease, transform 0.3s ease, display 0.3s ease allow-discrete;
+        }
+
+        /* Estado quando o diálogo nativo HTML está aberto */
+        dialog[open] {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Estilização do fundo do modal (backdrop nativo) */
+        dialog::backdrop {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            opacity: 0;
+            transition: opacity 0.3s ease, display 0.3s ease allow-discrete;
+        }
+
+        dialog[open]::backdrop {
+            opacity: 1;
+        }
+
+        /* Cabeçalho do modal */
+        .modal-header {
+            background: var(--bg-gradient);
+            padding: 24px;
+            color: #ffffff;
+            position: relative;
+        }
+
+        .modal-header h2 {
+            font-size: 1.3rem;
+            margin: 0;
+            max-width: 85%;
+        }
+
+        /* Botão com o ícone 'X' de fechar */
+        .btn-fechar-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #ffffff;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-fechar-modal:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: rotate(90deg);
+        }
+
+        /* Corpo do Formulário */
+        .modal-body {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        #modalCadastro form {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        #modalCadastro label {
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--text-main);
+        }
+
+        #modalCadastro input,
+        #modalCadastro select,
+        #modalCadastro textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            outline: none;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            transition: var(--transition);
+        }
+
+        #modalCadastro textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        #modalCadastro input:focus,
+        #modalCadastro select:focus,
+        #modalCadastro textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(14, 100, 161, 0.15);
+        }
+
+        /* Ações do Modal */
+        .modal-actions {
+            border-top: 1px solid #e2e8f0;
+            padding: 20px 24px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            background: #f8fafc;
+        }
+
+        .btn-botao {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+
+        .btn-salvar {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-salvar:hover {
+            background-color: #2e8b57;
+        }
+
+        .btn-cancelar {
+            background-color: var(--text-muted);
+            color: white;
+        }
+
+        .btn-cancelar:hover {
+            background-color: #374151;
+        }
+
+        /* Caixa de feedback visual em substituição aos alertas padrão */
+        .caixa-feedback {
+            display: none;
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 8px;
+            background-color: #d1fae5;
+            color: #065f46;
+            font-size: 13px;
+            font-weight: bold;
+            border: 1px solid #a7f3d0;
+        }
     </style>
 </head>
 
@@ -532,32 +780,63 @@
     <main>
         <!-- Seção de pesquisa e filtragem -->
         <section class="search-section">
-            <label class="filter-box" for="categoryFilter"> Categoria:
-                <select id="categoryFilter">
-                    <option value="all">Todos os livros</option>
-                    <option value="Livros-aventura">Aventura</option>
-                    <option value="conto">conto</option>
-                    <option value="romance">Romance</option>
-                    <option value="Ficção cientifica">Ficção Científica</option>
-                </select>
-            </label>
-            <input type="text" placeholder="Pesquisar livro..." id="searchInput">
-            <div class="input-group">
-                <label class="filter-box favorites-filter" for="favoritesOnly">
-                    <input type="checkbox" id="favoritesOnly">
-                    Somente favoritos
+            <div class="search-controls">
+                <label class="filter-box" for="categoryFilter">Categoria:
+                    <select id="categoryFilter">
+                        <option value="all">Todos os livros</option>
+                        <option value="aventura">Aventura</option>
+                        <option value="Biografia">Biografia</option>
+                        <option value="conto">Conto</option>
+                        <option value="Comédia">Comédia</option>
+                        <option value="Cultura Geral">Cultura Geral</option>
+                        <option value="Fantasia">Fantasia</option>
+                        <option value="Ficção cientifica">Ficção Científica</option>
+                        <option value="Ficção">Ficção</option>
+                        <option value="História">História</option>
+                       <option value="Mitologia">Mitologia</option>
+                        <option value="Jornalistico">Jornalistico</option>
+                        <option value="Poesia">Poesia</option>
+                         <option value="romance">Romance</option>
+                        <option value="Terror">Terror</option>
+                        
+                       
+                       
+
+                       
+                    </select>
                 </label>
-                <label for="sortOrder">Ordenar por</label>
-                <select id="sortOrder" class="select-filter">
-                    <option value="default">Relevância</option>
-                    <option value="title-asc">Título (A-Z)</option>
-                    <option value="title-desc">Título (Z-A)</option>
-                </select>
+
+                <div class="input-group">
+                    <label class="filter-chip favorites-filter" for="favoritesOnly">
+                        <input type="checkbox" id="favoritesOnly">
+                        Somente favoritos
+                    </label>
+                    <label class="filter-chip sort-control" for="sortOrder">
+                        <span>Ordenar por</span>
+                        <select id="sortOrder" class="select-filter">
+                            <option value="default">Relevância</option>
+                            <option value="title-asc">Título (A-Z)</option>
+                            <option value="title-desc">Título (Z-A)</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            <div class="search-input-wrap">
+                <input type="text" placeholder="Pesquisar livro..." id="searchInput">
             </div>
         </section>
 
         <section class="book-count-section">
-            <p class="book-count">Total de livros na biblioteca: <strong id="bookCount">0</strong></p>
+            <div class="book-count-row">
+                <p class="book-count">Total de livros na biblioteca: <strong id="bookCount">0</strong></p>
+                <button type="button" class="btn-abrir-modal" id="btnAbrirModal" >
+                    <span>➕</span> Registar Novo Livro
+                </button>
+            </div>
+            <div class="caixa-feedback" id="caixaFeedback">
+                ✔️ Livro enviado com sucesso! Dados capturados no console.
+            </div>
         </section>
 
         <!-- Vitrine de destaques -->
@@ -818,7 +1097,7 @@
                 </div>
             </article>
             <!--livro 8-->
-            <article class="card" data-category="romance" data-name="o outro apaixonado por Marilia de Dirceu">
+            <article class="card" data-category="romance Ficção" data-name="o outro apaixonado por Marilia de Dirceu">
                 <small>Livro</small>
                 <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -876,8 +1155,8 @@
                     </button>
                 </div>
             </article>
-
-            <article class="card" data-category="conto" data-name="O amanhã cheio de histórias">
+        <!--livro 10-->
+            <article class="card" data-category="conto Ficção" data-name="O amanhã cheio de histórias">
                 <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path
@@ -935,7 +1214,7 @@
                 </div>
             </article>
 
-            <article class="card" data-category=" jornalistico" data-name="Dez dias no manicômio">
+            <article class="card" data-category="Jornalistico" data-name="Dez dias no manicômio">
                 <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path
@@ -993,7 +1272,7 @@
                 </div>
             </article>
 
-            <article class="card" data-category="romance" data-name="Dinamene">
+            <article class="card" data-category="aventura" data-name="Dinamene">
                 <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path
@@ -1004,7 +1283,7 @@
                 <h3>Dinamene</h3>
                 <!--foto do livro-->
                 <img src="https://aventurasnahistoria.com.br/wp-content/uploads/amazon/livro_i9GbWcS.jpg"
-                    alt="As filhas sem nome">
+                    alt="Livro Dinamene">
                 <div class="card-content">
                     <!--tags autor e genero-->
                     <div class="card-tags">
@@ -1067,7 +1346,7 @@
                 <h3>fogo contra fogo</h3>
                 <!--foto do livro-->
                 <img src="https://m.media-amazon.com/images/I/71iC+IcgQcL._AC_UF350,350_QL50_.jpg"
-                    alt="Fogo contra fogo">
+                    alt="fogo contra fogo">
                 <div class="card-content">
                     <!--tags autor e genero-->
                     <div class="card-tags">
@@ -1088,7 +1367,7 @@
             </article>
 
             <!--colocar a estrutura do  card do livro dentro da div-->
-             <article class="card" data-category="Romance Histórico, Ficção e Drama Épico"  data-name="Ramsés: A batalha de kadesh (vol 1)">
+             <article class="card" data-category="Romance , História"  data-name="Ramsés: A batalha de kadesh (vol 1)">
       <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -1196,7 +1475,7 @@
                 </div>
             </article>
 
-            <article class="card" data-category="Romance e Comédia"  data-name="Os filhos do imperador">
+            <article class="card" data-category="Romance Comédia"  data-name="Os filhos do imperador">
       <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -1225,7 +1504,7 @@
 
             </article>
 
-            <article class="card" data-category="Terror e Suspense"  data-name="Histórias Primordiais">
+            <article class="card" data-category="Terror"  data-name="Histórias Primordiais">
       <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -1361,7 +1640,7 @@
                 </div>
             </article>
 
-            <article class="card" data-category="ficção e romance "  data-name="dez anos e nove meses">
+            <article class="card" data-category="Ficção romance"  data-name="dez anos e nove meses">
       <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -1388,7 +1667,7 @@
                 </div>
             </article>
 
-            <article class="card" data-category="Horror e Ficção "  data-name="o médico e o monstro">
+            <article class="card" data-category="Terror Ficção"  data-name="o médico e o monstro">
       <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -1401,7 +1680,7 @@
                 <div class="card-content">
                    <!--tags autor e genero-->
                     <div class="card-tags">
-      <span class="tag-categoria">Horror e Ficção </span>            <span class="tag-autor">Autor: Robert Louis Stevenson</span>
+      <span class="tag-categoria">Terror e ficção</span>            <span class="tag-autor">Autor: Robert Louis Stevenson</span>
                     </div>
       <p>O respeitado e pacato médico londrino Dr. Henry Jekyll decide usar a ciência para separar o bem e o mal que habitam sua própria personalidade. Ele cria uma poção e, ao ingeri-la, transforma-se em Edward Hyde: um ser desfigurado, impulsivo, sem escrúpulos e a personificação de todo o seu lado sombrio e reprimido.</p>
                     <!--botao do dialogo oque tem dentro como imagem , descrição e titulo-->
@@ -1444,7 +1723,7 @@
                 </div>
             </article>
             
-            <article class="card" data-category="Biografia e aventura"  data-name="procurando gobi">
+            <article class="card" data-category="Biografia aventura"  data-name="procurando gobi">
       <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -1471,7 +1750,7 @@
                 </div>
             </article>
 
-            <article class="card" data-category="História Militar"  data-name="As maiores guerras do mundo">
+            <article class="card" data-category="História"  data-name="As maiores guerras do mundo">
       <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -1498,7 +1777,7 @@
                 </div>
             </article>
 
-             <article class="card" data-category="Filosofia e Mitologia"  data-name="Mitologia e autoconhecimento">
+             <article class="card" data-category="Mitologia"  data-name="Mitologia e autoconhecimento">
       <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -1525,7 +1804,7 @@
                 </div>
             </article>
 
-            <article class="card" data-category="História da Música"  data-name="Almanaque do Rock & Filosofia: Os Ídolos que Fizeram História">
+            <article class="card" data-category="História Cultura geral"  data-name="Almanaque do Rock & Filosofia: Os Ídolos que Fizeram História">
       <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -1538,7 +1817,7 @@
                 <div class="card-content">
                    <!--tags autor e genero-->
                     <div class="card-tags">
-      <span class="tag-categoria">História da Música</span>            <span class="tag-autor">Autor: Antero Leivas</span>
+      <span class="tag-categoria">Cultura Geral e História da Música</span>            <span class="tag-autor">Autor: Antero Leivas</span>
                     </div>
       <p>O livro apresenta a história do rock como muito mais do que um gênero musical: uma filosofia de vida marcada pela rebeldia, criatividade e contestação social. A obra explora as origens do rock, sua influência da geração beat, seus primeiros ídolos, a relação do movimento com questões sociais e culturais, além de abordar artistas e bandas que marcaram época, como Chuck Berry, Raul Seixas, The Beatles, The Rolling Stones, Pink Floyd e Led Zeppelin. Também discute temas como as perdas precoces de grandes astros do rock e o impacto cultural do gênero ao longo das décadas.</p>
                     <!--botao do dialogo oque tem dentro como imagem , descrição e titulo-->
@@ -1552,7 +1831,7 @@
                 </div>
             </article>
 
-            <article class="card" data-category="Ciência e Cultura Geral"  data-name="grandes gênios da humanidade">
+            <article class="card" data-category="História Cultura Geral"  data-name="grandes gênios da humanidade">
       <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -1579,7 +1858,7 @@
                 </div>
             </article>
 
-            <article class="card" data-category="comédia e realeza"  data-name="lições de princesa">
+            <article class="card" data-category="Comédia"  data-name="lições de princesa">
       <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -1606,7 +1885,7 @@
                 </div>
             </article>
 
-            <article class="card" data-category="literatura juvenil e autobiografia"  data-name="coragem">
+            <article class="card" data-category="literatura juvenil  autobiografia"  data-name="coragem">
       <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -1660,7 +1939,7 @@
                 </div>
             </article>
 
-            <article class="card" data-category="Fantasia e romance"  data-name="O lado mais sombrio (vol.1)">
+            <article class="card" data-category="Fantasia romance"  data-name="O lado mais sombrio (vol.1)">
       <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -1687,7 +1966,7 @@
                 </div>
             </article>
 
-            <article class="card" data-category="Fantasia e romance"  data-name="Atrás do espelho (vol.2)">
+            <article class="card" data-category="Fantasia romance"  data-name="Atrás do espelho (vol.2)">
       <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -1714,7 +1993,7 @@
                 </div>
             </article>
 
-            <article class="card" data-category="Fantasia e romance"  data-name="Qualquer outro lugar (vol.3)">
+            <article class="card" data-category="Fantasia romance"  data-name="Qualquer outro lugar (vol.3)">
       <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -1741,7 +2020,7 @@
                 </div>
             </article>
 
-            <article class="card" data-category="fantasia sombria"  data-name="As aventuras do caça-feitiços: O Sacrificio VI">
+            <article class="card" data-category="Fantasia romance"  data-name="As aventuras do caça-feitiços: O Sacrificio VI">
       <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -1768,7 +2047,7 @@
                 </div>
             </article>
 
-            <article class="card" data-category="fantasia sombria"  data-name="As aventuras do caça-feitiços: A Batalha IV">
+            <article class="card" data-category="Fantasia"  data-name="As aventuras do caça-feitiços: A Batalha IV">
       <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -1795,7 +2074,7 @@
                 </div>
             </article>
 
-            <article class="card" data-category="psicológico e terror"  data-name="A menina que não sabia ler (vol. 1)">
+            <article class="card" data-category="Terror"  data-name="A menina que não sabia ler (vol. 1)">
       <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -1854,6 +2133,47 @@
 
     </dialog>
 
+    <dialog id="modalCadastro">
+        <form id="formCadastroLivro" method="dialog" class="modal-form">
+            <div class="modal-header">
+                <h2>Cadastrar novo livro</h2>
+                <button type="button" class="btn-fechar-modal" id="closeModalCross" aria-label="Fechar">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <label for="inputTitulo">Título</label>
+                <input id="inputTitulo" name="titulo" type="text" required>
+
+                <label for="inputAutor">Autor</label>
+                <input id="inputAutor" name="autor" type="text" required>
+
+                <label for="selectCategoria">Categoria</label>
+                <select id="selectCategoria" name="categoria">
+                    <option value="Romance">Romance</option>
+                    <option value="Aventura">Aventura</option>
+                    <option value="Ficção Científica">Ficção Científica</option>
+                    <option value="Conto">Conto</option>
+                </select>
+
+                <label for="inputImagem">URL da imagem </label>
+                <input id="inputImagem" name="imagem" type="url" placeholder="https://...">
+
+                <label for="textareaDescricao">Descrição</label>
+                <textarea id="textareaDescricao" name="descricao" rows="4"></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" id="btnCancelar" class="botao btn-cancelar">Cancelar</button>
+                <button type="submit" class="botao btn-salvar">Salvar livro</button>
+            </div>
+        </form>
+    </dialog>
+
     <script>
         /* Seletores de busca e filtragem */
         const searchInput = document.getElementById('searchInput');
@@ -1908,7 +2228,7 @@
                 return [];
             }
         }
-
+        
         function saveFavorites(favorites) {
             localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
         }
@@ -1918,6 +2238,70 @@
             const title = card.querySelector('h3')?.textContent?.trim().toLowerCase() || '';
             const normalized = title.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
             return normalized.replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        }
+
+        function attachCardListeners(card) {
+            const favoriteButton = card.querySelector('.btn-favorito');
+            const detailsButton = card.querySelector('.open-dialog-btn');
+
+            favoriteButton?.addEventListener('click', (evento) => {
+                evento.stopPropagation();
+                const id = getCardId(card);
+                const favorites = new Set(getFavorites());
+
+                if (favorites.has(id)) {
+                    favorites.delete(id);
+                    favoriteButton.classList.remove('favoritado');
+                } else {
+                    favorites.add(id);
+                    favoriteButton.classList.add('favoritado');
+                }
+
+                saveFavorites(Array.from(favorites));
+                filterProducts();
+            });
+
+            detailsButton?.addEventListener('click', () => {
+                dialogTitle.textContent = detailsButton.dataset.title;
+                dialogImage.src = detailsButton.dataset.image;
+                dialogImage.alt = detailsButton.dataset.title;
+                dialogDescription.textContent = detailsButton.dataset.description;
+                productDialog.showModal();
+            });
+        }
+
+        function addLivroCardToDOM(livro) {
+            const card = document.createElement('article');
+            card.className = 'card';
+            card.dataset.category = livro.categoria || 'Sem categoria';
+            card.dataset.name = livro.titulo || 'Sem título';
+
+            card.innerHTML = `
+                <button type="button" class="btn-favorito" aria-label="Adicionar aos favoritos">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                </button>
+                <small>Livro</small>
+                <h3>${livro.titulo}</h3>
+                <img src="${livro.imagem}" alt="Livro ${livro.titulo}">
+                <div class="card-content">
+                    <div class="card-tags">
+                        <span class="tag-categoria">${livro.categoria}</span>
+                        <span class="tag-autor">${livro.autor}</span>
+                    </div>
+                    <p>${livro.descricao || 'Descrição não informada.'}</p>
+                    <button type="button" class="botao open-dialog-btn" data-title="${livro.titulo}" data-image="${livro.imagem}" data-description="${livro.descricao || 'Sem descrição.'}">
+                        Detalhes
+                    </button>
+                </div>
+            `;
+
+            productList.appendChild(card);
+            attachCardListeners(card);
+            cards.push(card);
+            updateBookCount();
+            filterProducts();
         }
 
         function applyFavoritesState() {
@@ -1938,21 +2322,29 @@
             }
         }
 
+        function normalizeText(value) {
+            return String(value || '')
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase()
+                .trim();
+        }
+
         /* Função de filtragem de produtos e ordem  */
         function filterProducts() {
-            const query = searchInput.value.toLowerCase().trim();
-            const selectedCategory = categoryFilter.value;
+            const query = normalizeText(searchInput.value);
+            const selectedCategory = normalizeText(categoryFilter.value);
             const selectedSort = sortOrder.value;
 
             // 1. Primeiro Passo: Filtrar as visibilidades dos cartões
             const favorites = new Set(getFavorites());
 
             cards.forEach(card => {
-                const category = card.dataset.category;
-                const name = card.dataset.name.toLowerCase();
+                const category = normalizeText(card.dataset.category);
+                const name = normalizeText(card.dataset.name);
                 const id = getCardId(card);
 
-                const matchesCategory = selectedCategory === 'all' || category === selectedCategory;
+                const matchesCategory = selectedCategory === 'all' || category.includes(selectedCategory);
                 const matchesSearch = name.includes(query);
                 const matchesFavorites = !favoritesOnly.checked || favorites.has(id);
 
@@ -2021,6 +2413,119 @@
                 closeModal();
             }
         });
+
+        /*elementos do modal*/
+        const modal = document.getElementById('modalCadastro');
+        const btnAbrirModal = document.getElementById('btnAbrirModal');
+        const formCadastro = document.getElementById('formCadastroLivro');
+        const caixaFeedback = document.getElementById('caixaFeedback');
+
+        // Seletores dos botões de Fechamento
+        const closeModalCross = document.getElementById('closeModalCross');
+        const btnCancelar = document.getElementById('btnCancelar');
+
+        if (!modal || !btnAbrirModal || !formCadastro) {
+            console.error('Modal de cadastro ausente na página.');
+        } else {
+            // 1. Função responsável por abrir o modal de forma nativa e acessível
+            btnAbrirModal.addEventListener('click', () => {
+                caixaFeedback.style.display = 'none';
+                modal.showModal();
+            });
+
+            // 2. Função responsável por redefinir os campos e fechar o modal com segurança
+            const fecharModal = () => {
+                formCadastro.reset();
+                modal.close();
+            };
+
+            // Vincula as funções de fechar aos respectivos botões de cancelar e ao 'X'
+            closeModalCross?.addEventListener('click', fecharModal);
+            btnCancelar?.addEventListener('click', fecharModal);
+
+            // 3. Fechar o modal caso o usuário clique fora do conteúdo principal
+            modal.addEventListener('click', (e) => {
+                const limitesModal = modal.getBoundingClientRect();
+                const clicouDentro = (
+                    limitesModal.top <= e.clientY && e.clientY <= limitesModal.top + limitesModal.height &&
+                    limitesModal.left <= e.clientX && e.clientX <= limitesModal.left + limitesModal.width
+                );
+                if (!clicouDentro) {
+                    fecharModal();
+                }
+            });
+
+            // 4. Captura a submissão dos dados do formulário e envia para a API
+            formCadastro.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const dadosObjeto = {
+                    titulo: document.getElementById('inputTitulo').value.trim(),
+                    autor: document.getElementById('inputAutor').value.trim(),
+                    categoria: document.getElementById('selectCategoria').value,
+                    imagem: document.getElementById('inputImagem').value.trim() || 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=240',
+                    descricao: document.getElementById('textareaDescricao').value.trim()
+                };
+
+                if (!dadosObjeto.titulo || !dadosObjeto.autor) {
+                    caixaFeedback.textContent = 'Preencha título e autor antes de salvar.';
+                    caixaFeedback.style.display = 'block';
+                    return;
+                }
+
+                try {
+                    const base = (location.protocol === 'file:') ? 'http://localhost:3000' : '';
+                    const resposta = await fetch(base + '/api/livros', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            titulo: dadosObjeto.titulo,
+                            autor: dadosObjeto.autor,
+                            editora: dadosObjeto.categoria,
+                            ano: null
+                        })
+                    });
+
+                    const resultado = await resposta.json().catch(() => ({}));
+
+                    if (!resposta.ok) {
+                        throw new Error(resultado.error || 'Erro ao cadastrar livro');
+                    }
+
+                    console.log('Livro cadastrado com sucesso:', resultado);
+                    addLivroCardToDOM(dadosObjeto);
+                    fecharModal();
+                    caixaFeedback.textContent = '✔️ Livro cadastrado com sucesso!';
+                    caixaFeedback.style.display = 'block';
+                } catch (erro) {
+                    console.error('Erro ao cadastrar livro:', erro);
+                    caixaFeedback.textContent = '❌ Não foi possível cadastrar o livro.';
+                    caixaFeedback.style.display = 'block';
+                }
+            });
+        }
+
+        // Remove artigos duplicados já presentes no HTML (por título/data-name)
+        (function removerDuplicadosHTML() {
+            const productList = document.getElementById('productList');
+            if (!productList) return;
+            const seen = new Set();
+            const articles = Array.from(productList.querySelectorAll('article.card'));
+            articles.forEach(article => {
+                const nameAttr = (article.getAttribute('data-name') || '').trim().toLowerCase();
+                const h3 = article.querySelector('h3');
+                const titleText = (h3 ? h3.textContent : '').trim().toLowerCase();
+                const key = nameAttr || titleText;
+                if (!key) return;
+                if (seen.has(key)) {
+                    article.remove();
+                } else {
+                    seen.add(key);
+                }
+            });
+            const bookCountEl = document.getElementById('bookCount');
+            if (bookCountEl) bookCountEl.textContent = seen.size;
+        })();
     </script>
 </body>
 
