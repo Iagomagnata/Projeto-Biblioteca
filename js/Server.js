@@ -62,11 +62,11 @@ function atualizarEsquemaLivros() {
 
     const existeEditora = rows.some(row => row.name === 'editora');
     if (!existeEditora) {
-      db.run('ALTER TABLE livros ADD COLUMN editora TEXT', (alterErr) => {
+      db.run('ALTER TABLE livros DROP COLUMN editora TEXT', (alterErr) => {
         if (alterErr) {
-          console.error('Erro ao adicionar coluna editora:', alterErr.message);
+          console.error('Erro ao apagar a coluna editora:', alterErr.message);
         } else {
-          console.log('Coluna editora adicionada à tabela livros.');
+          console.log('Coluna editora apagada da tabela livros.');
         }
       });
     }
@@ -130,7 +130,7 @@ app.get('/api/usuarios', (req, res) => {
   });
 });
 
-app.post('/api/usuarios', (req, res) => {
+/* app.post('/api/usuarios', (req, res) => {
   const { matricula, email } = req.body;
 
   if (!matricula || !email) {
@@ -171,7 +171,7 @@ app.post('/cadastrar-aluno', (req, res) => {
     // Retorna JSON para chamadas AJAX; cliente pode redirecionar com base no campo `redirect`
     res.status(201).json({ ok: true, redirect: '/Alexandria.html' });
   });
-});
+}); */
 
 app.post('/api/login', (req, res) => {
   const { usuario, senha } = req.body;

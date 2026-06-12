@@ -1,0 +1,45 @@
+:root {
+            --primary: #0e64a1;
+            --primary-dark: #0a4d7d;
+            --secondary: #3cb371;
+            --bg-gradient: linear-gradient(135deg, #0e64a1 0%, #1c5c3a 100%);
+            --text-main: #1f2937;
+            --text-muted: #4b5563;
+            --card-bg: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --shadow-sm: 0 4px 10px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.2);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+
+body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(18deg, #0e64a1 0%, #3cb371 100%);
+            color: #222;
+            min-height: 100vh;
+        }
+
+
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+            color: #fff;
+        }
+
+        header {
+             background: rgba(9, 52, 84, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }

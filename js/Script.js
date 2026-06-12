@@ -2,7 +2,7 @@ const api_url = '/api/usuarios';
 
 let usuarios = [];
 
-async function carregarUsuarios() {
+/* async function carregarUsuarios() {
     try {
         const resposta = await fetch(api_url);
         if (resposta.ok) {
@@ -11,9 +11,9 @@ async function carregarUsuarios() {
     } catch (error) {
         console.error('Erro:', error);
     }
-}
+} */
 
-async function cadastrarUsuario(event) {
+/* async function cadastrarUsuario(event) {
     event.preventDefault();
 
     const matricula = document.getElementById('Matricula').value.trim();
@@ -66,7 +66,7 @@ async function cadastrarUsuario(event) {
         console.error('Erro:', error);
         alert('Erro de rede: ' + error);
     }
-}
+} */
 
 async function loginAdministrador(event) {
     event.preventDefault();
