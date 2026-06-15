@@ -37,27 +37,16 @@
                 if (feedback) feedback.textContent = 'Carregando livros...';
 
                 const base = (location.protocol === 'file:') ? 'http://localhost:3000' : '';
-<<<<<<< HEAD
-                const url = base + '/api/livros';
-
-                const resp = await fetch(url);
-
-
+                const resp = await fetch(base + '/api/livros');
                 if (!resp.ok) {
                     const txt = await resp.text().catch(() => '');
                     console.error('Falha ao carregar livros:', resp.status, txt);
                     alert(`Erro ao carregar livros. HTTP ${resp.status}`);
                     return;
                 }
-
-                const livros = await resp.json();
-=======
-                const resp = await fetch(base + '/api/livros');
                 const data = await resp.json();
                 // API retorna { success: true, livros: [...] }
                 const livros = data?.livros;
-
->>>>>>> 28671895731aa3523653ccd0feebec8c495f9717
 
                 const select = document.getElementById('livroSelect');
                 const feedback = document.getElementById('adminFeedback');
