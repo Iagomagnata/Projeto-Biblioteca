@@ -34,7 +34,10 @@
             try {
                 const base = (location.protocol === 'file:') ? 'http://localhost:3000' : '';
                 const resp = await fetch(base + '/api/livros');
-                const livros = await resp.json();
+                const data = await resp.json();
+                // API retorna { success: true, livros: [...] }
+                const livros = data?.livros;
+
 
                 const select = document.getElementById('livroSelect');
                 const feedback = document.getElementById('adminFeedback');
