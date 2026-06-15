@@ -42,14 +42,25 @@ function criarTabelas() {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         titulo TEXT NOT NULL UNIQUE,
         autor TEXT,
-        editora TEXT,
         ano INTEGER,
+        available_count INTEGER DEFAULT 1,
         criado_em DATETIME DEFAULT CURRENT_TIMESTAMP
       )
     `, () => {
-      /* inserirLivrosLocais(); */
       atualizarEsquemaLivros();
     });
+
+    db.run(`
+      CREATE TABLE IF NOT EXISTS operacoes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        livro TEXT NOT NULL,
+        acao TEXT NOT NULL,
+        papel TEXT NOT NULL,
+        student_name TEXT,
+        turma TEXT,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
   });
 }
 
@@ -60,13 +71,13 @@ function atualizarEsquemaLivros() {
       return;
     }
 
-    const existeEditora = rows.some(row => row.name === 'editora');
-    if (!existeEditora) {
-      db.run('ALTER TABLE livros DROP COLUMN editora TEXT', (alterErr) => {
+    const existeAvailableCount = rows.some(row => row.name === 'available_count');
+    if (!existeAvailableCount) {
+      db.run('ALTER TABLE livros ADD COLUMN available_count INTEGER DEFAULT 1', (alterErr) => {
         if (alterErr) {
-          console.error('Erro ao apagar a coluna editora:', alterErr.message);
+          console.error('Erro ao adicionar a coluna available_count:', alterErr.message);
         } else {
-          console.log('Coluna editora apagada da tabela livros.');
+          console.log('Coluna available_count adicionada à tabela livros.');
         }
       });
     }
@@ -208,8 +219,8 @@ app.post('/api/livros', (req, res) => {
   const { titulo, autor, editora, ano } = req.body;
   
   //cadastro de livros
-  const sql = 'INSERT OR IGNORE INTO livros (titulo, autor, editora, ano) VALUES (?, ?, ?, ?)';
-  db.run(sql, [titulo, autor || '', editora || '', ano || null], function (err) {
+  const sql = 'INSERT OR IGNORE INTO livros (titulo, autor, editora, ano, available_count) VALUES (?, ?, ?, ?, ?)';
+  db.run(sql, [titulo, autor || '', editora || '', ano || null, 1], function (err) {
     if (err) {
       console.error('Erro ao inserir livro:', err.message);
       return res.status(500).json({ error: 'Não foi possível cadastrar o livro' });
@@ -218,7 +229,154 @@ app.post('/api/livros', (req, res) => {
     if (this.changes === 0) {
       return res.status(409).json({ error: 'Livro já existe' });
     }
-    res.status(201).json({ id: this.lastID, titulo, autor, editora, ano });
+    res.status(201).json({ id: this.lastID, titulo, autor, editora, ano, available_count: 1 });
+  });
+});
+
+app.post('/api/emprestimo', (req, res) => {
+  const { title, studentName, turma } = req.body;
+
+  if (!title || !studentName || !turma) {
+    return res.status(400).json({ success: false, message: 'Título, nome do aluno e turma são obrigatórios.' });
+  }
+
+  db.get('SELECT available_count FROM livros WHERE titulo = ?', [title], (err, row) => {
+    if (err) {
+      console.error('Erro ao consultar livro:', err.message);
+      return res.status(500).json({ success: false, message: 'Erro no servidor ao verificar disponibilidade.' });
+    }
+
+    if (!row || row.available_count <= 0) {
+      return res.status(400).json({ success: false, message: 'Não há livros disponíveis para empréstimo no momento.' });
+    }
+
+    db.run('UPDATE livros SET available_count = available_count - 1 WHERE titulo = ?', [title], function (updateErr) {
+      if (updateErr) {
+        console.error('Erro ao atualizar disponibilidade:', updateErr.message);
+        return res.status(500).json({ success: false, message: 'Erro no servidor ao atualizar estoque.' });
+      }
+
+      db.run('INSERT INTO operacoes (livro, acao, papel, student_name, turma) VALUES (?, ?, ?, ?, ?)',
+        [title, 'Empréstimo', 'admin', studentName, turma], function (insertErr) {
+          if (insertErr) {
+            console.error('Erro ao salvar operação:', insertErr.message);
+            return res.status(500).json({ success: false, message: 'Erro ao registrar empréstimo.' });
+          }
+          res.json({ success: true, message: 'Empréstimo registrado com sucesso.' });
+        });
+    });
+  });
+});
+
+app.post('/api/reserva', (req, res) => {
+  const { title, studentName, turma } = req.body;
+
+  if (!title || !studentName || !turma) {
+    return res.status(400).json({ success: false, message: 'Título, nome do aluno e turma são obrigatórios.' });
+  }
+
+  db.get('SELECT available_count FROM livros WHERE titulo = ?', [title], (err, row) => {
+    if (err) {
+      console.error('Erro ao consultar livro:', err.message);
+      return res.status(500).json({ success: false, message: 'Erro no servidor ao verificar disponibilidade.' });
+    }
+
+    const saveReservation = () => {
+      db.run('INSERT INTO operacoes (livro, acao, papel, student_name, turma) VALUES (?, ?, ?, ?, ?)',
+        [title, 'Reservar', 'admin', studentName, turma], function (insertErr) {
+          if (insertErr) {
+            console.error('Erro ao salvar operação:', insertErr.message);
+            return res.status(500).json({ success: false, message: 'Erro ao registrar reserva.' });
+          }
+          res.json({ success: true, message: 'Reserva registrada com sucesso.' });
+        });
+    };
+
+    if (row && row.available_count > 0) {
+      db.run('UPDATE livros SET available_count = available_count - 1 WHERE titulo = ?', [title], function (updateErr) {
+        if (updateErr) {
+          console.error('Erro ao atualizar disponibilidade:', updateErr.message);
+          return res.status(500).json({ success: false, message: 'Erro no servidor ao atualizar estoque.' });
+        }
+        saveReservation();
+      });
+    } else {
+      saveReservation();
+    }
+  });
+});
+
+app.post('/api/devolucao', (req, res) => {
+  const { title, studentName, turma } = req.body;
+
+  if (!title) {
+    return res.status(400).json({ success: false, message: 'Título do livro é obrigatório.' });
+  }
+
+  db.run('INSERT OR IGNORE INTO livros (titulo, available_count) VALUES (?, 0)', [title], function (err) {
+    if (err) {
+      console.error('Erro ao garantir livro no estoque:', err.message);
+      return res.status(500).json({ success: false, message: 'Erro no servidor ao atualizar estoque.' });
+    }
+
+    db.run('UPDATE livros SET available_count = available_count + 1 WHERE titulo = ?', [title], function (updateErr) {
+      if (updateErr) {
+        console.error('Erro ao atualizar disponibilidade:', updateErr.message);
+        return res.status(500).json({ success: false, message: 'Erro no servidor ao atualizar estoque.' });
+      }
+
+      db.run('INSERT INTO operacoes (livro, acao, papel, student_name, turma) VALUES (?, ?, ?, ?, ?)',
+        [title, 'Devolução', 'admin', studentName || null, turma || null], function (insertErr) {
+          if (insertErr) {
+            console.error('Erro ao salvar operação:', insertErr.message);
+            return res.status(500).json({ success: false, message: 'Erro ao registrar devolução.' });
+          }
+          res.json({ success: true, message: 'Devolução registrada com sucesso.' });
+        });
+    });
+  });
+});
+
+app.get('/api/relatorio', (req, res) => {
+  db.all(`SELECT id, livro, acao, papel, student_name, turma, created_at
+          FROM operacoes AS o
+          WHERE acao IN ('Empréstimo', 'Reservar')
+          AND NOT EXISTS (
+            SELECT 1 FROM operacoes AS d
+            WHERE d.acao = 'Devolução'
+              AND d.livro = o.livro
+              AND IFNULL(d.student_name, '') = IFNULL(o.student_name, '')
+              AND IFNULL(d.turma, '') = IFNULL(o.turma, '')
+              AND datetime(d.created_at) > datetime(o.created_at)
+          )
+          ORDER BY datetime(created_at) DESC`, [], (err, rows) => {
+    if (err) {
+      console.error('Erro ao buscar relatório:', err.message);
+      return res.status(500).json({ success: false, message: 'Erro no servidor ao gerar relatório.' });
+    }
+
+    const now = new Date();
+    const report = rows.map((row) => {
+      const createdAt = new Date(row.created_at);
+      const deltaDays = Math.floor((now - createdAt) / (1000 * 60 * 60 * 24));
+      let status = row.acao === 'Empréstimo' ? 'Emprestado' : 'Reservado';
+      if (row.acao === 'Reservar' && deltaDays > 7) {
+        status = 'Atraso de reserva';
+      }
+
+      return {
+        id: row.id,
+        livro: row.livro,
+        acao: row.acao,
+        papel: row.papel,
+        aluno: row.student_name || 'N/A',
+        turma: row.turma || 'N/A',
+        created_at: row.created_at,
+        status
+      };
+    });
+
+    res.json({ success: true, report });
   });
 });
 
