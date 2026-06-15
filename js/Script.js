@@ -2,7 +2,7 @@ const api_url = '/api/usuarios';
 
 let usuarios = [];
 
-/* async function carregarUsuarios() {
+ async function carregarUsuarios() {
     try {
         const resposta = await fetch(api_url);
         if (resposta.ok) {
@@ -11,7 +11,7 @@ let usuarios = [];
     } catch (error) {
         console.error('Erro:', error);
     }
-} */
+} 
 
 /* async function cadastrarUsuario(event) {
     event.preventDefault();
@@ -89,7 +89,7 @@ async function loginAdministrador(event) {
 
         if (resposta.ok) {
             const data = await resposta.json().catch(() => ({}));
-            window.location.href = data.redirect || 'Alexandria.html';
+            window.location.href = data.redirect || '/Alexandria.html';
             return;
         }
 
@@ -216,178 +216,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
-
-const baseApi = (location.protocol === 'file:') ? 'http://localhost:3000' : '';
-let currentDialogBookTitle = '';
-let currentDialogAvailable = 1;
-let currentDialogAction = null;
-
-function normalizeTitle(value) {
-    return String(value || '')
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .toLowerCase()
-        .trim();
-}
-
-async function getBookAvailability(title) {
-    if (!title) {
-        return 3;
-    }
-
-    try {
-        const response = await fetch(baseApi + '/api/livros');
-        if (!response.ok) {
-            return 3;
-        }
-
-        const livros = await response.json();
-        const allBooks = Array.isArray(livros) ? livros : (livros.livros || []);
-        const normalizedTitle = normalizeTitle(title);
-        const match = allBooks.find(book => normalizeTitle(book.titulo || book.title || '') === normalizedTitle);
-        if (match && typeof match.available_count === 'number') {
-            return match.available_count;
-        }
-
-        const hash = String(normalizedTitle)
-            .split('')
-            .reduce((sum, char) => sum + char.charCodeAt(0), 0);
-        return 1 + (hash % 3);
-    } catch (error) {
-        console.error('Erro ao buscar disponibilidade do livro:', error);
-        return 3;
-    }
-}
-
-async function refreshDialogAvailability(title) {
-    const count = await getBookAvailability(title);
-    currentDialogAvailable = count;
-    return count;
-}
-
-async function handleLoanReserve(action, studentName, studentCourse) {
-    if (!currentDialogBookTitle) {
-        alert('Abra o diálogo de um livro antes de usar esta ação.');
-        return;
-    }
-
-    if (!studentName || !studentCourse) {
-        alert('Informe o nome do aluno e o curso antes de confirmar.');
-        return;
-    }
-
-    const endpoint = action === 'Emprestar' ? '/api/emprestimo' : '/api/reserva';
-
-    try {
-        const response = await fetch(baseApi + endpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                title: currentDialogBookTitle,
-                studentName,
-                turma: studentCourse
-            })
-        });
-
-        const data = await response.json().catch(() => ({}));
-
-        if (response.ok && data.success) {
-            alert(data.message || `${action} realizado com sucesso.`);
-            if (currentDialogAvailable > 0) {
-                currentDialogAvailable = Math.max(0, currentDialogAvailable - 1);
-            }
-            return true;
-        }
-
-        alert(data.message || `Falha ao ${action.toLowerCase()}.`);
-        return false;
-    } catch (error) {
-        console.error('Erro ao conectar ao servidor:', error);
-        alert('Erro ao conectar ao servidor. Tente novamente mais tarde.');
-        return false;
-    }
-}
-
-function initLoanReserveButtons() {
-    const loanButton = document.getElementById('loanButton');
-    const reserveButton = document.getElementById('reserveButton');
-    const actionDialog = document.getElementById('actionDialog');
-    const actionDialogTitle = document.getElementById('actionDialogTitle');
-    const actionDialogInfo = document.getElementById('actionDialogInfo');
-    const actionDialogAvailability = document.getElementById('actionDialogAvailability');
-    const actionStudentName = document.getElementById('actionStudentName');
-    const actionStudentCourse = document.getElementById('actionStudentCourse');
-    const actionForm = document.getElementById('actionForm');
-    const closeActionDialog = document.getElementById('closeActionDialog');
-    const cancelActionDialog = document.getElementById('cancelActionDialog');
-    const dialogAvailability = document.getElementById('dialogAvailability');
-
-    document.querySelectorAll('.open-dialog-btn').forEach(button => {
-        button.addEventListener('click', async () => {
-            currentDialogBookTitle = button.dataset.title || '';
-            const count = await refreshDialogAvailability(currentDialogBookTitle);
-            if (dialogAvailability) {
-                dialogAvailability.textContent = `Disponível: ${count}`;
-            }
-        });
-    });
-
-    loanButton?.addEventListener('click', () => openActionDialog('Emprestar'));
-    reserveButton?.addEventListener('click', () => openActionDialog('Reservar'));
-
-    closeActionDialog?.addEventListener('click', () => actionDialog?.close());
-    cancelActionDialog?.addEventListener('click', () => actionDialog?.close());
-
-    actionForm?.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        const studentName = actionStudentName?.value.trim();
-        const studentCourse = actionStudentCourse?.value.trim();
-
-        if (!currentDialogAction || !currentDialogBookTitle) {
-            alert('Selecione um livro e uma ação primeiro.');
-            return;
-        }
-
-        if (!studentName || !studentCourse) {
-            alert('Informe o nome do aluno e o curso.');
-            return;
-        }
-
-        const success = await handleLoanReserve(currentDialogAction, studentName, studentCourse);
-        actionDialog?.close();
-        if (dialogAvailability && currentDialogBookTitle) {
-            currentDialogAvailable = await getBookAvailability(currentDialogBookTitle);
-            dialogAvailability.textContent = `Disponível: ${currentDialogAvailable}`;
-        }
-        if (!success) {
-            return;
-        }
-    });
-}
-
-
-function openActionDialog(action) {
-    currentDialogAction = action;
-    const actionDialog = document.getElementById('actionDialog');
-    const actionDialogTitle = document.getElementById('actionDialogTitle');
-    const actionDialogInfo = document.getElementById('actionDialogInfo');
-    const actionDialogAvailability = document.getElementById('actionDialogAvailability');
-    const actionStudentName = document.getElementById('actionStudentName');
-    const actionStudentCourse = document.getElementById('actionStudentCourse');
-
-    if (!actionDialog || !actionDialogTitle || !actionDialogInfo || !actionDialogAvailability) {
-        return;
-    }
-
-    actionDialogTitle.textContent = action === 'Emprestar' ? 'Emprestar Livro' : 'Reservar Livro';
-    actionDialogInfo.textContent = `Livro: ${currentDialogBookTitle}`;
-    actionDialogAvailability.textContent = `Disponível: ${currentDialogAvailable}`;
-    if (actionStudentName) actionStudentName.value = '';
-    if (actionStudentCourse) actionStudentCourse.value = '';
-    actionDialog.showModal();
-}
-
-window.addEventListener('DOMContentLoaded', initLoanReserveButtons);
-
