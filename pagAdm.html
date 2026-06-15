@@ -28,12 +28,27 @@
 
    
 
-    <script src="js/Script.js"></script>
+    <!-- Removido carregamento do Script.js para evitar falhas em file:// e CORS ao inicializar outros fetches -->
+    <!-- <script src="js/Script.js"></script> -->
     <script>
         async function carregarLivrosParaAdmin() {
+            const feedback = document.getElementById('adminFeedback');
             try {
+                if (feedback) feedback.textContent = 'Carregando livros...';
+
                 const base = (location.protocol === 'file:') ? 'http://localhost:3000' : '';
-                const resp = await fetch(base + '/api/livros');
+                const url = base + '/api/livros';
+
+                const resp = await fetch(url);
+
+
+                if (!resp.ok) {
+                    const txt = await resp.text().catch(() => '');
+                    console.error('Falha ao carregar livros:', resp.status, txt);
+                    alert(`Erro ao carregar livros. HTTP ${resp.status}`);
+                    return;
+                }
+
                 const livros = await resp.json();
 
                 const select = document.getElementById('livroSelect');
@@ -61,7 +76,7 @@
                 });
             } catch (e) {
                 console.error(e);
-                alert('Erro ao carregar livros para o admin.');
+                alert('Erro ao carregar livros para o admin (veja console).');
             }
         }
 
