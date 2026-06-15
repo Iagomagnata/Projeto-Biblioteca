@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
@@ -1208,7 +1208,7 @@
                     <p>É um romance de formação clássico de James Joyce. A obra acompanha o alter ego do autor, Stephen
                         Dedalus...</p>
                     <!--botao do dialogo oque tem dentro como imagem , descrição e titulo-->
-                    <button type="button" class="botao open-dialog-btn" data-title="O Retrato do Artista quando Jovem"
+                <button type="button" class="botao open-dialog-btn" data-title="O Retrato do Artista quando Jovem" data-booktitle="O Retrato do Artista quando Jovem"
                         data-image="https://m.media-amazon.com/images/I/51IobVZ0-kL._SY445_SX342_ML2_.jpg"
                         data-description="É um romance de formação clássico de James Joyce. A obra acompanha o alter ego do autor, Stephen Dedalus, em sua transição da infância à juventude. O protagonista busca sua identidade artística enquanto confronta as rígidas amarras católicas, políticas e familiares da Irlanda.">
                         Detalhes
@@ -2579,19 +2579,23 @@
         let currentBookId = null;
         let selectedRating = 0;
 
-        const COMMENTS_KEY = 'bibliotecaComentarios';
-
-        function loadCommentsByBook(bookId) {
-            if (!bookId) return [];
-            const all = JSON.parse(localStorage.getItem(COMMENTS_KEY) || '{}');
-            return all[bookId] || [];
+        async function loadCommentsByBook(bookTitle) {
+            if (!bookTitle) return [];
+            try {
+                const base = 'http://localhost:3000';
+                const resp = await fetch(`${base}/api/comentarios?bookTitle=${encodeURIComponent(bookTitle)}`);
+                const data = await resp.json().catch(() => ({}));
+                if (!resp.ok) {
+                    console.error('Erro ao carregar comentários:', data.error || resp.statusText);
+                    return [];
+                }
+                return data.comentarios || [];
+            } catch (e) {
+                console.error('Erro de rede ao carregar comentários:', e);
+                return [];
+            }
         }
 
-        function saveCommentsByBook(bookId, comments) {
-            const all = JSON.parse(localStorage.getItem(COMMENTS_KEY) || '{}');
-            all[bookId] = comments;
-            localStorage.setItem(COMMENTS_KEY, JSON.stringify(all));
-        }
 
         function escapeHtml(str) {
             return String(str)
@@ -2655,10 +2659,9 @@
                 .slice()
                 .sort((a, b) => (new Date(b.date).getTime() || 0) - (new Date(a.date).getTime() || 0));
 
-            sorted.forEach((c, idx) => {
+            sorted.forEach((c) => {
                 const item = document.createElement('div');
                 item.className = 'comment-item';
-                item.dataset.commentIndex = String(idx);
 
                 const starsHtml = '★'.repeat(Number(c.rating) || 0) + '☆'.repeat(5 - (Number(c.rating) || 0));
 
@@ -2667,7 +2670,7 @@
                         <span class="comment-author">${escapeHtml(c.user || 'Anônimo')}</span>
                         <span class="comment-date">${escapeHtml(new Date(c.date).toLocaleString())}</span>
                         <span class="comment-date">${escapeHtml(starsHtml)}</span>
-                        <button type="button" class="btn-apagar-comentario" data-delete-index="${idx}" aria-label="Apagar comentário">
+                        <button type="button" class="btn-apagar-comentario" data-comment-id="${escapeHtml(String(c.id))}" aria-label="Apagar comentário">
                             Apagar
                         </button>
                     </div>
@@ -2678,34 +2681,11 @@
             });
         }
 
-
-        function deleteCommentByIndex(bookId, deleteIndex) {
-            if (!bookId || deleteIndex === null || deleteIndex === undefined) return;
-
-            const allComments = loadCommentsByBook(bookId);
-            if (!Array.isArray(allComments) || allComments.length === 0) return;
-
-            // deleteIndex vem da lista ordenada/renderizada;
-            // então deletamos pelo mesmo índice após aplicar a ordenação usada no render.
-            const sorted = allComments
-                .slice()
-                .sort((a, b) => (new Date(b.date).getTime() || 0) - (new Date(a.date).getTime() || 0));
-
-            if (deleteIndex < 0 || deleteIndex >= sorted.length) return;
-
-            // remove no array ordenado e depois salva no armazenamento com base no mesmo objeto.
-            const target = sorted[deleteIndex];
-            const newSorted = sorted.filter((c) => c !== target);
-
-            // reconstruir para manter consistência: usar o novoSorted (ordenado) como fonte.
-            // (como os objetos foram copiados de 'allComments', a referência é a mesma)
-            saveCommentsByBook(bookId, newSorted);
-        }
-
-        function refreshModalComments() {
-            const comments = loadCommentsByBook(currentBookId);
+        async function refreshModalComments() {
+            const comments = await loadCommentsByBook(currentBookId);
             renderComments(comments);
         }
+
 
         function getSelectedRating() {
             return Number(selectedRating) || 0;
@@ -2744,36 +2724,61 @@
                 return;
             }
 
-            const comments = loadCommentsByBook(currentBookId);
-            const newComment = {
-                user,
-                rating,
-                text,
-                date: new Date().toISOString()
-            };
+            try {
+                const base = (location.protocol === 'file:') ? 'http://localhost:3000' : '';
+                const resp = await fetch(`${base}/api/comentarios`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        bookTitle: currentBookId,
+                        user,
+                        rating,
+                        text
+                    })
+                });
 
-            const updated = Array.isArray(comments) ? [...comments, newComment] : [newComment];
-            saveCommentsByBook(currentBookId, updated);
+                const data = await resp.json().catch(() => ({}));
+                if (!resp.ok) {
+                    alert(data.error || 'Erro ao publicar comentário');
+                    return;
+                }
 
-            refreshModalComments();
-            resetCommentForm();
+                await refreshModalComments();
+                resetCommentForm();
+            } catch (e) {
+                console.error('Erro ao publicar comentário:', e);
+                alert('Erro de rede ao publicar comentário');
+            }
         });
 
 
-        // Apagar comentário (delegação via container, pois os cards são renderizados dinamicamente)
-        commentListEl?.addEventListener('click', (e) => {
+
+        // Apagar comentário (delegação via container)
+        commentListEl?.addEventListener('click', async (e) => {
             const btn = e.target && e.target.closest && e.target.closest('.btn-apagar-comentario');
-            if (!btn) return;
+
 
             e.stopPropagation();
-            if (!currentBookId) return;
+            const idStr = btn.dataset.commentId;
+            const id = Number(idStr);
+            if (!Number.isFinite(id)) return;
 
-            const idxStr = btn.dataset.deleteIndex;
-            const deleteIndex = idxStr === undefined ? null : Number(idxStr);
-            if (deleteIndex === null || Number.isNaN(deleteIndex)) return;
+            const ok = confirm('Apagar este comentário?');
+            if (!ok) return;
 
-            deleteCommentByIndex(currentBookId, deleteIndex);
-            refreshModalComments();
+            try {
+                const base = (location.protocol === 'file:') ? 'http://localhost:3000' : '';
+                const resp = await fetch(`${base}/api/comentarios/${id}`, { method: 'DELETE' });
+                const data = await resp.json().catch(() => ({}));
+                if (!resp.ok) {
+                    alert(data.error || 'Não foi possível apagar');
+                    return;
+                }
+                await refreshModalComments();
+            } catch (err) {
+                console.error('Erro ao apagar comentário:', err);
+                alert('Erro de rede ao apagar comentário');
+            }
         });
 
 
@@ -3012,10 +3017,13 @@
         const caixaFeedback = document.getElementById('caixaFeedback');
 
         function setCurrentBookFromOpenDialogButton(buttonEl) {
-            // Identificador usado no LocalStorage para separar comentários por livro.
-            // A fonte mais estável disponível aqui é o data-title do botão "Detalhes".
-            const title = buttonEl?.dataset?.title || '';
-            currentBookId = String(title).trim();
+            // Chave usada no backend para carregar/salvar comentários no SQLite.
+            // Tentamos a chave mais estável (data-booktitle) e fazemos fallback para o que a pessoa está vendo.
+            const stableTitle = buttonEl?.dataset?.booktitle || buttonEl?.dataset?.title || '';
+            const fallbackFromDialog = dialogTitle?.textContent || '';
+            currentBookId = String(stableTitle || fallbackFromDialog).trim();
+
+            console.log('[Comentários] currentBookId =', currentBookId);
         }
 
 
