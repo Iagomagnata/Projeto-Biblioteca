@@ -32,7 +32,7 @@
             min-height: 100vh;
         }
 
-        /*Css do cabeçalho/primeiro tituilo*/
+        /*Css do cabeçalho/primeiro titulo*/
         header {
             background: rgba(9, 52, 84, 0.85);
             backdrop-filter: blur(12px);
@@ -767,6 +767,206 @@
             font-size: 13px;
             font-weight: bold;
             border: 1px solid #a7f3d0;
+        }
+
+         .caixa-feedback {
+            display: none;
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 8px;
+            background-color: #d1fae5;
+            color: #065f46;
+            font-size: 13px;
+            font-weight: bold;
+            border: 1px solid #a7f3d0;
+        }
+
+        /* Comentários no modal */
+        .comments-section {
+            border-top: 1px solid #e2e8f0;
+            padding-top: 16px;
+        }
+
+        .comments-section h3 {
+            margin: 0 0 12px 0;
+            font-size: 1rem;
+            color: var(--text-main);
+        }
+
+        .rating-summary {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .stars-row {
+            display: inline-flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .comment-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .comment-form input,
+        .comment-form textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            outline: none;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            transition: var(--transition);
+        }
+
+        .comment-form input:focus,
+        .comment-form textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(14, 100, 161, 0.15);
+        }
+
+        .comment-form textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .comment-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .btn-primary-small {
+            background-color: var(--secondary);
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 18px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .btn-primary-small:hover {
+            background-color: #2e8b57;
+        }
+
+        .btn-secondary-small {
+            background-color: var(--text-muted);
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 18px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .btn-secondary-small:hover {
+            background-color: #374151;
+        }
+
+        .star-picker {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .star-picker button {
+            border: none;
+            background: transparent;
+            padding: 0;
+            cursor: pointer;
+            color: #d1d5db;
+            transition: var(--transition);
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        .star-picker button:hover,
+        .star-picker button[data-active="true"] {
+            color: #f59e0b;
+            transform: translateY(-1px);
+        }
+
+        .comment-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 6px;
+        }
+
+        .comment-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 6px 18px rgba(15, 23, 42, 0.03);
+        }
+
+        .comment-item:hover {
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+        }
+
+        .comment-item-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .btn-apagar-comentario {
+            margin-left: auto;
+            background: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            border-radius: 999px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: var(--transition);
+        }
+
+        .btn-apagar-comentario:hover {
+            background: #fecaca;
+            border-color: rgba(239, 68, 68, 0.6);
+        }
+
+        .comment-author {
+            font-weight: 700;
+            color: var(--text-main);
+            font-size: 13px;
+        }
+
+        .comment-date {
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .comment-text {
+            color: var(--text-muted);
+            font-size: 13px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+
+        .empty-comments {
+            color: var(--text-muted);
+            font-size: 13px;
         }
     </style>
 </head>
@@ -2216,6 +2416,38 @@
                 <img id="dialogImage" src="" alt="Capa do Livro">
             </div>
             <p id="dialogDescription" class="modal-description"></p>
+            <section class="comments-section" aria-label="Comentários do livro">
+                <h3>Comentários e avaliação</h3>
+
+                <div class="rating-summary">
+                    <span>Minha avaliação:</span>
+                    <div class="stars-row" id="myRatingPreview" aria-hidden="true"></div>
+                    <span style="margin-left:auto">Média (local): <strong id="ratingAverage">0.0</strong>/5</span>
+                </div>
+
+                <form id="commentForm" class="comment-form">
+                    <input id="commentUser" type="text" placeholder="Seu nome" maxlength="30" required>
+
+                    <div class="star-picker" role="radiogroup" aria-label="Escolha de estrelas">
+                        <button type="button" data-star="1" aria-label="1 estrela">★</button>
+                        <button type="button" data-star="2" aria-label="2 estrelas">★</button>
+                        <button type="button" data-star="3" aria-label="3 estrelas">★</button>
+                        <button type="button" data-star="4" aria-label="4 estrelas">★</button>
+                        <button type="button" data-star="5" aria-label="5 estrelas">★</button>
+                    </div>
+
+                    <textarea id="commentText" placeholder="Escreva seu comentário..." required maxlength="500"></textarea>
+
+                    <div class="comment-actions">
+                        <button type="button" id="publishComment" class="btn-primary-small">Publicar</button>
+                    </div>
+                </form>
+
+                <div class="comment-list" id="commentList"></div>
+                <div class="empty-comments" id="emptyComments">Ainda não há comentários para este livro.</div>
+            </section>
+        </div>
+
         </div>
         <div class="modal-actions">
             <span id="dialogAvailability" style="font-weight:700;color:#3f6d9f; align-self:flex-start;">Disponibilidade: 1</span>
@@ -2331,6 +2563,218 @@
         /* Seletores dos botões de fechar declarados  */
         const closeDialog = document.getElementById('closeDialog');
         const closeDialogCross = document.getElementById('closeDialogCross');
+
+        const commentUser = document.getElementById('commentUser');
+        const commentText = document.getElementById('commentText');
+        const commentForm = document.getElementById('commentForm');
+        const publishCommentBtn = document.getElementById('publishComment');
+        const commentListEl = document.getElementById('commentList');
+        const emptyCommentsEl = document.getElementById('emptyComments');
+        const myRatingPreview = document.getElementById('myRatingPreview');
+        const ratingAverageEl = document.getElementById('ratingAverage');
+        const starButtons = Array.from(document.querySelectorAll('.star-picker button'));
+
+        let currentBookId = null;
+        let selectedRating = 0;
+
+        const COMMENTS_KEY = 'bibliotecaComentarios';
+
+        function loadCommentsByBook(bookId) {
+            if (!bookId) return [];
+            const all = JSON.parse(localStorage.getItem(COMMENTS_KEY) || '{}');
+            return all[bookId] || [];
+        }
+
+        function saveCommentsByBook(bookId, comments) {
+            const all = JSON.parse(localStorage.getItem(COMMENTS_KEY) || '{}');
+            all[bookId] = comments;
+            localStorage.setItem(COMMENTS_KEY, JSON.stringify(all));
+        }
+
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '<')
+                .replace(/>/g, '>')
+                .replace(/"/g, '"')
+                .replace(/'/g, '&#039;');
+        }
+
+        function renderStars(containerEl, rating) {
+            if (!containerEl) return;
+            const r = Number(rating) || 0;
+            containerEl.innerHTML = '';
+            for (let i = 1; i <= 5; i++) {
+                const span = document.createElement('span');
+                span.textContent = i <= r ? '★' : '☆';
+                span.style.color = i <= r ? '#f59e0b' : '#cbd5e1';
+                containerEl.appendChild(span);
+            }
+        }
+
+        function renderRatingPicker(rating) {
+            selectedRating = rating;
+            if (!starButtons || starButtons.length === 0) return;
+
+            starButtons.forEach(btn => {
+                const s = Number(btn.dataset.star || 0);
+                const active = s <= rating;
+                btn.dataset.active = String(active);
+                btn.style.color = active ? '#f59e0b' : '#d1d5db';
+            });
+            renderStars(myRatingPreview, rating);
+        }
+
+
+        starButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const s = Number(btn.dataset.star || 0);
+                renderRatingPicker(s);
+            });
+        });
+
+        function renderComments(comments) {
+            if (!commentListEl || !emptyCommentsEl) return;
+            commentListEl.innerHTML = '';
+
+            if (!comments || comments.length === 0) {
+                emptyCommentsEl.style.display = 'block';
+                ratingAverageEl && (ratingAverageEl.textContent = '0.0');
+                myRatingPreview && (myRatingPreview.innerHTML = '');
+                return;
+            }
+
+            emptyCommentsEl.style.display = 'none';
+
+            const avg = comments.reduce((acc, c) => acc + (Number(c.rating) || 0), 0) / comments.length;
+            ratingAverageEl && (ratingAverageEl.textContent = avg.toFixed(1));
+
+            const sorted = comments
+                .slice()
+                .sort((a, b) => (new Date(b.date).getTime() || 0) - (new Date(a.date).getTime() || 0));
+
+            sorted.forEach((c, idx) => {
+                const item = document.createElement('div');
+                item.className = 'comment-item';
+                item.dataset.commentIndex = String(idx);
+
+                const starsHtml = '★'.repeat(Number(c.rating) || 0) + '☆'.repeat(5 - (Number(c.rating) || 0));
+
+                item.innerHTML = `
+                    <div class="comment-item-header">
+                        <span class="comment-author">${escapeHtml(c.user || 'Anônimo')}</span>
+                        <span class="comment-date">${escapeHtml(new Date(c.date).toLocaleString())}</span>
+                        <span class="comment-date">${escapeHtml(starsHtml)}</span>
+                        <button type="button" class="btn-apagar-comentario" data-delete-index="${idx}" aria-label="Apagar comentário">
+                            Apagar
+                        </button>
+                    </div>
+                    <div class="comment-text">${escapeHtml(c.text || '')}</div>
+                `;
+
+                commentListEl.appendChild(item);
+            });
+        }
+
+
+        function deleteCommentByIndex(bookId, deleteIndex) {
+            if (!bookId || deleteIndex === null || deleteIndex === undefined) return;
+
+            const allComments = loadCommentsByBook(bookId);
+            if (!Array.isArray(allComments) || allComments.length === 0) return;
+
+            // deleteIndex vem da lista ordenada/renderizada;
+            // então deletamos pelo mesmo índice após aplicar a ordenação usada no render.
+            const sorted = allComments
+                .slice()
+                .sort((a, b) => (new Date(b.date).getTime() || 0) - (new Date(a.date).getTime() || 0));
+
+            if (deleteIndex < 0 || deleteIndex >= sorted.length) return;
+
+            // remove no array ordenado e depois salva no armazenamento com base no mesmo objeto.
+            const target = sorted[deleteIndex];
+            const newSorted = sorted.filter((c) => c !== target);
+
+            // reconstruir para manter consistência: usar o novoSorted (ordenado) como fonte.
+            // (como os objetos foram copiados de 'allComments', a referência é a mesma)
+            saveCommentsByBook(bookId, newSorted);
+        }
+
+        function refreshModalComments() {
+            const comments = loadCommentsByBook(currentBookId);
+            renderComments(comments);
+        }
+
+        function getSelectedRating() {
+            return Number(selectedRating) || 0;
+        }
+
+        function resetCommentForm() {
+            if (commentForm) commentForm.reset();
+            // O reset pode não limpar o preview de estrelas, então garantimos
+            renderRatingPicker(0);
+        }
+
+        publishCommentBtn?.addEventListener('click', async () => {
+            if (!currentBookId) {
+                alert('Selecione um livro para comentar.');
+                return;
+            }
+
+            const user = (commentUser?.value || '').trim();
+            const text = (commentText?.value || '').trim();
+            const rating = getSelectedRating();
+
+            if (!user) {
+                alert('Informe seu nome.');
+                commentUser?.focus();
+                return;
+            }
+
+            if (!rating) {
+                alert('Selecione uma avaliação (estrelas).');
+                return;
+            }
+
+            if (!text) {
+                alert('Escreva seu comentário.');
+                commentText?.focus();
+                return;
+            }
+
+            const comments = loadCommentsByBook(currentBookId);
+            const newComment = {
+                user,
+                rating,
+                text,
+                date: new Date().toISOString()
+            };
+
+            const updated = Array.isArray(comments) ? [...comments, newComment] : [newComment];
+            saveCommentsByBook(currentBookId, updated);
+
+            refreshModalComments();
+            resetCommentForm();
+        });
+
+
+        // Apagar comentário (delegação via container, pois os cards são renderizados dinamicamente)
+        commentListEl?.addEventListener('click', (e) => {
+            const btn = e.target && e.target.closest && e.target.closest('.btn-apagar-comentario');
+            if (!btn) return;
+
+            e.stopPropagation();
+            if (!currentBookId) return;
+
+            const idxStr = btn.dataset.deleteIndex;
+            const deleteIndex = idxStr === undefined ? null : Number(idxStr);
+            if (deleteIndex === null || Number.isNaN(deleteIndex)) return;
+
+            deleteCommentByIndex(currentBookId, deleteIndex);
+            refreshModalComments();
+        });
+
+
 
 
         /*essa parte legal é para o botao de fav para que nao se misture com o dialogo e consiga mudar de cor*/
@@ -2528,9 +2972,17 @@
                 dialogImage.src = button.dataset.image;
                 dialogImage.alt = button.dataset.title;
                 dialogDescription.textContent = button.dataset.description;
+
+                // Atualiza o livro atual para comentar/avaliar
+                setCurrentBookFromOpenDialogButton(button);
+
+                // Recarrega comentários do livro ao abrir
+                refreshModalComments();
+
                 productDialog.showModal();
             });
         });
+
 
         /* Função para Fechar dialogo/Modal */
         const closeModal = () => {
@@ -2556,6 +3008,14 @@
         const btnAbrirModal = document.getElementById('btnAbrirModal');
         const formCadastro = document.getElementById('formCadastroLivro');
         const caixaFeedback = document.getElementById('caixaFeedback');
+
+        function setCurrentBookFromOpenDialogButton(buttonEl) {
+            // Identificador usado no LocalStorage para separar comentários por livro.
+            // A fonte mais estável disponível aqui é o data-title do botão "Detalhes".
+            const title = buttonEl?.dataset?.title || '';
+            currentBookId = String(title).trim();
+        }
+
 
         // Seletores dos botões de Fechamento
         const closeModalCross = document.getElementById('closeModalCross');
