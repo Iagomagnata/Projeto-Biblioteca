@@ -1,5 +1,12 @@
 const api_url = '/api/usuarios';
 
+function getApiBase() {
+    // Evita chamar endpoints via file:// (CORS bloqueia)
+    if (location.protocol === 'file:') return 'http://localhost:3000';
+    return '';
+}
+
+
 let usuarios = [];
 
  async function carregarUsuarios() {
@@ -141,13 +148,13 @@ async function deletarLivro(id) {
 }
 
 window.addEventListener('load', () => {
-    carregarUsuarios();
+    /* carregarUsuarios();
 
 
     const cadastroForm = document.getElementById('cadastroForm');
     if (cadastroForm) {
         cadastroForm.addEventListener('submit', cadastrarUsuario);
-    }
+    } */
 
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
