@@ -214,7 +214,7 @@ app.post('/api/login', (req, res) => {
   // permite comparação do usuário sem diferenciar maiúsculas/minúsculas
   if (usuario.toLowerCase() === adminUsuario.toLowerCase() && senha === adminSenha) {
     // Retorna JSON consistente para que o cliente (fetch) trate o redirecionamento
-    return res.status(200).json({ ok: true, redirect: '/Alexandria.html' });
+    return res.status(200).json({ ok: true, redirect: 'Alexandria.html' });
   }
 
   return res.status(401).json({ error: 'Credenciais inválidas' });
