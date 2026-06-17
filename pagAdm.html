@@ -344,8 +344,13 @@
             abrirModalCadastro();
         });
 
-        closeModalCross?.addEventListener('click', () => fecharModalCadastro());
-        btnCancelar?.addEventListener('click', () => fecharModalCadastro());
+        closeModalCross?.addEventListener('click', () => {
+            fecharModalCadastro();
+            try { modal?.close(); } catch (e) {}
+        });
+        btnCancelar?.addEventListener('click', () => {
+            fecharModalCadastro();
+        });
 
         modal?.addEventListener('click', (e) => {
             if (!modal) return;
