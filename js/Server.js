@@ -214,7 +214,7 @@ app.post('/api/login', (req, res) => {
   // permite comparação do usuário sem diferenciar maiúsculas/minúsculas
   if (usuario.toLowerCase() === adminUsuario.toLowerCase() && senha === adminSenha) {
     // Retorna JSON consistente para que o cliente (fetch) trate o redirecionamento
-    return res.status(200).json({ ok: true, redirect: '/Alexandria.html' });
+    return res.status(200).json({ ok: true, redirect: 'Alexandria.html' });
   }
 
   return res.status(401).json({ error: 'Credenciais inválidas' });
@@ -370,23 +370,18 @@ app.post('/api/emprestimo', (req, res) => {
       return res.status(500).json({ success: false, message: 'Erro no servidor ao verificar disponibilidade.' });
     }
 
-    if (!row) {
-      db.run('INSERT INTO livros (titulo, available_count) VALUES (?, ?)', [title, 3], function (insertErr) {
-        if (insertErr) {
-          console.error('Erro ao inserir livro no estoque:', insertErr.message);
+    if (!row || row.available_count <= 0) {
+     
           return res.status(500).json({ success: false, message: 'Erro no servidor ao inicializar o livro.' });
         }
-        completeLoan();
-      });
-      return;
+         db.run('UPDATE livros SET avaliable_count = avaliable_count - 1 WHERE titulo = ?', [title], function (err) {
+        if (err) {
+          console.error('Erro ao atualizar estoque:', err.message);
+          return res.status(500).json({ success: false, message: 'Erro no servidor ao atualizar estoque.' });;
     }
-
-    if (row.available_count <= 0) {
-      return res.status(400).json({ success: false, message: 'Não há livros disponíveis para empréstimo no momento.' });
-    }
-
-    completeLoan();
+    salvarOperacao(title, 'Empréstimo', 'admin', studentName, turma, res);
   });
+});
 });
 
 app.post('/api/reserva', (req, res) => {
