@@ -29,7 +29,7 @@
         <button type="button" class="btn-abrir-modal" id="btnAbrirModal" >
                 <span>➕</span> Registar Novo Livro
         </button>
-        <!--estrutura do botao de adicionar livro-->>
+        <!--estrutura do botao de adicionar livro-->
     <dialog id="modalCadastro">
         <form id="formCadastroLivro" method="dialog" class="modal-form">
             <div class="modal-header">
@@ -172,7 +172,106 @@
             .addEventListener('click', apagarLivroSelecionado);
 
         window.addEventListener('load', carregarLivrosParaAdmin);
-    </script>
+
+        // ==========================
+        // Botão: Registar Novo Livro (mover da Alexandria para o Admin)
+        // ==========================
+        const modal = document.getElementById('modalCadastro');
+        const btnAbrirModal = document.getElementById('btnAbrirModal');
+        const formCadastro = document.getElementById('formCadastroLivro');
+        const caixaFeedback = document.getElementById('adminFeedback');
+
+        function abrirModalCadastro() {
+            if (!modal) return;
+            if (caixaFeedback) caixaFeedback.style.display = 'block';
+            if (caixaFeedback) caixaFeedback.textContent = '';
+            modal.showModal();
+        }
+
+        function fecharModalCadastro() {
+            if (!modal || !formCadastro) return;
+            formCadastro.reset();
+            modal.close();
+        }
+
+        const closeModalCross = document.getElementById('closeModalCross');
+        const btnCancelar = document.getElementById('btnCancelar');
+
+        btnAbrirModal?.addEventListener('click', (e) => {
+            e.preventDefault();
+            abrirModalCadastro();
+        });
+
+        closeModalCross?.addEventListener('click', () => fecharModalCadastro());
+        btnCancelar?.addEventListener('click', () => fecharModalCadastro());
+
+        modal?.addEventListener('click', (e) => {
+            if (!modal) return;
+            const limitesModal = modal.getBoundingClientRect();
+            const clicouDentro = (
+                limitesModal.top <= e.clientY && e.clientY <= limitesModal.top + limitesModal.height &&
+                limitesModal.left <= e.clientX && e.clientX <= limitesModal.left + limitesModal.width
+            );
+            if (!clicouDentro) fecharModalCadastro();
+        });
+
+        formCadastro?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const dadosObjeto = {
+                titulo: document.getElementById('inputTitulo').value.trim(),
+                autor: document.getElementById('inputAutor').value.trim(),
+                categoria: document.getElementById('selectCategoria').value,
+                imagem: document.getElementById('inputImagem').value.trim() || 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=240',
+                descricao: document.getElementById('textareaDescricao').value.trim()
+            };
+
+            if (!dadosObjeto.titulo || !dadosObjeto.autor) {
+                if (caixaFeedback) {
+                    caixaFeedback.textContent = 'Preencha título e autor antes de salvar.';
+                    caixaFeedback.style.display = 'block';
+                }
+                return;
+            }
+
+            try {
+                const base = (location.protocol === 'file:') ? 'http://localhost:3000' : '';
+
+                const resposta = await fetch(base + '/api/livros', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        titulo: dadosObjeto.titulo,
+                        autor: dadosObjeto.autor,
+                        editora: dadosObjeto.categoria,
+                        ano: null
+                    })
+                });
+
+                const resultado = await resposta.json().catch(() => ({}));
+
+                if (!resposta.ok) {
+                    throw new Error(resultado.error || 'Erro ao cadastrar livro');
+                }
+
+                // Confirmação visual + recarrega dropdown de livros
+                if (caixaFeedback) {
+                    caixaFeedback.textContent = '✔️ Livro cadastrado com sucesso!';
+                    caixaFeedback.style.display = 'block';
+                }
+
+                fecharModalCadastro();
+                await carregarLivrosParaAdmin();
+            } catch (erro) {
+                console.error('Erro ao cadastrar livro:', erro);
+                if (caixaFeedback) {
+                    caixaFeedback.textContent = '❌ Não foi possível cadastrar o livro.';
+                    caixaFeedback.style.display = 'block';
+                }
+            }
+        });
+
+        </script>
 </body>
 </html>
 
