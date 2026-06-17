@@ -62,8 +62,22 @@ function criarTabelas() {
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
       )
     `);
+
+    // Comentários compartilhados por todos os usuários (salvos no SQLite)
+    db.run(`
+      CREATE TABLE IF NOT EXISTS comentarios (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        livro_titulo TEXT NOT NULL,
+        user TEXT NOT NULL,
+        rating INTEGER NOT NULL,
+        text TEXT NOT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (livro_titulo) REFERENCES livros(titulo)
+      )
+    `);
   });
 }
+
 
 function atualizarEsquemaLivros() {
   db.all(`PRAGMA table_info(livros)`, (err, rows) => {
@@ -200,7 +214,7 @@ app.post('/api/login', (req, res) => {
   // permite comparação do usuário sem diferenciar maiúsculas/minúsculas
   if (usuario.toLowerCase() === adminUsuario.toLowerCase() && senha === adminSenha) {
     // Retorna JSON consistente para que o cliente (fetch) trate o redirecionamento
-    return res.status(200).json({ ok: true, redirect: '/Alexandria.html' });
+    return res.status(200).json({ ok: true, redirect: 'Alexandria.html' });
   }
 
   return res.status(401).json({ error: 'Credenciais inválidas' });
@@ -251,6 +265,87 @@ app.post('/api/livros', (req, res) => {
     res.status(201).json({ id: this.lastID, titulo, autor, editora, ano, available_count: 1 });
   });
 });
+
+// ===== Comentários compartilhados (SQLite) =====
+app.get('/api/comentarios', (req, res) => {
+  const bookTitle = (req.query.bookTitle || '').trim();
+  if (!bookTitle) {
+    return res.status(400).json({ success: false, error: 'bookTitle é obrigatório' });
+  }
+
+  db.all(
+    `SELECT id, user, rating, text, created_at as date
+     FROM comentarios
+     WHERE livro_titulo = ?
+     ORDER BY datetime(created_at) DESC`,
+    [bookTitle],
+    (err, rows) => {
+      if (err) {
+        console.error('Erro ao buscar comentários:', err.message);
+        return res.status(500).json({ success: false, error: 'Erro interno do servidor' });
+      }
+      res.json({ success: true, comentarios: rows || [] });
+    }
+  );
+});
+
+app.post('/api/comentarios', (req, res) => {
+  const { bookTitle, user, rating, text } = req.body || {};
+
+  if (!bookTitle || !user || !text || rating === undefined || rating === null) {
+    return res.status(400).json({ success: false, error: 'bookTitle, user, rating e text são obrigatórios' });
+  }
+
+  const r = Number(rating);
+  if (!Number.isFinite(r) || r < 1 || r > 5) {
+    return res.status(400).json({ success: false, error: 'rating deve ser entre 1 e 5' });
+  }
+
+  const sql = `
+    INSERT INTO comentarios (livro_titulo, user, rating, text)
+    VALUES (?, ?, ?, ?)
+  `;
+
+  db.run(sql, [bookTitle.trim(), user.trim(), r, text.trim()], function (err) {
+    if (err) {
+      console.error('Erro ao salvar comentário:', err.message);
+      return res.status(500).json({ success: false, error: 'Erro interno do servidor' });
+    }
+
+    res.status(201).json({
+      success: true,
+      comentario: {
+        id: this.lastID,
+        bookTitle: bookTitle.trim(),
+        user: user.trim(),
+        rating: r,
+        text: text.trim(),
+        date: new Date().toISOString()
+      }
+    });
+  });
+});
+
+app.delete('/api/comentarios/:id', (req, res) => {
+  const id = Number(req.params.id);
+  if (!Number.isFinite(id) || id <= 0) {
+    return res.status(400).json({ success: false, error: 'ID inválido' });
+  }
+
+  db.run(`DELETE FROM comentarios WHERE id = ?`, [id], function (err) {
+    if (err) {
+      console.error('Erro ao apagar comentário:', err.message);
+      return res.status(500).json({ success: false, error: 'Erro interno do servidor' });
+    }
+
+    if (this.changes === 0) {
+      return res.status(404).json({ success: false, error: 'Comentário não encontrado' });
+    }
+
+    res.json({ success: true, ok: true });
+  });
+});
+
 
 app.post('/api/emprestimo', (req, res) => {
   const { title, studentName, turma } = req.body;
